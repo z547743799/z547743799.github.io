@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>第4章-数组和切片</title>
+  <meta name="description" content="Go 语言提供了数组类型的数据结构。 数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整形、字符串或者自定义类型。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="golang array slice"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="第4章-数组和切片">
+  <meta name="twitter:description" content="Go 语言提供了数组类型的数据结构。 数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整形、字符串或者自定义类型。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="第4章-数组和切片">
+  <meta property="og:description" content="Go 语言提供了数组类型的数据结构。 数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整形、字符串或者自定义类型。">
+  <meta property="og:site_name" content="golang array slicee"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/02/22/golang-array-slice/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">第4章-数组和切片</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-02-22 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-02-22</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h1 id="一数组array">一、数组(Array)</h1>
+
+<h2 id="11-什么是数组">1.1 什么是数组</h2>
+
+<p>Go 语言提供了数组类型的数据结构。
+数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整形、字符串或者自定义类型。</p>
+
+<p>数组元素可以通过索引（位置）来读取（或者修改），索引从0开始，第一个元素索引为 0，第二个索引为 1，以此类推。数组的下标取值范围是从0开始，到长度减1。</p>
+
+<p>数组一旦定义后，大小不能更改。</p>
+
+<h2 id="12-数组的语法">1.2 数组的语法</h2>
+
+<p><strong>声明和初始化数组</strong></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">variable_name</span><span class="x"> </span><span class="p">[</span><span class="n">SIZE</span><span class="p">]</span><span class="x"> </span><span class="n">variable_type</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">balance</span><span class="x"> </span><span class="p">[</span><span class="m">10</span><span class="p">]</span><span class="x"> </span><span class="kt">float32</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">balance</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="kt">float32</span><span class="p">{</span><span class="m">1000.0</span><span class="p">,</span><span class="x"> </span><span class="m">2.0</span><span class="p">,</span><span class="x"> </span><span class="m">3.4</span><span class="p">,</span><span class="x"> </span><span class="m">7.0</span><span class="p">,</span><span class="x"> </span><span class="m">50.0</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>初始化数组中 {} 中的元素个数不能大于 [] 中的数字。
+如果忽略 [] 中的数字不设置数组大小，Go 语言会根据元素的个数来设置数组的大小：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">balance</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="p">[]</span><span class="kt">float32</span><span class="p">{</span><span class="m">1000.0</span><span class="p">,</span><span class="x"> </span><span class="m">2.0</span><span class="p">,</span><span class="x"> </span><span class="m">3.4</span><span class="p">,</span><span class="x"> </span><span class="m">7.0</span><span class="p">,</span><span class="x"> </span><span class="m">50.0</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">balance</span><span class="p">[</span><span class="m">4</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">50.0</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><strong>访问数组元素</strong></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="kt">float32</span><span class="x"> </span><span class="n">salary</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">balance</span><span class="p">[</span><span class="m">9</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">n</span><span class="x"> </span><span class="p">[</span><span class="m">10</span><span class="p">]</span><span class="kt">int</span><span class="x"> </span><span class="c">/* n 是一个长度为 10 的数组 */</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="x"> </span><span class="kt">int</span><span class="x">
+
+   </span><span class="c">/* 为数组 n 初始化元素 */</span><span class="x">
+   </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">10</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="m">100</span><span class="x"> </span><span class="c">/* 设置元素为 i + 100 */</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+
+   </span><span class="c">/* 输出每个数组元素的值 */</span><span class="x">
+   </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">10</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Element[%d] = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">j</span><span class="p">,</span><span class="x"> </span><span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="p">)</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">Element</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">100</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">101</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">102</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">103</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">4</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">104</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">105</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">6</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">106</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">7</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">107</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">8</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">108</span><span class="x">
+</span><span class="n">Element</span><span class="p">[</span><span class="m">9</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">109</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><strong>数组的长度</strong></p>
+
+<p>通过将数组作为参数传递给len函数，可以获得数组的长度。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">float64</span><span class="p">{</span><span class="m">67.7</span><span class="p">,</span><span class="x"> </span><span class="m">89.8</span><span class="p">,</span><span class="x"> </span><span class="m">21</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"length of a is"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>length of a is 4
+</code></pre>
+</div>
+
+<p>您甚至可以忽略声明中数组的长度并将其替换为…让编译器为你找到长度。这是在下面的程序中完成的。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">12</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">,</span><span class="x"> </span><span class="m">50</span><span class="p">}</span><span class="x"> </span><span class="c">// ... makes the compiler determine the length</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>遍历数组：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">float64</span><span class="p">{</span><span class="m">67.7</span><span class="p">,</span><span class="x"> </span><span class="m">89.8</span><span class="p">,</span><span class="x"> </span><span class="m">21</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">}</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//looping from 0 to the length of the array</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%d th element of a is %.2f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>使用range遍历数组：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">float64</span><span class="p">{</span><span class="m">67.7</span><span class="p">,</span><span class="x"> </span><span class="m">89.8</span><span class="p">,</span><span class="x"> </span><span class="m">21</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">}</span><span class="x">
+    </span><span class="n">sum</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="kt">float64</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">v</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">a</span><span class="x"> </span><span class="p">{</span><span class="c">//range returns both the index and value</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%d the element of a is %.2f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">v</span><span class="p">)</span><span class="x">
+        </span><span class="n">sum</span><span class="x"> </span><span class="o">+=</span><span class="x"> </span><span class="n">v</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">sum of all elements of a"</span><span class="p">,</span><span class="n">sum</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>如果您只需要值并希望忽略索引，那么可以通过使用_ blank标识符替换索引来实现这一点。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">for</span><span class="x"> </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">v</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">a</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//ignores index</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h2 id="13-多维数组">1.3 多维数组</h2>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">threedim</span><span class="x"> </span><span class="p">[</span><span class="m">5</span><span class="p">][</span><span class="m">10</span><span class="p">][</span><span class="m">4</span><span class="p">]</span><span class="kt">int</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>三维数组</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">a</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="p">[</span><span class="m">3</span><span class="p">][</span><span class="m">4</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="x">
+ </span><span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="m">1</span><span class="p">,</span><span class="x"> </span><span class="m">2</span><span class="p">,</span><span class="x"> </span><span class="m">3</span><span class="p">}</span><span class="x"> </span><span class="p">,</span><span class="x">   </span><span class="c">/*  第一行索引为 0 */</span><span class="x">
+ </span><span class="p">{</span><span class="m">4</span><span class="p">,</span><span class="x"> </span><span class="m">5</span><span class="p">,</span><span class="x"> </span><span class="m">6</span><span class="p">,</span><span class="x"> </span><span class="m">7</span><span class="p">}</span><span class="x"> </span><span class="p">,</span><span class="x">   </span><span class="c">/*  第二行索引为 1 */</span><span class="x">
+ </span><span class="p">{</span><span class="m">8</span><span class="p">,</span><span class="x"> </span><span class="m">9</span><span class="p">,</span><span class="x"> </span><span class="m">10</span><span class="p">,</span><span class="x"> </span><span class="m">11</span><span class="p">}</span><span class="x">   </span><span class="c">/*  第三行索引为 2 */</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span><span class="x"> </span><span class="n">val</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">a</span><span class="p">[</span><span class="m">2</span><span class="p">][</span><span class="m">3</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<h2 id="14-数组是值类型">1.4 数组是值类型</h2>
+
+<p>数组是值类型
+Go中的数组是值类型，而不是引用类型。这意味着当它们被分配给一个新变量时，将把原始数组的副本分配给新变量。如果对新变量进行了更改，则不会在原始数组中反映。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">"USA"</span><span class="p">,</span><span class="x"> </span><span class="s">"China"</span><span class="p">,</span><span class="x"> </span><span class="s">"India"</span><span class="p">,</span><span class="x"> </span><span class="s">"Germany"</span><span class="p">,</span><span class="x"> </span><span class="s">"France"</span><span class="p">}</span><span class="x">
+    </span><span class="n">b</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">a</span><span class="x"> </span><span class="c">// a copy of a is assigned to b</span><span class="x">
+    </span><span class="n">b</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"Singapore"</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"a is "</span><span class="p">,</span><span class="x"> </span><span class="n">a</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"b is "</span><span class="p">,</span><span class="x"> </span><span class="n">b</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>a is [USA China India Germany France]
+b is [Singapore China India Germany France]
+</code></pre>
+</div>
+
+<p>类似地，当将数组传递给函数作为参数时，它们将通过值传递，而原始数组将保持不变。</p>
+
+<p>向函数传递数组</p>
+
+<p><code class="highlighter-rouge">第一种</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">void</span><span class="x"> </span><span class="n">myFunction</span><span class="p">(</span><span class="n">param</span><span class="x"> </span><span class="p">[</span><span class="m">10</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span><span class="x">
+</span><span class="p">{</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">第二种</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">void</span><span class="x"> </span><span class="n">myFunction</span><span class="p">(</span><span class="n">param</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x">
+</span><span class="p">{</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="o">.</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">getAverage</span><span class="p">(</span><span class="n">arr</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="n">size</span><span class="p">)</span><span class="x"> </span><span class="kt">float32</span><span class="x">
+</span><span class="p">{</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="kt">int</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">avg</span><span class="p">,</span><span class="x"> </span><span class="n">sum</span><span class="x"> </span><span class="kt">float32</span><span class="x">
+
+   </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">size</span><span class="p">;</span><span class="x"> </span><span class="o">++</span><span class="n">i</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">sum</span><span class="x"> </span><span class="o">+=</span><span class="x"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+
+   </span><span class="n">avg</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">sum</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="n">size</span><span class="x">
+
+   </span><span class="k">return</span><span class="x"> </span><span class="n">avg</span><span class="p">;</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">changeLocal</span><span class="p">(</span><span class="n">num</span><span class="x"> </span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">num</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">55</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"inside function "</span><span class="p">,</span><span class="x"> </span><span class="n">num</span><span class="p">)</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">num</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">5</span><span class="p">,</span><span class="x"> </span><span class="m">6</span><span class="p">,</span><span class="x"> </span><span class="m">7</span><span class="p">,</span><span class="x"> </span><span class="m">8</span><span class="p">,</span><span class="x"> </span><span class="m">8</span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"before passing to function "</span><span class="p">,</span><span class="x"> </span><span class="n">num</span><span class="p">)</span><span class="x">
+    </span><span class="n">changeLocal</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="x"> </span><span class="c">//num is passed by value</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"after passing to function "</span><span class="p">,</span><span class="x"> </span><span class="n">num</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>before passing to function  [5 6 7 8 8]
+inside function  [55 6 7 8 8]
+after passing to function  [5 6 7 8 8]
+</code></pre>
+</div>
+
+<p>数组的大小是类型的一部分。因此[5]int和[25]int是不同的类型。因此，数组不能被调整大小。不要担心这个限制，因为切片的存在是为了解决这个问题。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">5</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">,</span><span class="x"> </span><span class="m">8</span><span class="p">}</span><span class="x">
+    </span><span class="k">var</span><span class="x"> </span><span class="n">b</span><span class="x"> </span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="kt">int</span><span class="x">
+    </span><span class="n">b</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">a</span><span class="x"> </span><span class="c">//not possible since [3]int and [5]int are distinct types</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>#二、切片(Slice)</p>
+
+<h2 id="21-什么是切片">2.1 什么是切片</h2>
+
+<p>Go 语言切片是对数组的抽象。
+Go 数组的长度不可改变，在特定场景中这样的集合就不太适用，Go中提供了一种灵活，功能强悍的内置类型切片(“动态数组”),与数组相比切片的长度是不固定的，可以追加元素，在追加时可能使切片的容量增大</p>
+
+<p>切片是一种方便、灵活且强大的包装器。切片本身没有任何数据。它们只是对现有数组的引用。</p>
+
+<p>切片与数组相比，不需要设定长度，在[]中不用设定值，相对来说比较自由</p>
+
+<p>从概念上面来说slice像一个结构体，这个结构体包含了三个元素：</p>
+
+<ol>
+  <li>指针，指向数组中slice指定的开始位置</li>
+  <li>长度，即slice的长度</li>
+  <li>最大长度，也就是slice开始位置到数组的最后位置的长度</li>
+</ol>
+
+<h2 id="22-切片的语法">2.2 切片的语法</h2>
+
+<p><strong>定义切片</strong></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">identifier</span><span class="x"> </span><span class="p">[]</span><span class="k">type</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>切片不需要说明长度。
+或使用make()函数来创建切片:</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">slice1</span><span class="x"> </span><span class="p">[]</span><span class="k">type</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="k">type</span><span class="p">,</span><span class="x"> </span><span class="nb">len</span><span class="p">)</span><span class="x">
+</span><span class="n">也可以简写为</span><span class="x">
+</span><span class="n">slice1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="k">type</span><span class="p">,</span><span class="x"> </span><span class="nb">len</span><span class="p">)</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="nb">make</span><span class="p">([]</span><span class="n">T</span><span class="p">,</span><span class="x"> </span><span class="n">length</span><span class="p">,</span><span class="x"> </span><span class="n">capacity</span><span class="p">)</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><strong>初始化</strong></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">1</span><span class="x">
+</span><span class="n">s</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">2</span><span class="x">
+</span><span class="n">s</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">3</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="p">[]</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="p">{</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="x"> </span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">arr</span><span class="p">[</span><span class="n">startIndex</span><span class="o">:</span><span class="n">endIndex</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>将arr中从下标startIndex到endIndex-1 下的元素创建为一个新的切片（<strong>前闭后开</strong>），长度为endIndex-startIndex</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">arr</span><span class="p">[</span><span class="n">startIndex</span><span class="o">:</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>缺省endIndex时将表示一直到arr的最后一个元素</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">arr</span><span class="p">[</span><span class="o">:</span><span class="n">endIndex</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>缺省startIndex时将表示从arr的第一个元素开始</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">a</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="m">5</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">76</span><span class="p">,</span><span class="x"> </span><span class="m">77</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">,</span><span class="x"> </span><span class="m">79</span><span class="p">,</span><span class="x"> </span><span class="m">80</span><span class="p">}</span><span class="x">
+    </span><span class="k">var</span><span class="x"> </span><span class="n">b</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">a</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">]</span><span class="x"> </span><span class="c">//creates a slice from a[1] to a[3]</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<h2 id="23-修改切片">2.3 修改切片</h2>
+
+<p>slice没有自己的任何数据。它只是底层数组的一个表示。对slice所做的任何修改都将反映在底层数组中。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">darr</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">57</span><span class="p">,</span><span class="x"> </span><span class="m">89</span><span class="p">,</span><span class="x"> </span><span class="m">90</span><span class="p">,</span><span class="x"> </span><span class="m">82</span><span class="p">,</span><span class="x"> </span><span class="m">100</span><span class="p">,</span><span class="x"> </span><span class="m">78</span><span class="p">,</span><span class="x"> </span><span class="m">67</span><span class="p">,</span><span class="x"> </span><span class="m">69</span><span class="p">,</span><span class="x"> </span><span class="m">59</span><span class="p">}</span><span class="x">
+    </span><span class="n">dslice</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">darr</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="m">5</span><span class="p">]</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"array before"</span><span class="p">,</span><span class="n">darr</span><span class="p">)</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">dslice</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">dslice</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">++</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"array after"</span><span class="p">,</span><span class="n">darr</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>array before [57 89 90 82 100 78 67 69 59]
+array after [57 89 91 83 101 78 67 69 59]
+</code></pre>
+</div>
+
+<p>当多个片共享相同的底层数组时，每个元素所做的更改将在数组中反映出来。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">numa</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="m">78</span><span class="p">,</span><span class="x"> </span><span class="m">79</span><span class="x"> </span><span class="p">,</span><span class="m">80</span><span class="p">}</span><span class="x">
+    </span><span class="n">nums1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numa</span><span class="p">[</span><span class="o">:</span><span class="p">]</span><span class="x"> </span><span class="c">//creates a slice which contains all elements of the array</span><span class="x">
+    </span><span class="n">nums2</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numa</span><span class="p">[</span><span class="o">:</span><span class="p">]</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"array before change 1"</span><span class="p">,</span><span class="n">numa</span><span class="p">)</span><span class="x">
+    </span><span class="n">nums1</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">100</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"array after modification to slice nums1"</span><span class="p">,</span><span class="x"> </span><span class="n">numa</span><span class="p">)</span><span class="x">
+    </span><span class="n">nums2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">101</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"array after modification to slice nums2"</span><span class="p">,</span><span class="x"> </span><span class="n">numa</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>array before change 1 [78 79 80]
+array after modification to slice nums1 [100 79 80]
+array after modification to slice nums2 [100 101 80]
+</code></pre>
+</div>
+
+<h2 id="24-len-和-cap-函数">2.4 len() 和 cap() 函数</h2>
+
+<p>切片的长度是切片中元素的数量。切片的容量是从创建切片的索引开始的底层数组中元素的数量。</p>
+
+<p>切片是可索引的，并且可以由 len() 方法获取长度
+切片提供了计算容量的方法 cap() 可以测量切片最长可以达到多少</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">numbers</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">5</span><span class="p">)</span><span class="x">
+
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">printSlice</span><span class="p">(</span><span class="n">x</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">){</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"len=%d cap=%d slice=%v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">cap</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="o">=</span><span class="m">3</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">5</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="m">0</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><strong>空切片</strong></p>
+
+<p>一个切片在未初始化之前默认为 nil，长度为 0</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="x">
+
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="k">if</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="p">){</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"切片是空的"</span><span class="p">)</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">printSlice</span><span class="p">(</span><span class="n">x</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">){</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"len=%d cap=%d slice=%v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">cap</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="o">=</span><span class="m">0</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">0</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[]</span><span class="x">
+</span><span class="n">切片是空的</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="c">/* 创建切片 */</span><span class="x">
+   </span><span class="n">numbers</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">8</span><span class="p">}</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 打印原始切片 */</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"numbers =="</span><span class="p">,</span><span class="x"> </span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 打印子切片从索引1(包含) 到索引4(不包含)*/</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"numbers[1:4] =="</span><span class="p">,</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">])</span><span class="x">
+
+   </span><span class="c">/* 默认下限为 0*/</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"numbers[:3] =="</span><span class="p">,</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="o">:</span><span class="m">3</span><span class="p">])</span><span class="x">
+
+   </span><span class="c">/* 默认上限为 len(s)*/</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"numbers[4:] =="</span><span class="p">,</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="m">4</span><span class="o">:</span><span class="p">])</span><span class="x">
+
+   </span><span class="n">numbers1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">5</span><span class="p">)</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers1</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 打印子切片从索引  0(包含) 到索引 2(不包含) */</span><span class="x">
+   </span><span class="n">number2</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="o">:</span><span class="m">2</span><span class="p">]</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">number2</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 打印子切片从索引 2(包含) 到索引 5(不包含) */</span><span class="x">
+   </span><span class="n">number3</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="m">5</span><span class="p">]</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">number3</span><span class="p">)</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">printSlice</span><span class="p">(</span><span class="n">x</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">){</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"len=%d cap=%d slice=%v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">cap</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="o">=</span><span class="m">9</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">9</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="x"> </span><span class="m">4</span><span class="x"> </span><span class="m">5</span><span class="x"> </span><span class="m">6</span><span class="x"> </span><span class="m">7</span><span class="x"> </span><span class="m">8</span><span class="p">]</span><span class="x">
+</span><span class="n">numbers</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="x"> </span><span class="m">4</span><span class="x"> </span><span class="m">5</span><span class="x"> </span><span class="m">6</span><span class="x"> </span><span class="m">7</span><span class="x"> </span><span class="m">8</span><span class="p">]</span><span class="x">
+</span><span class="n">numbers</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">]</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="p">[</span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="p">]</span><span class="x">
+</span><span class="n">numbers</span><span class="p">[</span><span class="o">:</span><span class="m">3</span><span class="p">]</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="p">]</span><span class="x">
+</span><span class="n">numbers</span><span class="p">[</span><span class="m">4</span><span class="o">:</span><span class="p">]</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="p">[</span><span class="m">4</span><span class="x"> </span><span class="m">5</span><span class="x"> </span><span class="m">6</span><span class="x"> </span><span class="m">7</span><span class="x"> </span><span class="m">8</span><span class="p">]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">0</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">5</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">2</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">9</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="p">]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">3</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">7</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="x"> </span><span class="m">4</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>##2.5 append() 和 copy() 函数</p>
+
+<p>append 向slice里面追加一个或者多个元素，然后返回一个和slice一样类型的slice
+copy 函数copy从源slice的src中复制元素到目标dst，并且返回复制的元素的个数</p>
+
+<p>append函数会改变slice所引用的数组的内容，从而影响到引用同一数组的其它slice。 但当slice中没有剩
+余空间（即(cap-len) == 0）时，此时将动态分配新的数组空间。返回的slice数组指针将指向这个空间，而原
+数组的内容将保持不变；其它引用此数组的slice则不受影响</p>
+
+<p>下面的代码描述了从拷贝切片的 copy 方法和向切片追加新元素的 append 方法</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="k">var</span><span class="x"> </span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 允许追加空切片 */</span><span class="x">
+   </span><span class="n">numbers</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">append</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">)</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 向切片添加一个元素 */</span><span class="x">
+   </span><span class="n">numbers</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">append</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="x"> </span><span class="m">1</span><span class="p">)</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 同时添加多个元素 */</span><span class="x">
+   </span><span class="n">numbers</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">append</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="x"> </span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 创建切片 numbers1 是之前切片的两倍容量*/</span><span class="x">
+   </span><span class="n">numbers1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">),</span><span class="x"> </span><span class="p">(</span><span class="nb">cap</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span><span class="o">*</span><span class="m">2</span><span class="p">)</span><span class="x">
+
+   </span><span class="c">/* 拷贝 numbers 的内容到 numbers1 */</span><span class="x">
+   </span><span class="nb">copy</span><span class="p">(</span><span class="n">numbers1</span><span class="p">,</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+   </span><span class="n">printSlice</span><span class="p">(</span><span class="n">numbers1</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">printSlice</span><span class="p">(</span><span class="n">x</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">){</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"len=%d cap=%d slice=%v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">cap</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="o">=</span><span class="m">0</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">0</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">1</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">2</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">2</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">2</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="p">]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">5</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">8</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="x"> </span><span class="m">4</span><span class="p">]</span><span class="x">
+</span><span class="nb">len</span><span class="o">=</span><span class="m">5</span><span class="x"> </span><span class="nb">cap</span><span class="o">=</span><span class="m">12</span><span class="x"> </span><span class="n">slice</span><span class="o">=</span><span class="p">[</span><span class="m">0</span><span class="x"> </span><span class="m">1</span><span class="x"> </span><span class="m">2</span><span class="x"> </span><span class="m">3</span><span class="x"> </span><span class="m">4</span><span class="p">]</span><span class="x">
+</span></code></pre>
+</div>
+
+<blockquote>
+  <p>numbers1与numbers两者不存在联系，numbers发生变化时，numbers1是不会随着变化的。也就是说copy方法是不会建立两个切片的联系的</p>
+</blockquote>
+
+<h2 id="官方公众号">官方公众号</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD-1.jpg" alt="" /></p>
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/02/21/golang-loop/" data-toggle="tooltip" data-placement="top" title="第3章-分支循环">上一篇：  <span>第3章-分支循环</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/02/23/golang-map/" data-toggle="tooltip" data-placement="top" title="第5章-Map">下一篇：  <span>第5章-Map</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=第4章-数组和切片 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

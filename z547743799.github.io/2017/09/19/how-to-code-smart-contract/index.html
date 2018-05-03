@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>如何编写智能合约(Smart Contract)?（I）</title>
+  <meta name="description" content="智能合约测试环境搭建、HelloWorld合约编写、编译、部署以及如何通过JS代码和合约互动">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="智能合约编写，智能合约编译，智能合约部署，Smart Contract，智能合约"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="如何编写智能合约(Smart Contract)?（I）">
+  <meta name="twitter:description" content="智能合约测试环境搭建、HelloWorld合约编写、编译、部署以及如何通过JS代码和合约互动">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="如何编写智能合约(Smart Contract)?（I）">
+  <meta property="og:description" content="智能合约测试环境搭建、HelloWorld合约编写、编译、部署以及如何通过JS代码和合约互动">
+  <meta property="og:site_name" content="智能合约编写，智能合约编译，智能合约部署，Smart Contract，智能合约e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/09/19/how-to-code-smart-contract/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">如何编写智能合约(Smart Contract)?（I）</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-09-19 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-19</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%E5%9B%BE.png" alt="" /></p>
+
+<h1 id="如何编写智能合约smart-contracti">如何编写智能合约(Smart Contract)?(I)</h1>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E9%BB%8E%E8%B7%83%E6%98%A5-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF.png" alt="" /></p>
+
+<h2 id="完整视频教程">完整视频教程</h2>
+
+<ul>
+  <li><a href="https://v.qq.com/x/page/h0552ba9k8h.html">https://v.qq.com/x/page/h0552ba9k8h.html</a></li>
+</ul>
+
+<h2 id="学习目标">学习目标</h2>
+
+<ol>
+  <li>了解智能合约</li>
+  <li>简单环境搭建</li>
+  <li>能够利用<code class="highlighter-rouge">solidity</code>编写<code class="highlighter-rouge">Hello World</code>合约</li>
+  <li>合约部署</li>
+  <li>和合约互动</li>
+</ol>
+
+<h2 id="使用solidity语言撰写智能合约">使用solidity语言撰写智能合约</h2>
+
+<p><code class="highlighter-rouge">Ethereum</code>上的智能合约需要使用<code class="highlighter-rouge">solidity</code>语言来撰写。虽然还有其他能用来撰写智能合约的语言如<code class="highlighter-rouge">Serpent</code>（类Python）、<code class="highlighter-rouge">lll</code>（类Fortran），但目前看到所有公开的智能合约都是使用<code class="highlighter-rouge">solidity</code>撰写。</p>
+
+<p>宣传上说，<code class="highlighter-rouge">solidity</code>是一种类似<code class="highlighter-rouge">Javascript</code>的语言，而且围绕着<code class="highlighter-rouge">solidity</code>的各种开发工具链，都是使用属于<code class="highlighter-rouge">Javascript</code>生态系的<code class="highlighter-rouge">npm</code>来提供的。但我觉得<code class="highlighter-rouge">solidity</code>还是比较像Java或C#。因为和Javascript不同，solidity与Java或C#同属于强类型（Strong Type，在定义变数时需要指定类型）语言、在定义函式（function）时同样需指定回传的类型（type）、同样也需要先编译才能执行。这些特性都是<code class="highlighter-rouge">Javascript</code>所不具备的。</p>
+
+<h2 id="开发前的准备">开发前的准备</h2>
+
+<p>本文将使用当前最活跃的智能合约开发框架<code class="highlighter-rouge">truffle</code>为基础来开发。<code class="highlighter-rouge">ENS（Ethereum Name Service）</code>也是采用<code class="highlighter-rouge">truffle</code>框架。其他选择还有<code class="highlighter-rouge">embark</code>等。</p>
+
+<p>就像一般网站或App开发一样，在提供公开服务之前，开发者会在自己用于写程序的电脑（又称作本机）或透过测试网络来测试程序执行的效果，测试完成后，才会部署到公开的网络上提供服务。开发区块链智能合约（程序）的过程也是如此。特别是公开链上所有写入或读取计算结果的操作都需要真金白银（虚拟代币），而且根据网络状况，每个公开链上的操作都需要要一小段反应时间（15秒~数分钟），这些等待颇浪费宝贵的开发时间⏳。因此在开发的过程中，我们将使用<code class="highlighter-rouge">testrpc</code>工具在电脑上模拟智能合约所需的以太坊内存块链测试环境。</p>
+
+<p><code class="highlighter-rouge">testrpc</code>中也包含了<code class="highlighter-rouge">Javascript</code>版本的<code class="highlighter-rouge">Ethereum</code>虚拟机（Ethereum Virtual Machine），因此可以完整地执行智能合约。</p>
+
+<p>此外，开发前还需准备一个合手的编辑器。我目前是使用<code class="highlighter-rouge">Atom</code>搭配<code class="highlighter-rouge">solidity</code>插件来开发。<code class="highlighter-rouge">solidity</code>插件除了支持语法高亮之外，也会透过<code class="highlighter-rouge">Solium</code>检查并提示基本的语法错误，相当方便。其他编辑器应该也有类似的插件可选择。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_6.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_7.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_8.png" alt="" /></p>
+
+<h2 id="安装所需工具">安装所需工具</h2>
+
+<p>首先开发机上必须装好Node.js，再使用以下命令安装所需的工具：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="o">-</span><span class="nx">g</span> <span class="nx">ethereumjs</span><span class="o">-</span><span class="nx">testrpc</span> <span class="nx">truffle</span>
+</code></pre>
+</div>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">liyuechun</span><span class="err">:</span><span class="o">~</span> <span class="nx">yuechunli$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="o">-</span><span class="nx">g</span> <span class="nx">ethereumjs</span><span class="o">-</span><span class="nx">testrpc</span> <span class="nx">truffle</span>
+<span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">bin</span><span class="o">/</span><span class="nx">testrpc</span> <span class="o">-&gt;</span> <span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">ethereumjs</span><span class="o">-</span><span class="nx">testrpc</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">cli</span><span class="p">.</span><span class="nx">node</span><span class="p">.</span><span class="nx">js</span>
+<span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">bin</span><span class="o">/</span><span class="nx">truffle</span> <span class="o">-&gt;</span> <span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">lib</span><span class="o">/</span><span class="nx">node_modules</span><span class="o">/</span><span class="nx">truffle</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">cli</span><span class="p">.</span><span class="nx">bundled</span><span class="p">.</span><span class="nx">js</span>
+<span class="o">+</span> <span class="nx">truffle</span><span class="err">@</span><span class="mf">3.4</span><span class="p">.</span><span class="mi">9</span>
+<span class="o">+</span> <span class="nx">ethereumjs</span><span class="o">-</span><span class="nx">testrpc</span><span class="err">@</span><span class="mf">4.1</span><span class="p">.</span><span class="mi">3</span>
+<span class="nx">added</span> <span class="mi">1</span> <span class="kr">package</span> <span class="nx">and</span> <span class="nx">updated</span> <span class="mi">7</span> <span class="nx">packages</span> <span class="k">in</span> <span class="mf">76.132</span><span class="nx">s</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="o">~</span> <span class="nx">yuechunli$</span> 
+</code></pre>
+</div>
+
+<h2 id="启动testrpc">启动Testrpc</h2>
+
+<p>安装好后随时可以使用<code class="highlighter-rouge">testrpc</code>命令来启动以太坊测试环境。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:~ yuechunli$ testrpc
+EthereumJS TestRPC v4.1.3 (ganache-core: 1.1.3)
+
+Available Accounts
+==================
+(0) 0xbbd414b340f2255dab9d923428c97f0b65d9df81
+(1) 0xe9869e3cf29b6fca81762c314df229c7c4fea25e
+(2) 0xc79e72362a4511b9e499d186654332c4d6f569be
+(3) 0x9a6f0651907c149d4173c03927144dbbba1473d4
+(4) 0x5b13a5d6788752b26dd4e338aae2e01058ee145e
+(5) 0xfc7f56d942ad5260be23ecee92a344aba1b7e7d8
+(6) 0xc48dc22c6bacd6ade4421ab54f25bc45c1c51142
+(7) 0x3fe2b7d4141dd0a456661f77086d055cbaf3b78f
+(8) 0x567979fed26ca85e9d1b4ac919c840e3fc9857e2
+(9) 0xb2eafe245f098eef1c2c1f466d9a8dcd58764c62
+
+Private Keys
+==================
+(0) 947ab78e91133103612ca099d60e6c38cac5bb769f7f097c82d003cf058500bd
+(1) 8ffe0ba8dc53e16944a17dddd3378b5fba0379cd84df4e5237b8b46d05b8762f
+(2) ffe2e04e43e4106b247407656f5233bcc3e0c49730972d0df9c1d1093375e2ef
+(3) a20e453dc44c76aaca6a22efdbb605c2ed9eea64c11317e683461e11bd105ea7
+(4) 4748268ff1b828868dc56d07a1b121b427e1bdede5dbb3c14ef1254d9d26b1a5
+(5) f9957e68c6d20d38b81604a0509e6c4591478bc754f87d5682564073705fbb46
+(6) 34e648b23c0ace6b2b0893651d87f70be8496f97ecf6b7b4607b2acc4e05c9bd
+(7) d2477cedec217e3fb19a5981dafbc125ef66ccc9dc7df29301d08a24da843cf5
+(8) d319f85ccd80e55b2e707e05f09662632564c297248f8b96f82ea5eeaeef0851
+(9) 88c33ac9f1062b82f9e82f86a0ce307e3bd8fcf683b9751232c2f193f5bdc668
+
+HD Wallet
+==================
+Mnemonic:      hire custom clinic expect fury fantasy try dress source spy viable flag
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+Listening on localhost:8545
+</code></pre>
+</div>
+
+<p>可以看到<code class="highlighter-rouge">testrpc</code>启动后自动建立了<code class="highlighter-rouge">10</code>个帐号（Accounts），与每个帐号对应的私钥（Private Key）。每个帐号中都有<code class="highlighter-rouge">100</code>个测试用的以太币（Ether）。要注意<code class="highlighter-rouge">testrpc</code>仅运行在內存中，因此每次重开时都会回到全新的状态。</p>
+
+<p>一切准备就绪，我们可以开始建立第一份智能合约项目了。</p>
+
+<h2 id="建立项目">建立项目</h2>
+
+<p>开启另一个终端窗口，输入以下命令以建立项目：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Desktop yuechunli$ mkdir SmartContractDemo
+liyuechun:Desktop yuechunli$ cd SmartContractDemo/
+liyuechun:SmartContractDemo yuechunli$ mkdir HelloWorld
+liyuechun:SmartContractDemo yuechunli$ cd HelloWorld/
+liyuechun:HelloWorld yuechunli$ truffle init
+
+Downloading project...
+Project initialized.
+
+  Documentation: http://truffleframework.com/docs
+
+Commands:
+
+  Compile: truffle compile
+  Migrate: truffle migrate
+  Test:    truffle test
+
+liyuechun:HelloWorld yuechunli$ ls
+contracts	migrations	test		truffle.js
+</code></pre>
+</div>
+
+<h4 id="目录结构">目录结构：</h4>
+
+<p><code class="highlighter-rouge">/contracts:</code>存放智能合约原始代码的地方，可以看到里面已经有三个<code class="highlighter-rouge">sol</code>文件，我们开发的<code class="highlighter-rouge">HelloWorld.sol</code>文件就存放在这里。</p>
+
+<p><code class="highlighter-rouge">/migrations:</code>这是 <code class="highlighter-rouge">Truffle</code>用来部署智能合约的功能，待会儿我们会修改<code class="highlighter-rouge">2_deploy_contracts.js</code>来部署 <code class="highlighter-rouge">HelloWorld.sol</code>。
+<code class="highlighter-rouge">/test: </code>测试智能合约的代码放在这里，支持<code class="highlighter-rouge">js</code> 与 <code class="highlighter-rouge">sol</code> 测试。
+<code class="highlighter-rouge">truffle.js:</code> <code class="highlighter-rouge">Truffle</code> 的设置文档。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_12.png" alt="" /></p>
+
+<h2 id="新建helloworld合约">新建HelloWorld合约</h2>
+
+<p>在<code class="highlighter-rouge">contracts</code>文件夹下新建<code class="highlighter-rouge">HelloWorld.sol</code>文件，当然也可以直接在<code class="highlighter-rouge">HelloWorld</code>路径下面直接执行<code class="highlighter-rouge">truffle create contract HelloWorld</code>命令来创建<code class="highlighter-rouge">HelloWorld.sol</code>。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_13.png" alt="" /></p>
+
+<p><code class="highlighter-rouge">HelloWorld.sol</code>文件內容如下：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.4</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">HelloWorld</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">sayHello</span><span class="p">()</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s2">"Hello World"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_14.png" alt="" /></p>
+
+<h2 id="讲解">讲解</h2>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.4</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>第一行指名目前使用的<code class="highlighter-rouge">solidity</code>版本，不同版本的<code class="highlighter-rouge">solidity</code>可能会编译出不同的<code class="highlighter-rouge">bytecode</code>。<code class="highlighter-rouge">^</code>代表兼容<code class="highlighter-rouge">solidity</code><code class="highlighter-rouge">0.4.4 ~ 0.4.9</code>的版本。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">contract</span> <span class="nx">HelloWorld</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">contract</code>关键字类似于其他语言中较常见的<code class="highlighter-rouge">class</code>。因为<code class="highlighter-rouge">solidity</code>是专为智能合约（Contact）设计的语言，声明<code class="highlighter-rouge">contract</code>后即内置了开发智能合约所需的功能。也可以把这句理解为<code class="highlighter-rouge">class HelloWorld extends Contract</code>。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sayHello</span><span class="p">()</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s2">"Hello World"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>函数的结构与其他程序类似，但如果有传入的参数或回传值，需要指定参数或回传值的类型（type）。</p>
+
+<h2 id="编译">编译</h2>
+
+<p>现在执行<code class="highlighter-rouge">truffle compile</code>命令，我们可以将<code class="highlighter-rouge">HelloWorld.sol</code>原始码编译成<code class="highlighter-rouge">Ethereum bytecode</code>。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">liyuechun</span><span class="err">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">contracts</span>	<span class="nx">migrations</span>	<span class="nx">test</span>		<span class="nx">truffle</span><span class="p">.</span><span class="nx">js</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">compile</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">ConvertLib</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">MetaCoin</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">Migrations</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Writing</span> <span class="nx">artifacts</span> <span class="nx">to</span> <span class="p">.</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">contracts</span>
+
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">build</span>		<span class="nx">contracts</span>	<span class="nx">migrations</span>	<span class="nx">test</span>		<span class="nx">truffle</span><span class="p">.</span><span class="nx">js</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">cd</span> <span class="nx">build</span><span class="o">/</span>
+<span class="nx">liyuechun</span><span class="err">:</span><span class="nx">build</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">contracts</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">build</span> <span class="nx">yuechunli$</span> <span class="nx">cd</span> <span class="nx">contracts</span><span class="o">/</span>
+<span class="nx">liyuechun</span><span class="err">:</span><span class="nx">contracts</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">ConvertLib</span><span class="p">.</span><span class="nx">json</span>	<span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">json</span>	<span class="nx">MetaCoin</span><span class="p">.</span><span class="nx">json</span>	<span class="nx">Migrations</span><span class="p">.</span><span class="nx">json</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">contracts</span> <span class="nx">yuechunli$</span> <span class="nx">cat</span> <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">json</span> 
+<span class="p">{</span>
+  <span class="s2">"contract_name"</span><span class="err">:</span> <span class="s2">"HelloWorld"</span><span class="p">,</span>
+  <span class="s2">"abi"</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">"inputs"</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s2">"payable"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"constructor"</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"unlinked_binary"</span><span class="err">:</span> <span class="s2">"0x60606040523415600e57600080fd5b5b5b5b603680601e6000396000f30060606040525b600080fd00a165627a7a723058203ee98a767948e9bc08094df4a46ab0361f068b2a559032cf968df5bbf63e91430029"</span><span class="p">,</span>
+  <span class="s2">"networks"</span><span class="err">:</span> <span class="p">{},</span>
+  <span class="s2">"schema_version"</span><span class="err">:</span> <span class="s2">"0.0.5"</span><span class="p">,</span>
+  <span class="s2">"updated_at"</span><span class="err">:</span> <span class="mi">1505805826302</span>
+<span class="p">}</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">contracts</span> <span class="nx">yuechunli$</span> 
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_15.png" alt="" /></p>
+
+<p>编译成功后，会在<code class="highlighter-rouge">HelloWorld</code>文件夹下面的<code class="highlighter-rouge">build/contracts</code>文件夹下面看见<code class="highlighter-rouge">HelloWorld.json</code>文件。</p>
+
+<h2 id="部署">部署</h2>
+
+<p><code class="highlighter-rouge">truffle</code>框架中提供了方便部署合约的脚本。打开<code class="highlighter-rouge">migrations/2_deploy_contracts.js</code>文件（脚本使用<code class="highlighter-rouge">Javascript</code>编写），将内容修改如下：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">HelloWorld</span> <span class="o">=</span> <span class="nx">artifacts</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">"HelloWorld"</span><span class="p">);</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">deployer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">deployer</span><span class="p">.</span><span class="nx">deploy</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_17.png" alt="" /></p>
+
+<p>使用<code class="highlighter-rouge">artifacts.require</code>语句来取得准备部署的合约。使用<code class="highlighter-rouge">deployer.deploy</code>语句将合约部署到区块链上。这边<code class="highlighter-rouge">HelloWorld</code>是<code class="highlighter-rouge">contract</code>的名称而不是文件名。因此可以用此语法读入任一<code class="highlighter-rouge">.sol</code>文件中的任一合约。</p>
+
+<p>现在执行<code class="highlighter-rouge">truffle migrate</code>命令：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">liyuechun</span><span class="err">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">build</span>		<span class="nx">contracts</span>	<span class="nx">migrations</span>	<span class="nx">test</span>		<span class="nx">truffle</span><span class="p">.</span><span class="nx">js</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">migrate</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Writing</span> <span class="nx">artifacts</span> <span class="nx">to</span> <span class="p">.</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">contracts</span>
+
+<span class="nx">Using</span> <span class="nx">network</span> <span class="s1">'development'</span><span class="p">.</span>
+
+<span class="nx">Running</span> <span class="nx">migration</span><span class="err">:</span> <span class="mi">1</span><span class="nx">_initial_migration</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">Deploying</span> <span class="nx">Migrations</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0x218431f16a5cadc6347449808d981887c90b3872898af7cc9dc9b3280c07c184</span>
+  <span class="nl">Migrations</span><span class="p">:</span> <span class="mh">0x64e9673cf962d21642a08635e6654fb7f2ea9bcd</span>
+<span class="nx">Saving</span> <span class="nx">successful</span> <span class="nx">migration</span> <span class="nx">to</span> <span class="nx">network</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0xd9ec788c106df36b8491c95a0ab02ff1e5ef22c1965c910a2576e8259a00535c</span>
+<span class="nx">Saving</span> <span class="nx">artifacts</span><span class="p">...</span>
+<span class="nx">Running</span> <span class="nx">migration</span><span class="err">:</span> <span class="mi">2</span><span class="nx">_deploy_contracts</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">Deploying</span> <span class="nx">HelloWorld</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0x17774b4914d7bc7ab2505a53c59bda6a1fce30c9839d19d735290ca9140450ea</span>
+  <span class="nl">HelloWorld</span><span class="p">:</span> <span class="mh">0x471a22ffe2bddd02e82853059871067e4c07a7f4</span>
+<span class="nx">Saving</span> <span class="nx">successful</span> <span class="nx">migration</span> <span class="nx">to</span> <span class="nx">network</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0xe5e2e11cf5a63ca4517221c68dadb3cae2ca42cbfed93c09c575b6d5f275fc8b</span>
+<span class="nx">Saving</span> <span class="nx">artifacts</span><span class="p">...</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> 
+</code></pre>
+</div>
+<p>如此一来合约已经部署到<code class="highlighter-rouge">testrpc</code>中。切换到<code class="highlighter-rouge">testrpc</code>窗口，可以看到<code class="highlighter-rouge">testrpc</code>有反应了。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170919_18.png" alt="" /></p>
+
+<h2 id="与合约互动">与合约互动</h2>
+
+<p><code class="highlighter-rouge">truffle</code>提供命令行工具，执行<code class="highlighter-rouge">truffle console</code>命令后，可用<code class="highlighter-rouge">Javascript</code>来和刚刚部署的合约互动。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">liyuechun</span><span class="err">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">build</span>		<span class="nx">contracts</span>	<span class="nx">migrations</span>	<span class="nx">test</span>		<span class="nx">truffle</span><span class="p">.</span><span class="nx">js</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">console</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">deployed</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="nx">contract</span> <span class="o">=</span> <span class="nx">instance</span><span class="p">)</span>
+<span class="nx">TruffleContract</span> <span class="p">{</span>
+  <span class="nl">constructor</span><span class="p">:</span> 
+   <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">TruffleContract</span><span class="p">]</span>
+     <span class="nl">_static_methods</span><span class="p">:</span> 
+      <span class="p">{</span> <span class="nl">setProvider</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">setProvider</span><span class="p">],</span>
+        <span class="k">new</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="k">new</span><span class="p">],</span>
+        <span class="nx">at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">at</span><span class="p">],</span>
+        <span class="nx">deployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">deployed</span><span class="p">],</span>
+        <span class="nx">defaults</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">defaults</span><span class="p">],</span>
+        <span class="nx">hasNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">hasNetwork</span><span class="p">],</span>
+        <span class="nx">isDeployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">isDeployed</span><span class="p">],</span>
+        <span class="nx">detectNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">detectNetwork</span><span class="p">],</span>
+        <span class="nx">setNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">setNetwork</span><span class="p">],</span>
+        <span class="nx">resetAddress</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">resetAddress</span><span class="p">],</span>
+        <span class="nx">link</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">link</span><span class="p">],</span>
+        <span class="nx">clone</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">clone</span><span class="p">],</span>
+        <span class="nx">addProp</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">addProp</span><span class="p">],</span>
+        <span class="nx">toJSON</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">toJSON</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">_properties</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">contract_name</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">network</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">network</span><span class="p">],</span>
+        <span class="nx">networks</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">networks</span><span class="p">],</span>
+        <span class="nx">address</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">links</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">links</span><span class="p">],</span>
+        <span class="nx">events</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">events</span><span class="p">],</span>
+        <span class="nx">binary</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">binary</span><span class="p">],</span>
+        <span class="nx">unlinked_binary</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">schema_version</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">schema_version</span><span class="p">],</span>
+        <span class="nx">updated_at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">updated_at</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">_property_values</span><span class="err">:</span> <span class="p">{},</span>
+     <span class="nx">_json</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">contract_name</span><span class="p">:</span> <span class="s1">'HelloWorld'</span><span class="p">,</span>
+        <span class="nx">default_network</span><span class="err">:</span> <span class="kc">undefined</span><span class="p">,</span>
+        <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+        <span class="nx">unlinked_binary</span><span class="err">:</span> <span class="s1">'0x6060604052341561000f57600080fd5b5b6101488061001f6000396000f300606060405263ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663ef5fb05b811461003d575b600080fd5b341561004857600080fd5b6100506100c8565b60405160208082528190810183818151815260200191508051906020019080838360005b8381101561008d5780820151818401525b602001610074565b50505050905090810190601f1680156100ba5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6100d061010a565b60408051908101604052600b81527f48656c6c6f20576f726c64000000000000000000000000000000000000000000602082015290505b90565b602060405190810160405260008152905600a165627a7a723058202b9d4dd8e7739264271524ea58db573fa09a0b634d1d5b78502e6dd01d76ba330029'</span><span class="p">,</span>
+        <span class="nx">networks</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">schema_version</span><span class="err">:</span> <span class="s1">'0.0.5'</span><span class="p">,</span>
+        <span class="nx">updated_at</span><span class="err">:</span> <span class="mi">1505806918535</span> <span class="p">},</span>
+     <span class="nx">setProvider</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">setProvider</span><span class="p">],</span>
+     <span class="k">new</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="k">new</span><span class="p">],</span>
+     <span class="nx">at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">at</span><span class="p">],</span>
+     <span class="nx">deployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">deployed</span><span class="p">],</span>
+     <span class="nx">defaults</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">defaults</span><span class="p">],</span>
+     <span class="nx">hasNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">hasNetwork</span><span class="p">],</span>
+     <span class="nx">isDeployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">isDeployed</span><span class="p">],</span>
+     <span class="nx">detectNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">detectNetwork</span><span class="p">],</span>
+     <span class="nx">setNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">setNetwork</span><span class="p">],</span>
+     <span class="nx">resetAddress</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">resetAddress</span><span class="p">],</span>
+     <span class="nx">link</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">link</span><span class="p">],</span>
+     <span class="nx">clone</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">clone</span><span class="p">],</span>
+     <span class="nx">addProp</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">addProp</span><span class="p">],</span>
+     <span class="nx">toJSON</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">toJSON</span><span class="p">],</span>
+     <span class="nx">web3</span><span class="err">:</span> 
+      <span class="nx">Web3</span> <span class="p">{</span>
+        <span class="nl">_requestManager</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">currentProvider</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">eth</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">db</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">shh</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">net</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">personal</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">bzz</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">settings</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">version</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">providers</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">_extend</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">class_defaults</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">from</span><span class="p">:</span> <span class="s1">'0xbbd414b340f2255dab9d923428c97f0b65d9df81'</span><span class="p">,</span>
+        <span class="nx">gas</span><span class="err">:</span> <span class="mi">4712388</span><span class="p">,</span>
+        <span class="nx">gasPrice</span><span class="err">:</span> <span class="mi">100000000000</span> <span class="p">},</span>
+     <span class="nx">currentProvider</span><span class="err">:</span> 
+      <span class="nx">HttpProvider</span> <span class="p">{</span>
+        <span class="nl">host</span><span class="p">:</span> <span class="s1">'http://localhost:8545'</span><span class="p">,</span>
+        <span class="nx">timeout</span><span class="err">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">send</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+        <span class="nx">sendAsync</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+        <span class="nx">_alreadyWrapped</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+     <span class="nx">network_id</span><span class="err">:</span> <span class="s1">'1505794143155'</span> <span class="p">},</span>
+  <span class="nx">abi</span><span class="err">:</span> 
+   <span class="p">[</span> <span class="p">{</span> <span class="na">constant</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+       <span class="na">inputs</span><span class="p">:</span> <span class="p">[],</span>
+       <span class="na">name</span><span class="p">:</span> <span class="s1">'sayHello'</span><span class="p">,</span>
+       <span class="na">outputs</span><span class="p">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+       <span class="na">payable</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+       <span class="na">type</span><span class="p">:</span> <span class="s1">'function'</span> <span class="p">}</span> <span class="p">],</span>
+  <span class="nx">contract</span><span class="err">:</span> 
+   <span class="nx">Contract</span> <span class="p">{</span>
+     <span class="nl">_eth</span><span class="p">:</span> 
+      <span class="nx">Eth</span> <span class="p">{</span>
+        <span class="nl">_requestManager</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBalance</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getStorageAt</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getCode</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlock</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getUncle</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getCompilers</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlockTransactionCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlockUncleCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionFromBlock</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionReceipt</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">call</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendRawTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">signTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sign</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">compile</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">submitWork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getWork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">coinbase</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getCoinbase</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">mining</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getMining</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">hashrate</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getHashrate</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">syncing</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getSyncing</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">gasPrice</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getGasPrice</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">accounts</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getAccounts</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">blockNumber</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getBlockNumber</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">protocolVersion</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getProtocolVersion</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">iban</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendIBANTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">transfer</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">transactionHash</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">address</span><span class="err">:</span> <span class="s1">'0x471a22ffe2bddd02e82853059871067e4c07a7f4'</span><span class="p">,</span>
+     <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">],</span>
+     <span class="nx">sayHello</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">]</span>
+        <span class="nl">request</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">call</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">getData</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="s1">''</span><span class="err">:</span> <span class="p">[</span><span class="nx">Circular</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">allEvents</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">]</span> <span class="p">},</span>
+  <span class="nx">sayHello</span><span class="err">:</span> 
+   <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span>
+     <span class="nl">call</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">request</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+     <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span> <span class="p">},</span>
+  <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+  <span class="nx">send</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+  <span class="nx">allEvents</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+  <span class="nx">address</span><span class="err">:</span> <span class="s1">'0x471a22ffe2bddd02e82853059871067e4c07a7f4'</span><span class="p">,</span>
+  <span class="nx">transactionHash</span><span class="err">:</span> <span class="kc">null</span> <span class="p">}</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">sayHello</span><span class="p">.</span><span class="nx">call</span><span class="p">()</span>
+<span class="s1">'Hello World'</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> 
+</code></pre>
+</div>
+
+<h4 id="讲解-1">讲解</h4>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">deployed</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="nx">contract</span> <span class="o">=</span> <span class="nx">instance</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">truffle console</code>中预载了<code class="highlighter-rouge">truffle-contract</code>函数库，以方便操作部署到区块链上的合约。</p>
+
+<p>这边使用<code class="highlighter-rouge">HelloWorld.deployed().then</code>语句来取得<code class="highlighter-rouge">HelloWorld</code>合约的<code class="highlighter-rouge">Instance</code>（实例），并存到<code class="highlighter-rouge">contract</code>变量中，以方便后续的调用。</p>
+
+<p>上面用的是<code class="highlighter-rouge">Javascript ES6+</code>的语法，这句也可以写成：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">deployed</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">contract</span> <span class="o">=</span> <span class="nx">instance</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+<p>还可以用ES5的写法：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">deployed</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">hello</span> <span class="o">=</span> <span class="nx">instance</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">sayHello</span><span class="p">.</span><span class="nx">call</span><span class="p">()</span>
+<span class="s1">'Hello World'</span>
+</code></pre>
+</div>
+
+<p>这里直接呼叫<code class="highlighter-rouge">contract.sayHello()</code>也会得到一样的结果。<code class="highlighter-rouge">truffle-contract</code>提供使用<code class="highlighter-rouge">call()</code>来读取只读（read only）的数据，这样就不需提供<code class="highlighter-rouge">gas</code>。因此如果遇到的操作需要向区块链写入数据，我们就不能用<code class="highlighter-rouge">call</code>语句了。</p>
+
+<p>如此一来，我们已写好并部署完成了第一个智能合约，也验证了合约确实可以运作。</p>
+
+<h2 id="加入新方法">加入新方法</h2>
+
+<p>我们在<code class="highlighter-rouge">HelloWorld.sol</code>中再加入一个<code class="highlighter-rouge">echo</code>方法，<code class="highlighter-rouge">echo</code>方法接受输入一个参数，并回传传送的参数。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">echo</span><span class="p">(</span><span class="nx">string</span> <span class="nx">name</span><span class="p">)</span> <span class="nx">constant</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>新的<code class="highlighter-rouge">echo</code>方法中传入了一个<code class="highlighter-rouge">name</code>参数。我们也为<code class="highlighter-rouge">echo</code>方法加入一个<code class="highlighter-rouge">constant</code>声明，表示调用这个方法并不会改变区块链的状态。如此一来，透过<code class="highlighter-rouge">truffle-contract</code>来调用此方法时，会自动选用<code class="highlighter-rouge">call</code>来呼叫，也不需要额外提供gas。</p>
+
+<p>由于更新了合约内容，我们需要先重新新编译一次，将编译结果部署到<code class="highlighter-rouge">testrpc</code>上，再透过<code class="highlighter-rouge">truffle console</code>执行看看结果。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">liyuechun</span><span class="err">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">ls</span>
+<span class="nx">build</span>		<span class="nx">contracts</span>	<span class="nx">migrations</span>	<span class="nx">test</span>		<span class="nx">truffle</span><span class="p">.</span><span class="nx">js</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">compile</span>
+<span class="nx">Compiling</span> <span class="p">.</span><span class="o">/</span><span class="nx">contracts</span><span class="o">/</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">sol</span><span class="p">...</span>
+<span class="nx">Writing</span> <span class="nx">artifacts</span> <span class="nx">to</span> <span class="p">.</span><span class="o">/</span><span class="nx">build</span><span class="o">/</span><span class="nx">contracts</span>
+
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">migrate</span> <span class="o">--</span><span class="nx">reset</span>
+<span class="nx">Using</span> <span class="nx">network</span> <span class="s1">'development'</span><span class="p">.</span>
+
+<span class="nx">Running</span> <span class="nx">migration</span><span class="err">:</span> <span class="mi">1</span><span class="nx">_initial_migration</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">Replacing</span> <span class="nx">Migrations</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0x64cdc42e08a7e3f8070c46d4877ba246d95cbbccbfe1b9abd2450cfc02b48eda</span>
+  <span class="nl">Migrations</span><span class="p">:</span> <span class="mh">0x42843f6a470b84e2669f19686a223c1bdefb6f4d</span>
+<span class="nx">Saving</span> <span class="nx">successful</span> <span class="nx">migration</span> <span class="nx">to</span> <span class="nx">network</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0x57042b767c0f40a4f88ce855e39549010d6d5ae5f880771a45c1f7f36ea0e5b3</span>
+<span class="nx">Saving</span> <span class="nx">artifacts</span><span class="p">...</span>
+<span class="nx">Running</span> <span class="nx">migration</span><span class="err">:</span> <span class="mi">2</span><span class="nx">_deploy_contracts</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">Replacing</span> <span class="nx">HelloWorld</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0x2330e3264aae9d6be3744d8fc71d235fc6dc2934d33ff5159ae209df4cf8f12b</span>
+  <span class="nl">HelloWorld</span><span class="p">:</span> <span class="mh">0xbf68789cdd6be1577339e8c739abfa1190c31b6c</span>
+<span class="nx">Saving</span> <span class="nx">successful</span> <span class="nx">migration</span> <span class="nx">to</span> <span class="nx">network</span><span class="p">...</span>
+  <span class="p">...</span> <span class="mh">0xb4b706d7004654215067ea5954a32f0562b32724d1c646dc43b688b466b10159</span>
+<span class="nx">Saving</span> <span class="nx">artifacts</span><span class="p">...</span>
+<span class="nl">liyuechun</span><span class="p">:</span><span class="nx">HelloWorld</span> <span class="nx">yuechunli$</span> <span class="nx">truffle</span> <span class="nx">console</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="kd">let</span> <span class="nx">contract</span>
+<span class="kc">undefined</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">deployed</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="nx">contract</span> <span class="o">=</span> <span class="nx">instance</span><span class="p">)</span>
+<span class="nx">TruffleContract</span> <span class="p">{</span>
+  <span class="nl">constructor</span><span class="p">:</span> 
+   <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">TruffleContract</span><span class="p">]</span>
+     <span class="nl">_static_methods</span><span class="p">:</span> 
+      <span class="p">{</span> <span class="nl">setProvider</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">setProvider</span><span class="p">],</span>
+        <span class="k">new</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="k">new</span><span class="p">],</span>
+        <span class="nx">at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">at</span><span class="p">],</span>
+        <span class="nx">deployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">deployed</span><span class="p">],</span>
+        <span class="nx">defaults</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">defaults</span><span class="p">],</span>
+        <span class="nx">hasNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">hasNetwork</span><span class="p">],</span>
+        <span class="nx">isDeployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">isDeployed</span><span class="p">],</span>
+        <span class="nx">detectNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">detectNetwork</span><span class="p">],</span>
+        <span class="nx">setNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">setNetwork</span><span class="p">],</span>
+        <span class="nx">resetAddress</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">resetAddress</span><span class="p">],</span>
+        <span class="nx">link</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">link</span><span class="p">],</span>
+        <span class="nx">clone</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">clone</span><span class="p">],</span>
+        <span class="nx">addProp</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">addProp</span><span class="p">],</span>
+        <span class="nx">toJSON</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">toJSON</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">_properties</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">contract_name</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">network</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">network</span><span class="p">],</span>
+        <span class="nx">networks</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">networks</span><span class="p">],</span>
+        <span class="nx">address</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">links</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">links</span><span class="p">],</span>
+        <span class="nx">events</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">events</span><span class="p">],</span>
+        <span class="nx">binary</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">binary</span><span class="p">],</span>
+        <span class="nx">unlinked_binary</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">schema_version</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">schema_version</span><span class="p">],</span>
+        <span class="nx">updated_at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">updated_at</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">_property_values</span><span class="err">:</span> <span class="p">{},</span>
+     <span class="nx">_json</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">contract_name</span><span class="p">:</span> <span class="s1">'HelloWorld'</span><span class="p">,</span>
+        <span class="nx">default_network</span><span class="err">:</span> <span class="kc">undefined</span><span class="p">,</span>
+        <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+        <span class="nx">unlinked_binary</span><span class="err">:</span> <span class="s1">'0x6060604052341561000f57600080fd5b5b61022c8061001f6000396000f300606060405263ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663ef5fb05b8114610048578063f15da729146100d3575b600080fd5b341561005357600080fd5b61005b61019c565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156100985780820151818401525b60200161007f565b50505050905090810190601f1680156100c55780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156100de57600080fd5b61005b60046024813581810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496506101de95505050505050565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156100985780820151818401525b60200161007f565b50505050905090810190601f1680156100c55780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6101a46101ee565b60408051908101604052600b81527f48656c6c6f20576f726c64000000000000000000000000000000000000000000602082015290505b90565b6101e66101ee565b50805b919050565b602060405190810160405260008152905600a165627a7a723058208fec8695bd430eed53d1591d841c6e80b1a32a91caab996bb270d54425ebd7140029'</span><span class="p">,</span>
+        <span class="nx">networks</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">schema_version</span><span class="err">:</span> <span class="s1">'0.0.5'</span><span class="p">,</span>
+        <span class="nx">updated_at</span><span class="err">:</span> <span class="mi">1505809278810</span> <span class="p">},</span>
+     <span class="nx">setProvider</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">setProvider</span><span class="p">],</span>
+     <span class="k">new</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="k">new</span><span class="p">],</span>
+     <span class="nx">at</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">at</span><span class="p">],</span>
+     <span class="nx">deployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">deployed</span><span class="p">],</span>
+     <span class="nx">defaults</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">defaults</span><span class="p">],</span>
+     <span class="nx">hasNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">hasNetwork</span><span class="p">],</span>
+     <span class="nx">isDeployed</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">isDeployed</span><span class="p">],</span>
+     <span class="nx">detectNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">detectNetwork</span><span class="p">],</span>
+     <span class="nx">setNetwork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">setNetwork</span><span class="p">],</span>
+     <span class="nx">resetAddress</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">resetAddress</span><span class="p">],</span>
+     <span class="nx">link</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">link</span><span class="p">],</span>
+     <span class="nx">clone</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">clone</span><span class="p">],</span>
+     <span class="nx">addProp</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">addProp</span><span class="p">],</span>
+     <span class="nx">toJSON</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">toJSON</span><span class="p">],</span>
+     <span class="nx">web3</span><span class="err">:</span> 
+      <span class="nx">Web3</span> <span class="p">{</span>
+        <span class="nl">_requestManager</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">currentProvider</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">eth</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">db</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">shh</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">net</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">personal</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">bzz</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">settings</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">version</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">providers</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">_extend</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">class_defaults</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="nl">from</span><span class="p">:</span> <span class="s1">'0xbbd414b340f2255dab9d923428c97f0b65d9df81'</span><span class="p">,</span>
+        <span class="nx">gas</span><span class="err">:</span> <span class="mi">4712388</span><span class="p">,</span>
+        <span class="nx">gasPrice</span><span class="err">:</span> <span class="mi">100000000000</span> <span class="p">},</span>
+     <span class="nx">currentProvider</span><span class="err">:</span> 
+      <span class="nx">HttpProvider</span> <span class="p">{</span>
+        <span class="nl">host</span><span class="p">:</span> <span class="s1">'http://localhost:8545'</span><span class="p">,</span>
+        <span class="nx">timeout</span><span class="err">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">send</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+        <span class="nx">sendAsync</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+        <span class="nx">_alreadyWrapped</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+     <span class="nx">network_id</span><span class="err">:</span> <span class="s1">'1505794143155'</span> <span class="p">},</span>
+  <span class="nx">abi</span><span class="err">:</span> 
+   <span class="p">[</span> <span class="p">{</span> <span class="na">constant</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+       <span class="na">inputs</span><span class="p">:</span> <span class="p">[],</span>
+       <span class="na">name</span><span class="p">:</span> <span class="s1">'sayHello'</span><span class="p">,</span>
+       <span class="na">outputs</span><span class="p">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+       <span class="na">payable</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+       <span class="na">type</span><span class="p">:</span> <span class="s1">'function'</span> <span class="p">},</span>
+     <span class="p">{</span> <span class="na">constant</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+       <span class="na">inputs</span><span class="p">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+       <span class="na">name</span><span class="p">:</span> <span class="s1">'echo'</span><span class="p">,</span>
+       <span class="na">outputs</span><span class="p">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">],</span>
+       <span class="na">payable</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+       <span class="na">type</span><span class="p">:</span> <span class="s1">'function'</span> <span class="p">}</span> <span class="p">],</span>
+  <span class="nx">contract</span><span class="err">:</span> 
+   <span class="nx">Contract</span> <span class="p">{</span>
+     <span class="nl">_eth</span><span class="p">:</span> 
+      <span class="nx">Eth</span> <span class="p">{</span>
+        <span class="nl">_requestManager</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBalance</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getStorageAt</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getCode</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlock</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getUncle</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getCompilers</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlockTransactionCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getBlockUncleCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionFromBlock</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionReceipt</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getTransactionCount</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">call</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendRawTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">signTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sign</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">compile</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">submitWork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">getWork</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">coinbase</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getCoinbase</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">mining</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getMining</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">hashrate</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getHashrate</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">syncing</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getSyncing</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">gasPrice</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getGasPrice</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">accounts</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getAccounts</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">blockNumber</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getBlockNumber</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">protocolVersion</span><span class="err">:</span> <span class="p">[</span><span class="nx">Getter</span><span class="p">],</span>
+        <span class="nx">getProtocolVersion</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">iban</span><span class="err">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">sendIBANTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="nx">transfer</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">transactionHash</span><span class="err">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">address</span><span class="err">:</span> <span class="s1">'0xbf68789cdd6be1577339e8c739abfa1190c31b6c'</span><span class="p">,</span>
+     <span class="nx">abi</span><span class="err">:</span> <span class="p">[</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">],</span>
+     <span class="nx">sayHello</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">]</span>
+        <span class="nl">request</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">call</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">getData</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="s1">''</span><span class="err">:</span> <span class="p">[</span><span class="nx">Circular</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">echo</span><span class="err">:</span> 
+      <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">]</span>
+        <span class="nl">request</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">call</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">getData</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+        <span class="nx">string</span><span class="err">:</span> <span class="p">[</span><span class="nx">Circular</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">allEvents</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">]</span> <span class="p">},</span>
+  <span class="nx">sayHello</span><span class="err">:</span> 
+   <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span>
+     <span class="nl">call</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">request</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+     <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span> <span class="p">},</span>
+  <span class="nx">echo</span><span class="err">:</span> 
+   <span class="p">{</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span>
+     <span class="nl">call</span><span class="p">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+     <span class="nx">request</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+     <span class="nx">estimateGas</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">]</span> <span class="p">},</span>
+  <span class="nx">sendTransaction</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+  <span class="nx">send</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="p">],</span>
+  <span class="nx">allEvents</span><span class="err">:</span> <span class="p">[</span><span class="nb">Function</span><span class="err">:</span> <span class="nx">bound</span> <span class="p">],</span>
+  <span class="nx">address</span><span class="err">:</span> <span class="s1">'0xbf68789cdd6be1577339e8c739abfa1190c31b6c'</span><span class="p">,</span>
+  <span class="nx">transactionHash</span><span class="err">:</span> <span class="kc">null</span> <span class="p">}</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> <span class="nx">contract</span><span class="p">.</span><span class="nx">echo</span><span class="p">(</span><span class="s2">"春哥微信:liyc1215"</span><span class="p">)</span>
+<span class="s1">'春哥微信:liyc1215'</span>
+<span class="nx">truffle</span><span class="p">(</span><span class="nx">development</span><span class="p">)</span><span class="o">&gt;</span> 
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">echo</code>方法确实将我们输入的内容回传了。同时因为声明了constant，我们不需要直接调用<code class="highlighter-rouge">call()</code>方法，<code class="highlighter-rouge">truffle</code>会自动选用<code class="highlighter-rouge">call</code>来呼叫。</p>
+
+<p>另一点需要注意的，是这次如果还是用<code class="highlighter-rouge">truffle migrate</code>命令，我们会得到如下信息：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">truffle</span> <span class="nx">migrate</span>
+<span class="nx">Using</span> <span class="nx">network</span> <span class="s1">'development'</span><span class="p">.</span>
+<span class="nx">Network</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">date</span><span class="p">.</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">Truffle</code>会告诉你现在网络上的合约都已是最新的，但事实上刚刚程序中新增的方法并没有更新到内存块链上。要更新内存块链上已部署的程序，需要改写<code class="highlighter-rouge">migrations</code>中的脚本，但现在还不到介绍<code class="highlighter-rouge">migration</code>的时候。还好我们开发用的内存块链是怎么修改都没关系的<code class="highlighter-rouge">testrpc</code>，可以使用<code class="highlighter-rouge">truffle migrate --reset</code>命令直接重新在<code class="highlighter-rouge">testrpc</code>上部署一次。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>这篇文章非常简单，通过这篇文章，你将掌握如何配置开发环境、如何创建新项目、如何编译、如何部署合约以及了解整个智能合约开发的流程。</p>
+
+<h2 id="打赏地址">打赏地址</h2>
+
+<p><strong>比特币：</strong>1FcbBw62FHBJKTiLGNoguSwkBdVnJQ9NUn
+<strong>以太坊：</strong>0xF055775eBD516e7419ae486C1d50C682d4170645</p>
+
+<h2 id="技术交流">技术交流</h2>
+
+<ul>
+  <li>
+    <p>区块链技术交流QQ群：348924182</p>
+  </li>
+  <li>
+    <p>「区块链部落」官方公众号</p>
+  </li>
+</ul>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png" alt="" /></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>[1] Solidity http://solidity.readthedocs.io/en/latest/index.html</li>
+  <li>[2] Solidity線上編輯器　https://ethereum.github.io/browser-solidity/</li>
+  <li>[3] Truffle Framework http://truffleframework.com/</li>
+  <li>[4] Embark Framework https://github.com/iurimatias/embark-framework</li>
+  <li>[5] ENS也使用Truffle框架 https://github.com/ethereum/ens</li>
+  <li>[6] https://github.com/ethereumjs/testrpc</li>
+  <li>[7] https://github.com/ethereumjs/ethereumjs-vm</li>
+  <li>[8] HelloWorld範例修改自 https://app.pluralsight.com/library/courses/blockchain-fundamentals/</li>
+  <li>[9] Truffle issue on windows http://truffleframework.com/docs/advanced/configuration#resolving-naming-conflicts-on-windows</li>
+  <li>[10] https://medium.com/taipei-ethereum-meetup/ethereum-dapp-tutorial-push-button-cae3810086a4</li>
+  <li>[11] Solidity支援的型別(Type) https://solidity.readthedocs.io/en/develop/types.html</li>
+  <li>[12] Solium syntax check https://github.com/duaraghav8/Solium</li>
+  <li>[13] https://medium.com/taipei-ethereum-meetup/如何撰寫智能合約-smart-contract-i-363d06b1965b</li>
+  <li>[14] http://truffleframework.com/docs/getting_started/contracts</li>
+</ul>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/09/18/smart-contract/" data-toggle="tooltip" data-placement="top" title="什么是智能合约(Smart Contract)?">上一篇：  <span>什么是智能合约(Smart Contract)?</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/09/20/how-to-code-smart-contract-EncryptedToken/" data-toggle="tooltip" data-placement="top" title="如何编写智能合约（Smart Contract）？（II）建立加密代币">下一篇：  <span>如何编写智能合约（Smart Contract）？（II）建立加密代币</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=如何编写智能合约(Smart Contract)?（I） ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

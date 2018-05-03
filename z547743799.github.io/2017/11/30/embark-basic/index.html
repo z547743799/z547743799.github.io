@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>【以太坊智能合约】Embark Framework 开发基础篇</title>
+  <meta name="description" content="本篇文章主要是带大家初步认识Embark framework，通过本篇文章，相信大家对Embark framework框架有了初步的认识，知道如何安装Embark framework环境，如何启动模拟器，如何运行程序，如何在控制台和合约实例交互。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="IPFS  Ethereum embark embark_demo"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="【以太坊智能合约】Embark Framework 开发基础篇">
+  <meta name="twitter:description" content="本篇文章主要是带大家初步认识Embark framework，通过本篇文章，相信大家对Embark framework框架有了初步的认识，知道如何安装Embark framework环境，如何启动模拟器，如何运行程序，如何在控制台和合约实例交互。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="【以太坊智能合约】Embark Framework 开发基础篇">
+  <meta property="og:description" content="本篇文章主要是带大家初步认识Embark framework，通过本篇文章，相信大家对Embark framework框架有了初步的认识，知道如何安装Embark framework环境，如何启动模拟器，如何运行程序，如何在控制台和合约实例交互。">
+  <meta property="og:site_name" content="IPFS  Ethereum embark embark_demoe"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/11/30/embark-basic/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">【以太坊智能合约】Embark Framework 开发基础篇</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-11-30 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-11-30</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>作者： 黎跃春 
+微信：liyc1215（进微信群，加微信）</p>
+</blockquote>
+
+<p>在之前的文章中，我们看到了使用Solidity开发以太坊智能合约的所有基本知识。我们使用了以太坊钱包，我们能够轻松设置小型产品开发环境。我们会发现开始的时候很不错，但是如果我们想要更深入的话呢？我们要编写更大的应用程序，能够使用多个源文件。编写、测试、调试、使用版本控制系统，一次部署多个合约等等。</p>
+
+<p>为了更深入，我们将使用Embark框架。 Embark框架很容易上手，并具有很多功能：</p>
+
+<ul>
+  <li>Blockchain (Ethereum)</li>
+  <li>去中心化 Storage (IPFS)</li>
+  <li>去中心化交流 (Whisper, Orbit)</li>
+  <li>Web 技术</li>
+</ul>
+
+<h2 id="目录">目录</h2>
+
+<ul>
+  <li><a href="#1-安装-Embark-framework">1. 安装 Embark framework</a></li>
+  <li><a href="#2-Embark-framework-Hello-World">2. Embark framework Hello World</a>
+    <ul>
+      <li><a href="#21-启动服务器和控制器">2.1 启动服务器和控制器</a></li>
+      <li><a href="#22-终端读取和修改`storedData`的值">2.2 终端读取和修改<code class="highlighter-rouge">storedData</code>的值</a></li>
+      <li><a href="#23-Web端获取`storedData`的值">2.3 Web端获取<code class="highlighter-rouge">storedData</code>的值</a></li>
+      <li><a href="#24-Web端点击`Set-Value`修改`storedData`的值">2.4 Web端点击<code class="highlighter-rouge">Set Value</code>修改<code class="highlighter-rouge">storedData</code>的值</a></li>
+    </ul>
+  </li>
+  <li><a href="#3-小结">3. 小结</a></li>
+</ul>
+
+<h2 id="1-安装-embark-framework">1. 安装 Embark framework</h2>
+
+<p>你可以在任何平台安装<code class="highlighter-rouge">Embark framework</code>，下面是你需要安装的工具。</p>
+
+<ul>
+  <li><a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">Geth:Ethereum 协议的官方go实现</a></li>
+  <li><a href="https://nodejs.org/en/download/">NodeJS和NPM:JavaScript应用的运行时和包管理器</a></li>
+</ul>
+
+<p>如果你已经安装上面的工具，我们将使用<code class="highlighter-rouge">NPM</code>来安装<code class="highlighter-rouge"> embark framework</code>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>localhost:~ yuechunli$  npm -g install embark ethereumjs-testrpc
+/usr/local/bin/embark -&gt; /usr/local/lib/node_modules/embark/bin/embark
+/usr/local/bin/testrpc -&gt; /usr/local/lib/node_modules/ethereumjs-testrpc/build/cli.node.js
++ ethereumjs-testrpc@4.1.3
++ embark@2.5.2
+updated 2 packages in 42.504s
+
+
+   ╭─────────────────────────────────────╮
+   │                                     │
+   │   Update available 5.3.0 → 5.4.2    │
+   │     Run npm i -g npm to update      │
+   │                                     │
+   ╰─────────────────────────────────────╯
+
+localhost:~ yuechunli$ 
+</code></pre>
+</div>
+
+<h2 id="2-embark-framework-hello-world">2. Embark framework Hello World</h2>
+
+<h3 id="21-启动服务器和控制器">2.1 启动服务器和控制器</h3>
+
+<p><code class="highlighter-rouge">Embark framework</code>包含最基本能够用来部署并让我们容易理解它如何运作的<code class="highlighter-rouge">demo</code>。打开终端，首先我们创建一个一个文件夹<code class="highlighter-rouge">embark_demo</code>，切换到<code class="highlighter-rouge">embark_demo</code>文件夹里面，通过<code class="highlighter-rouge">embark demo</code>命令来创建<code class="highlighter-rouge">Embark framework</code>的初始化项目。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>localhost:SmartContractDemo yuechunli$ ls
+BloggerCoin	EncryptedToken	HelloWorld
+localhost:SmartContractDemo yuechunli$ mkdir embark_demo
+localhost:SmartContractDemo yuechunli$ cd embark_demo/
+localhost:embark_demo yuechunli$ embark demo
+Initializing Embark Template....
+Installing packages.. this can take a few seconds
+Init complete
+
+App ready at embark_demo
+-------------------
+Next steps:
+-&gt; cd embark_demo
+-&gt; embark blockchain or embark simulator
+open another console in the same directory and run
+-&gt; embark run
+For more info go to http://github.com/iurimatias/embark-framework
+localhost:embark_demo yuechunli$ ls
+embark_demo
+localhost:embark_demo yuechunli$ cd embark_demo/
+localhost:embark_demo yuechunli$ ls
+app			embark.json		package.json
+chains.json		node_modules		test
+config			package-lock.json
+localhost:embark_demo yuechunli$ 
+</code></pre>
+</div>
+
+<p>为了运行这个demo，我们得先通过<code class="highlighter-rouge">embark simulator</code>启动<code class="highlighter-rouge">simulator</code>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>localhost:embark_demo yuechunli$ embark simulator
+localhost:embark_demo yuechunli$ embark simulator
+EthereumJS TestRPC v6.0.1 (ganache-core: 2.0.0)
+
+Available Accounts
+==================
+(0) 0x32b083632f44917e2e9125c3025a120c97bb9f8c
+(1) 0xe38af4e162a40d27c6f15e754be1a940ca6b41ab
+(2) 0x19f321c2a9f531cd11b45be37ea12b835390d816
+(3) 0x982eadda586d29e13b38d745d45dccd931a1b471
+(4) 0xb0b4422bfdf431f58df48d0645e8d933d9c7f81d
+(5) 0xd69080b8a458a3fbd3f354b16b2a5964178a2579
+(6) 0x87b394b8f8d7530cd677fdb8fb785aed0431146e
+(7) 0xc1da7d151ed95b616f8b67ed5ce4774525455ee0
+(8) 0xa1878496046ff767401cb768e352c407c7f53018
+(9) 0xd16faa875634d4fe88333555cd7dc9e8c22f3e2e
+
+Private Keys
+==================
+(0) a70c22b2e6fe5f44ca15b44883333ad551e22608953a5f16e44a8b616e151360
+(1) 73a0e9cf90828d1099e5c5ac513cb18b5b804be7278aebf9bb2db5602d0e36da
+(2) 1e083df4a9aa021e64b52318fd64ec8d5959018b2244856466dc5ea102fa2cf8
+(3) 74afaab038ec34c8ac18559a09888dbd4e057fdfa9f41e99a99bbb1fceb32bc7
+(4) 3f27399b396c4d4cacfca45bffb0ce67f1f141bc5202bcd38bf66a9f8213c922
+(5) 36e4b3bfab27957163165aa185fed01134d90a41d2dbaed88a9eeff7c7be4583
+(6) 94292f49bd516fecd6bf775b5057cd215bb159efbc808b4cf0cf04afcd43418b
+(7) d9d43481879b1f130379c26df5a32ded19aabe3812e46ba52ef8b163f858ce40
+(8) 61679bc6a888d5d76af56ffcfcd7383befd44032254e35272e1f227f12dd4016
+(9) a8ac9f59c020136da2933424bf0f196d0a42e4a7f5d1ec8b973ff4d8c6b68a6f
+
+HD Wallet
+==================
+Mnemonic:      soap idle agree episode breeze utility page drive dumb vibrant repeat potato
+Base HD Path:  m/44'/60'/0'/0/{account_index}
+
+Listening on localhost:8545**
+</code></pre>
+</div>
+
+<p><strong><code class="highlighter-rouge">simulator</code>有两个优势</strong>：</p>
+
+<ul>
+  <li>第一，它将在你的计算机上创建一个区块链(blockchain)，因此当你需要部署合约或者做其他交易时，你的计算机将能够挖矿(mine)。</li>
+  <li>第二，你不需要下载所有的<code class="highlighter-rouge">Ethereum</code>区块链，这样能节省你的空间。</li>
+</ul>
+
+<p>接下来我们重启一个终端通过<code class="highlighter-rouge">embark run</code>命令来运行程序。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>localhost:embark_demo yuechunli$ embark run
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/embark%20run%20demo.png" alt="embark run" /></p>
+
+<p><strong>元素解释：</strong></p>
+
+<ol>
+  <li>当前部署的合约和地址列表显示在<code class="highlighter-rouge">Embark</code>演示的demo中只有一个简单的合约<code class="highlighter-rouge">SimpleStorage</code>，<code class="highlighter-rouge">SimpleStorage</code>合约具有简单的任务：存储一个值，并使这个值可从外部读取。</li>
+  <li><code class="highlighter-rouge">http://localhost:8000</code>为当前UI前端的地址和端口。</li>
+  <li>可以和你合约进行交互的控制台。</li>
+</ol>
+
+<h3 id="22-终端读取和修改storeddata的值">2.2 终端读取和修改<code class="highlighter-rouge">storedData</code>的值</h3>
+
+<p><strong>让我们用atom打开demo看看合约代码：</strong><code class="highlighter-rouge">simple_storage.sol</code>文件在<code class="highlighter-rouge">app/contracts</code>文件夹下面。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/simple_storage_sol.png" alt="Embark 演示demo" /></p>
+
+<p>在<code class="highlighter-rouge">SimpleStorage</code>这个合约中，有一个<code class="highlighter-rouge">storedData</code>状态变量用于存储一个<code class="highlighter-rouge">uint无符号整型的值。</code>因为前面我们已经启动了服务，并且已经将合约部署到了本地测试网络，所以我们可以切换到终端，在终端中通过<code class="highlighter-rouge">SimpleStorage.get()</code>获取<code class="highlighter-rouge">storedData</code>的值，通过<code class="highlighter-rouge">SimpleStorage.set(88)</code>修改状态变量的值，操作如下图所示:</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171122_10.png" alt="" /></p>
+
+<h3 id="23-web端获取storeddata的值">2.3 Web端获取<code class="highlighter-rouge">storedData</code>的值</h3>
+
+<p>浏览项目，不难发现，在<code class="highlighter-rouge">app</code>这个文件夹中，除了<code class="highlighter-rouge">contracts</code>文件夹外，还有<code class="highlighter-rouge">css</code>、<code class="highlighter-rouge">images</code>、<code class="highlighter-rouge">js</code>等文件夹，它们包含了和区块链交互的<code class="highlighter-rouge">web app</code>的源码。在浏览器中打开<code class="highlighter-rouge">http://localhost:8000</code>看看<code class="highlighter-rouge">Embark</code>demo<code class="highlighter-rouge">web</code>端的效果。</p>
+
+<p><strong>Note:</strong>默认端口为<code class="highlighter-rouge">8000</code>，如果想修改端口可以到<code class="highlighter-rouge">config/webserver.json</code>文件里面进行修改。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/WX20170928-205437@2x.png" alt="" /></p>
+
+<p>下图是<code class="highlighter-rouge">WebApp</code>效果图：</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/embark-yanshi.gif" alt="" /></p>
+
+<p>默认的初始值为<code class="highlighter-rouge">100</code>，如果想在Web端点击<code class="highlighter-rouge">Get Value</code>按钮获取值，当前的<code class="highlighter-rouge">MetaMask</code>钱包必须和本地的区块链测试网络一致，本地测试网络的RPC地址和端口为：<code class="highlighter-rouge">localhost:8545</code>，所以需要在<code class="highlighter-rouge">MetaMask</code>钱包中将测试网络切换到<code class="highlighter-rouge">localhost:8545</code>，然后点击<code class="highlighter-rouge">Get Value</code>按钮，即可获得存储到区块链上的<code class="highlighter-rouge">storedData</code>的值。【PS：从区块链获取值不需要花费gas，但是MetaMask钱包网络必须和区块链部署的网络是同一个测试网络。】</p>
+
+<h3 id="24-web端点击set-value修改storeddata的值">2.4 Web端点击<code class="highlighter-rouge">Set Value</code>修改<code class="highlighter-rouge">storedData</code>的值</h3>
+
+<p>目前我们的<code class="highlighter-rouge">MetaMask</code>的<code class="highlighter-rouge">localhost:8545</code>测试网络中，钱包地址中默认的以太币为<code class="highlighter-rouge">0</code>，如下图所示：</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171122_11.png" alt="" /></p>
+
+<p>如果我们想在<code class="highlighter-rouge">Web端</code>通过<code class="highlighter-rouge">Set Value</code>按钮去修改<code class="highlighter-rouge">storedData</code>的值，我们的<code class="highlighter-rouge">MetaMask</code>账号里面必须得有以太币，那么，那么，那么……</p>
+
+<p><strong>如何获取以太币呢？</strong></p>
+
+<p>在我们终端中通过<code class="highlighter-rouge">embark simulator</code>启动时，会默认分配<code class="highlighter-rouge">10</code>个钱包地点，并且每个账号里面的余额都默认为<code class="highlighter-rouge">100</code>，我们在终端查询一下先：</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171122_12.png" alt="" /></p>
+
+<p>下一步拷贝我们<code class="highlighter-rouge">MetaMask</code>里面的钱包地址，在控制台执行下面的命令。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>count = web3.toWei(60,'ether');
+
+web3.eth.sendTransaction({from: '0xe38af4e162a40d27c6f15e754be1a940ca6b41ab',to: '0xF055775eBD516e7419ae486C1d50C682d4170645',value: count});
+</code></pre>
+</div>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171122_16.png" alt="" /></p>
+
+<p><strong>⚠️：</strong>我们在终端查询<code class="highlighter-rouge">0xe38af4e162a40d27c6f15e754be1a940ca6b41ab</code>地址余额时，它比<code class="highlighter-rouge">40</code>个以太币要少一些，原因是因为转账需要花手续费。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171122_16%20%281%29.png" alt="" /></p>
+
+<p>如上图所示，<code class="highlighter-rouge">0xF055775eBD516e7419ae486C1d50C682d4170645</code>账号已充值<code class="highlighter-rouge">60 ether</code>。</p>
+
+<p>接下来我们就可以在<code class="highlighter-rouge">Web</code>端调用<code class="highlighter-rouge">Set Value</code>来修改<code class="highlighter-rouge">storedData</code>的值，我们在Web端将其值修改为<code class="highlighter-rouge">520</code>，然后再在终端查看一下<code class="highlighter-rouge">storedData</code>的值是否被修改并且同步。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/xiugaivalue.gif" alt="" /></p>
+
+<h2 id="3-小结">3. 小结</h2>
+
+<p>本篇文章主要是带大家初步认识<code class="highlighter-rouge">Embark framework</code>，通过本篇文章，相信大家对<code class="highlighter-rouge">Embark framework</code>框架有了初步的认识，知道如何安装<code class="highlighter-rouge">Embark framework</code>环境，如何启动模拟器，如何运行程序，如何在控制台和合约实例交互。</p>
+
+<h2 id="4-参考文档">4. 参考文档</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">https://solidity.readthedocs.io</code></li>
+  <li><code class="highlighter-rouge">ethereumbuilders.gitbooks.io/guide/content/en/ethereum_javascript_api.html</code></li>
+  <li><code class="highlighter-rouge">web3js.readthedocs.io/en/1.0/index.html</code></li>
+  <li><code class="highlighter-rouge">https://ethereumdev.io/getting-started-with-embark-framework</code></li>
+  <li><code class="highlighter-rouge">http://embark.readthedocs.io/en/2.5.2</code></li>
+</ul>
+
+<h2 id="5-技术交流">5. 技术交流</h2>
+
+<ul>
+  <li>
+    <p>区块链技术交流QQ群：348924182</p>
+  </li>
+  <li>
+    <p>「区块链部落」官方公众号</p>
+  </li>
+</ul>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png" alt="" /></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/11/26/ipfs-ethereum-image/" data-toggle="tooltip" data-placement="top" title="【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （下篇）-ipfs + Ethereum 大图片存储">上一篇：  <span>【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （下篇）-ipfs + Ethereum 大图片存储</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/12/02/parity-Wallet-contract-loopholes/" data-toggle="tooltip" data-placement="top" title="以太坊Parity钱包合约漏洞">下一篇：  <span>以太坊Parity钱包合约漏洞</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=【以太坊智能合约】Embark Framework 开发基础篇 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

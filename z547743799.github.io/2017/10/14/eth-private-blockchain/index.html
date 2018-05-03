@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1)</title>
+  <meta name="description" content="以太坊(Ethereum)私链建立 、合约编译、部署完全教程：工具安装，创始区块的创建，连接节点，挖矿，编写智能合约(Smart Contract)，读取字节码、abi，编译、部署、在私链上和合约互动">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="以太坊(Ethereum)私链建立、字节码，abi，以太坊(Ethereum)私有网络，以太坊(Ethereum)私链节点连接"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1)">
+  <meta name="twitter:description" content="以太坊(Ethereum)私链建立 、合约编译、部署完全教程：工具安装，创始区块的创建，连接节点，挖矿，编写智能合约(Smart Contract)，读取字节码、abi，编译、部署、在私链上和合约互动">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1)">
+  <meta property="og:description" content="以太坊(Ethereum)私链建立 、合约编译、部署完全教程：工具安装，创始区块的创建，连接节点，挖矿，编写智能合约(Smart Contract)，读取字节码、abi，编译、部署、在私链上和合约互动">
+  <meta property="og:site_name" content="以太坊(Ethereum)私链建立、字节码，abi，以太坊(Ethereum)私有网络，以太坊(Ethereum)私链节点连接e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/10/14/eth-private-blockchain/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1)</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-10-14 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-10-14</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p><a href="http://www.kongyixueyuan.com">孔壹学院：国内区块链职业教育领先品牌</a></p>
+
+  <p>作者：黎跃春，区块链、高可用架构工程师
+微信：liyc1215  QQ群：348924182  博客：http://liyuechun.org</p>
+
+</blockquote>
+
+<ul>
+  <li><a href="http://www.kongyixueyuan.com/course/5145">从零构建以太坊私链免费公开课视频</a></li>
+  <li><a href="http://liyuechun.org/2017/10/14/eth-private-blockchain/">以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1)</a></li>
+  <li><a href="http://liyuechun.org/2017/10/15/eth-private-blockchain/">以太坊私网建立 (2) - 同一台电脑／不同电脑运行多个节点</a></li>
+  <li><a href="http://liyuechun.org/2017/10/16/eth-private-blockchain/">以太坊私网建立 (3) - 通过创世区块来初始化区块链</a></li>
+</ul>
+
+<h2 id="一为什么用到私有链">一、为什么用到私有链？</h2>
+
+<p>在以太坊的共有链上部署智能合约、发起交易需要花费以太币。而通过修改配置，可以在本机搭建一套以太坊私有链，因为与公有链没关系，既不用同步公有链庞大的数据，也不用花钱购买以太币，很好地满足了智能合约开发和测试的要求，开发好的智能合约也可以很容易地切换接口部署到以太坊公有链上。</p>
+
+<h2 id="二开源工具和语言">二、开源工具和语言</h2>
+
+<h3 id="1brewmacos包管理器">1、<a href="https://brew.sh/">brew</a>MacOS包管理器</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre>
+</div>
+
+<h3 id="2install-go-compiler">2、install Go compiler</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Downloads yuechunli$ brew install go
+</code></pre>
+</div>
+
+<h3 id="3geth运行以太坊节点">3、<a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">geth</a>运行以太坊节点</h3>
+
+<p>下载<a href="https://github.com/ethereum/go-ethereum/archive/v1.5.9.tar.gz">Source code (tar.gz)</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Downloads yuechunli$ cd go-ethereum-1.5.9
+liyuechun:go-ethereum-1.5.9 yuechunli$ pwd
+/Users/liyuechun/Downloads/go-ethereum-1.5.9
+liyuechun:go-ethereum-1.5.9 yuechunli$ make geth
+</code></pre>
+</div>
+
+<h3 id="4solidity以太坊智能合约语言">4、<a href="https://solidity.readthedocs.io/en/develop/">Solidity</a>以太坊智能合约语言</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install solidity
+</code></pre>
+</div>
+
+<p><strong>备注：</strong>安装时间可能有点长，请耐心等待…
+<strong>备注：</strong>安装时间可能有点长，请耐心等待…
+<strong>备注：</strong>安装时间可能有点长，请耐心等待…</p>
+
+<p>如果碰见下面的错误，请移步：<a href="http://blog.csdn.net/Sico2Sico/article/details/71082130">http://blog.csdn.net/Sico2Sico/article/details/71082130</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The GitHub credentials in the macOS keychain may be invalid.
+Clear them with:
+  printf "protocol=https\nhost=github.com\n" | git credential-osxkeychain erase
+Or create a personal access token:
+  https://github.com/settings/tokens/new?scopes=gist,public_repo&amp;description=Homebrew
+</code></pre>
+</div>
+
+<h2 id="三建立私链">三、建立私链</h2>
+
+<h4 id="1-创建一个文件夹来存储你的私链数据">1. 创建一个文件夹来存储你的私链数据</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:1015 yuechunli$ mkdir privatechain
+liyuechun:1015 yuechunli$ pwd
+/Users/liyuechun/Desktop/1015
+liyuechun:1015 yuechunli$ ls
+privatechain
+liyuechun:1015 yuechunli$ 
+</code></pre>
+</div>
+
+<h4 id="2-使用geth来加载">2. 使用<code class="highlighter-rouge">geth</code>来加载</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>geth --networkid 123 --dev --datadir data1 --rpc --rpcaddr 192.168.1.5 --rpcport 8989 --port 3000
+</code></pre>
+</div>
+
+<p><strong>各选项含义如下：</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">--identity：</code>指定节点 ID；</li>
+  <li><code class="highlighter-rouge">--rpc：</code>表示开启 HTTP-RPC 服务；</li>
+  <li><code class="highlighter-rouge">--rpcaddr：</code>HTTP-RPC 服务ip地址；</li>
+  <li><code class="highlighter-rouge">--rpcport：</code>指定 HTTP-RPC 服务监听端口号（默认为 8545）；</li>
+  <li><code class="highlighter-rouge">--datadir：</code>指定区块链数据的存储位置；</li>
+  <li><code class="highlighter-rouge">--port：</code>指定和其他节点连接所用的端口号（默认为 30303）；</li>
+  <li><code class="highlighter-rouge">--nodiscover：</code>关闭节点发现机制，防止加入有同样初始配置的陌生节点。</li>
+</ul>
+
+<p>执行上面的命令，你应该能看到下面的信息：</p>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>INFO [10-15</td>
+        <td>03:14:50] IPC endpoint opened: /Users/liyuechun/Desktop/1015/privchain/geth.ipc</td>
+      </tr>
+      <tr>
+        <td>INFO [10-15</td>
+        <td>03:14:50] HTTP endpoint opened: http://127.0.0.1:8545</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<p>如果你切换到<code class="highlighter-rouge">data1</code>文件夹里面，你会看到<code class="highlighter-rouge">geth</code>, <code class="highlighter-rouge">geth.ipc</code>, 和 <code class="highlighter-rouge">keystore</code>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:1015 yuechunli$ cd data1/
+liyuechun:data1 yuechunli$ ls
+geth		geth.ipc	keystore
+liyuechun:data1 yuechunli$ 
+</code></pre>
+</div>
+
+<ul>
+  <li>保持节点的运行，不要关闭终端，重新打开一个终端，使用<code class="highlighter-rouge">geth attach</code>连接节点，并且打开<code class="highlighter-rouge">geth console</code></li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:privchain yuechunli$ geth attach ipc:/Users/liyuechun/Desktop/1015/privchain/geth.ipc 
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.7.1-stable-05101641/darwin-amd64/go1.9.1
+ modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 shh:1.0 txpool:1.0 web3:1.0
+
+&gt; 
+</code></pre>
+</div>
+
+<p>这是一个交互式的 JavaScript 执行环境，在这里面可以执行 JavaScript 代码，其中 &gt; 是命令提示符。在这个环境里也内置了一些用来操作以太坊的 JavaScript 对象，可以直接使用这些对象。这些对象主要包括：</p>
+
+<ul>
+  <li><code class="highlighter-rouge">eth：</code>包含一些跟操作区块链相关的方法；</li>
+  <li><code class="highlighter-rouge">net：</code>包含一些查看p2p网络状态的方法；</li>
+  <li><code class="highlighter-rouge">admin：</code>包含一些与管理节点相关的方法；</li>
+  <li><code class="highlighter-rouge">miner：</code>包含启动&amp;停止挖矿的一些方法；</li>
+  <li><code class="highlighter-rouge">personal：</code>主要包含一些管理账户的方法；</li>
+  <li><code class="highlighter-rouge">txpool：</code>包含一些查看交易内存池的方法；</li>
+  <li><code class="highlighter-rouge">web3：</code>包含了以上对象，还包含一些单位换算的方法。</li>
+</ul>
+
+<h4 id="3-相关api命令">3. 相关api命令</h4>
+
+<p><strong>查看账户</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; personal.listAccounts
+[]
+&gt; 
+</code></pre>
+</div>
+
+<p><strong>创建账户</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; personal.newAccount('liyuechun') 
+"0xb6d7d842e7dc9016fa6900a183b2be26fc90b2d8"
+&gt; 
+</code></pre>
+</div>
+
+<p>PS：里面的<code class="highlighter-rouge">liyuechun</code>是你账户的密码，输入你自己喜欢的密码。</p>
+
+<p><strong>查看账户</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; personal.listAccounts 
+["0xb6d7d842e7dc9016fa6900a183b2be26fc90b2d8"]
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="4-web3命令">4. web3命令</h4>
+
+<p><a href="https://ethereumbuilders.gitbooks.io/guide/content/en/ethereum_javascript_api.html">https://ethereumbuilders.gitbooks.io/guide/content/en/ethereum_javascript_api.html</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; web3.eth.coinbase 
+"0xb6d7d842e7dc9016fa6900a183b2be26fc90b2d8"
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="5-编写智能合约代码">5. 编写智能合约代码</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract test { 
+    
+    function multiply(uint a) returns(uint d){
+        
+        return a * 7;
+    }
+    
+}
+</code></pre>
+</div>
+
+<h4 id="6-获取智能合约字节码和abi">6. 获取智能合约字节码和abi</h4>
+
+<p>代码拷贝到<a href="https://remix.ethereum.org">https://remix.ethereum.org</a>，编译，然后拷贝字节码和ABI。</p>
+
+<ul>
+  <li>字节码</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>6060604052341561000f57600080fd5b5b60ab8061001e6000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029
+</code></pre>
+</div>
+
+<ul>
+  <li>ABI</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "a",
+        "type": "uint256"
+      }
+    ],
+    "name": "multiply",
+    "outputs": [
+      {
+        "name": "d",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function",
+    "stateMutability": "view"
+  }
+]
+</code></pre>
+</div>
+
+<h4 id="7-在bejson中转义成字符串">7. 在bejson中转义成字符串</h4>
+
+<p><a href="http://www.bejson.com/jsonviewernew/">http://www.bejson.com</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"uint256\"}],\"name\":\"multiply\",\"outputs\":[{\"name\":\"d\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\",\"stateMutability\":\"view\"}]
+</code></pre>
+</div>
+
+<h4 id="7-通过abi创建合约对象">7. 通过abi创建合约对象</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; var abi = JSON.parse('[{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"uint256\"}],\"name\":\"multiply\",\"outputs\":[{\"name\":\"d\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\",\"stateMutability\":\"view\"}]')
+&gt; myContract = web3.eth.contract(abi)
+{
+  abi: [{
+      constant: false,
+      inputs: [{...}],
+      name: "multiply",
+      outputs: [{...}],
+      payable: false,
+      type: "function"
+  }],
+  eth: {
+    accounts: ["0x2abf46d8b0d940cdeedd55872bc0648add40227d"],
+    blockNumber: 384,
+    coinbase: "0x2abf46d8b0d940cdeedd55872bc0648add40227d",
+    compile: {
+      lll: function(),
+      serpent: function(),
+      solidity: function()
+    },
+    defaultAccount: undefined,
+    defaultBlock: "latest",
+    gasPrice: 0,
+    hashrate: 0,
+    mining: false,
+    pendingTransactions: [],
+    protocolVersion: "0x3f",
+    syncing: false,
+    call: function(),
+    contract: function(abi),
+    estimateGas: function(),
+    filter: function(fil, callback),
+    getAccounts: function(callback),
+    getBalance: function(),
+    getBlock: function(),
+    getBlockNumber: function(callback),
+    getBlockTransactionCount: function(),
+    getBlockUncleCount: function(),
+    getCode: function(),
+    getCoinbase: function(callback),
+    getCompilers: function(),
+    getGasPrice: function(callback),
+    getHashrate: function(callback),
+    getMining: function(callback),
+    getPendingTransactions: function(callback),
+    getProtocolVersion: function(callback),
+    getRawTransaction: function(),
+    getRawTransactionFromBlock: function(),
+    getStorageAt: function(),
+    getSyncing: function(callback),
+    getTransaction: function(),
+    getTransactionCount: function(),
+    getTransactionFromBlock: function(),
+    getTransactionReceipt: function(),
+    getUncle: function(),
+    getWork: function(),
+    iban: function(iban),
+    icapNamereg: function(),
+    isSyncing: function(callback),
+    namereg: function(),
+    resend: function(),
+    sendIBANTransaction: function(),
+    sendRawTransaction: function(),
+    sendTransaction: function(),
+    sign: function(),
+    signTransaction: function(),
+    submitTransaction: function(),
+    submitWork: function()
+  },
+  at: function(address, callback),
+  getData: function(),
+  new: function()
+}
+</code></pre>
+</div>
+
+<h4 id="8-检查coinbase账号余额">8. 检查coinbase账号余额</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; account1 = web3.eth.coinbase
+"0x2abf46d8b0d940cdeedd55872bc0648add40227d"
+&gt; web3.eth.getBalance(account1)
+0
+&gt; 
+</code></pre>
+</div>
+
+<p>如果余额大于0，继续，否则，开始挖矿。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; miner.start();
+null
+&gt; 
+</code></pre>
+</div>
+
+<p>挖矿过程中，切换到节点终端，你会发现一直在挖矿。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/11234313123.gif" alt="挖矿" /></p>
+
+<p>如果你觉得差不多了，可以运行下面的命令停止挖矿。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>miner.stop();
+</code></pre>
+</div>
+
+<h4 id="9-停止挖矿并且查余额">9. 停止挖矿，并且查余额</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; miner.start();
+null
+&gt; miner.stop();
+true
+&gt; web3.eth.getBalance(account1)
+1.152e+21
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="10-解锁coinbase账号我们通过coinbase账号来付费部署合约">10. 解锁coinbase账号，我们通过coinbase账号来付费部署合约</h4>
+
+<p><code class="highlighter-rouge">liyuechun</code>: 换成你的密码。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; personal.unlockAccount(account1, 'liyuechun') 
+true
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="11-预估手续费">11. 预估手续费</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; bytecode = "6060604052341561000f57600080fd5b5b60ab8061001e6000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029"
+"6060604052341561000f57600080fd5b5b60ab8061001e6000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029"
+&gt; web3.eth.estimateGas({data: bytecode})
+Error: invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go struct field CallArgs.data of type hexutil.Bytes
+    at web3.js:3104:20
+    at web3.js:6191:15
+    at web3.js:5004:36
+    at &lt;anonymous&gt;:1:1
+
+&gt; bytecode = "0x6060604052341561000f57600080fd5b5b60ab8061001e6000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029"
+"0x6060604052341561000f57600080fd5b5b60ab8061001e6000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029"
+&gt; web3.eth.estimateGas({data: bytecode})
+98391
+&gt; 
+</code></pre>
+</div>
+
+<p><strong>备注：</strong>字节码前面需要添加<code class="highlighter-rouge">0x</code>。手续费大概为<code class="highlighter-rouge">98391</code><code class="highlighter-rouge">gas</code>。</p>
+
+<h4 id="12-部署合约为了方便理解设置一个回调函数">12. 部署合约，为了方便理解，设置一个回调函数</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; contractInstance = myContract.new({data: bytecode gas: 1000000, from: account1}, function(e, contract){
+  if(!e){
+    if(!contract.address){
+      console.log("Contract transaction send: Transaction Hash: "+contract.transactionHash+" waiting to be mined...");
+    }else{
+      console.log("Contract mined! Address: "+contract.address);
+      console.log(contract);
+    }
+  }else{
+    console.log(e)
+  }
+})
+Contract transaction send: Transaction Hash: 0x5e2aebbf400d71a32e807dc3f11f1053b6ee3b2a81435ed8ace2fa54eebb9f3d waiting to be mined...
+{
+  abi: [{
+      constant: false,
+      inputs: [{...}],
+      name: "multiply",
+      outputs: [{...}],
+      payable: false,
+      type: "function"
+  }],
+  address: undefined,
+  transactionHash: "0x5e2aebbf400d71a32e807dc3f11f1053b6ee3b2a81435ed8ace2fa54eebb9f3d"
+}
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="13-你的合约等待挖矿开始挖矿等一会儿停止">13. 你的合约等待挖矿，开始挖矿，等一会儿，停止</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; miner.start()
+null
+&gt; Contract mined! Address: 0xbf8b24283f2516360d3a4ba1db0df78ae74689db
+[object Object]
+&gt; miner.stop()
+true
+&gt; 
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/wakuang.png" alt="" /></p>
+
+<h4 id="14-检查合约是否部署成功">14. 检查合约是否部署成功</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; eth.getCode(contractInstance.address)
+"0x60606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c6888fa114603d575b600080fd5b3415604757600080fd5b605b60048080359060200190919050506071565b6040518082815260200191505060405180910390f35b60006007820290505b9190505600a165627a7a7230582067d7c851e14e862886b6f53dad6825135557fb3a4b691350c94ea5b80605f6770029"
+&gt; 
+</code></pre>
+</div>
+
+<h4 id="15-调用合约方法">15. 调用合约方法</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; contractInstance.multiply(6)
+42
+&gt; 
+</code></pre>
+</div>
+
+<p>PS： 这里添加<code class="highlighter-rouge">call</code>的原因是因为<code class="highlighter-rouge">multiply</code>函数没有添加<code class="highlighter-rouge">constant</code>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract test {
+
+    function multiply(uint a) returns(uint d){
+
+        return a * 7;
+    }
+
+}
+</code></pre>
+</div>
+
+<p><strong>Over Game!!!!</strong></p>
+
+<h2 id="技术交流">技术交流</h2>
+
+<ul>
+  <li>
+    <p>区块链技术交流QQ群：348924182</p>
+  </li>
+  <li>
+    <p>「区块链部落」官方公众号</p>
+  </li>
+</ul>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png" alt="" /></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/10/13/smart-contract-voting-dapp/" data-toggle="tooltip" data-placement="top" title="如何编写智能合约（Smart Contract）- 从零构建和部署去中心化投票App，decentralization Voting Dapp">上一篇：  <span>如何编写智能合约（Smart Contract）- 从零构建和部署去中心化投票App，decentralization Voting Dapp</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/10/15/eth-private-blockchain/" data-toggle="tooltip" data-placement="top" title="以太坊私网建立 (2) - 同一台电脑／不同电脑运行多个节点">下一篇：  <span>以太坊私网建立 (2) - 同一台电脑／不同电脑运行多个节点</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=以太坊(Ethereum)私链建立 、合约编译、部署完全教程(1) ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

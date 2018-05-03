@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>李程：区块链演进及跨域安全解决方案</title>
+  <meta name="description" content="【李程】区块链演进及跨域安全解决方案">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="区块链演进及跨域安全解决方案"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="李程：区块链演进及跨域安全解决方案">
+  <meta name="twitter:description" content="【李程】区块链演进及跨域安全解决方案">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="李程：区块链演进及跨域安全解决方案">
+  <meta property="og:description" content="【李程】区块链演进及跨域安全解决方案">
+  <meta property="og:site_name" content="区块链演进及跨域安全解决方案e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/01/20/blockchain-security/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">李程：区块链演进及跨域安全解决方案</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-01-20 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-01-20</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>作者：李程，前联想、百度高级安全工程师，搜狗安全架构师，区块链底层开发者、架构师。</p>
+
+  <p>原文链接：<a href="https://github.com/xianlimei/liaixian11030/wiki/%E5%8C%BA%E5%9D%97%E9%93%BE%E6%BC%94%E8%BF%9B%E5%8F%8A%E8%B7%A8%E5%9F%9F%E5%AE%89%E5%85%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">https://github.com/xianlimei/liaixian11030/wiki</a></p>
+</blockquote>
+
+<p><img src="https://raw.githubusercontent.com/wiki/xianlimei/liaixian11030/39.png" alt="" /></p>
+
+<p>说区块链域安全之前，笔者介绍下区块链相关技术背景，现在很多人只识比特币，不识区块链。</p>
+
+<h1 id="一区块链发展的演变">一、区块链发展的演变</h1>
+
+<p>回首2008年，由次贷危机引发的金融危机蔓延全球，11月份，一篇名为《Bitcoin:A peer-to-peer electronic cash system》的论文横空出世，当时只是在一小戳圈子里被讨论，大概没几个人知道论文的意义。时间的年轮很快转入新的一年，比特币第一版本代码发布，1月4日，创世块被挖出来，5天之后，第二个块产生，比特币网络正式启动，一个自称“中本聪”的人悄悄在互联网应用这片汪洋大海吹起一片涟漪，时至今日，这片涟漪已形成滔滔大浪。</p>
+
+<p>Blockchain V1.0主要应用于比特币和大型金融分类账，而Blockchain 2.0则在行业和应用领域获得动力和投资。然而，区块链从1.0向Blockchain 2.0的演变并不是一个简单的过程。这个转变的复杂性和挑战在下面描述的三个阶段被总结：</p>
+
+<p><strong>I. 注册阶段</strong>：首先要解决注册相关的问题。区块链是可信和可追溯的，因为它采用“工作证明算法”和其他公认的规则来确保只能添加​​合法的区块。一旦一个块经过彻底的验证链接到区块链，它将被永久保存。互联网上的本地台账链数据库永远不会被破坏，记录的信息字段与生成时间相匹配。可信账本链中的所有信息都是独特的，防篡改的。因此，区块链可以用来记录各种类型的信息。</p>
+
+<p><strong>II 验证阶段</strong>：第二个改进方面是准确的验证。区块链是开放源代码和可共享的，允许各种组织和个人进入整个系统的运作。参与维护的每个节点都会收到整个数据库的完整副本，以确保信息的所有权。区块链是存储永久记录（如真实性验证，土地所有权，股权交易和其他应用程序）的理想解决方案。</p>
+
+<p><strong>III 管理阶段</strong>：这使我们进入第三阶段。在这里，关注智能管理势在必行。区块链粉丝认为，区块链的核心贡献是解决多点信息交互过程中的任何可信度问题。这个问题或挑战被创造为“拜占庭将军的问题”。顾名思义，这个问题起源于罗马帝国和拜占庭帝国。鉴于帝国的广阔领土，帝国军将领在地理上分离，难以互动。军队中还有叛徒，会误导将军的决定，阻止他们争取胜利。由于缺乏准确的信息，这使得难以达成共识。</p>
+
+<p>现在已经进入Blockchain 3.0时代，Blockchain 3.0仍然侧重于其衍生领域的应用和规范。区块链3.0的区别特点是引入了一个分散的域名系统 - Namecoin。下面介绍Namecoin及其功能及其挑战和应用的简要说明：</p>
+
+<p><img src="https://raw.githubusercontent.com/wiki/xianlimei/liaixian11030/40.png" alt="" /></p>
+
+<p><code class="highlighter-rouge">什么是Namecoin？</code></p>
+
+<p><code class="highlighter-rouge">Namecoin提供的功能类似于传统DNS提供商提供的功能。主要区别在于Namecoin基于分散式区块链技术。正因为如此，Namecoin可以绕过互联网审查，确保信息的自由和中立的分布。</code></p>
+
+<p><code class="highlighter-rouge">Namecoin的特点</code></p>
+
+<p><code class="highlighter-rouge">在Namecoin中，没有可以改变域名的权力机构。例如，美国政府控制.com域名的DNS提供商，并且能够审查在该域名下注册的网站。然而，名称币对应于.bit域名，它不受任何机构的控制。该域名永久写入区块链，确保在网站上免费发布信息。</code></p>
+
+<p><code class="highlighter-rouge">Namecoin的运作原理</code></p>
+
+<p><code class="highlighter-rouge">Namecoin通过点对点网络共享DNS查询表。只要有人正在运行Namecoin服务器应用程序，域名就可以访问，并且不受任何人的控制。</code></p>
+
+<p><code class="highlighter-rouge">Namecoin的应用领域</code></p>
+
+<p><code class="highlighter-rouge">由于.bit域名可以用来绕开监督和审查，所以适合自由和合法地传播信息。基于分散域名思想的应用程序Namecoin是首批将区块链技术应用于非货币领域的应用程序之一。这些应用程序拥有很高的研究价值。尽管意识形态可以应用于各个领域，但是目前有一些限制使它们不能普及。</code></p>
+
+<p><code class="highlighter-rouge">Namecoin的主要限制</code></p>
+
+<p><code class="highlighter-rouge">大多数浏览器默认不支持解析.bit网址，用户需要安装一个插件才能访问.bit网站。这个问题将阻止大多数用户访问.bit网站，使其难以普及。匿名，低成本和对审查的豁免使Namecoin容易被误用。用户可以使用.bit来托管非法内容或企业，不会受到法律后果。此外，中国的网站必须备案。由于.bit网站不能在中国录制，因此在国内无法使用。</code>
+***</p>
+
+<h1 id="二区块链算法的演进">二、区块链算法的演进</h1>
+
+<p>区块链的技术演进，从另一个层次看，也是算法的不断优化以及完善，Consensus和Algorithm可以说是区块链技术体系里的重要支柱。</p>
+
+<p><strong>hash算法</strong>，为什么呢，中本聪在设计比特币的时候其实有很多地方用到Hash函数，比如计算区块ID，计算交易ID，构造代币地址等。我们说的算法具体是指用何种Hash函数计算区块ID，所谓算法创新也就是在这个地方下功夫。反正现在只要一出什么山寨币就说自己发明了什么算法云云之类的话，笔者不妄下断言了^_^。</p>
+
+<p><strong>sha256算法</strong>，除了生成地址中有一个环节使用了REPID-160算法，比特币系统中但凡有需要做Hash运算的地方都是用SHA256。随着比特币被更多人了解，大家开始好奇中本聪为何选择了SHA256，同时对SHA256的安全性发表各种意见，SHA256妥妥经受了质疑，到目前为止，没有公开的证据表明SHA256有漏洞，SHA256依然牢牢抗住保卫比特币安全的大旗。</p>
+
+<p><strong>scrypt算法</strong>，后来随着显卡挖矿以及矿池的出现，社区开始担心矿池会导致算力集中，违背中本聪“一CPU一票”的最初设计理念。在那段时间，中心化的焦虑非常严重，讨论很激烈，比特币一次又一次“被死亡”，直到现在，针对矿池是否违背去中心化原则的争论仍在继续。无论如何，有人将矛头指向SHA256，认为是算法太容易导致矿机和矿池出现，并试图寻找更难的算法。恰逢其时，使用SCRYPT算法的莱特币（Litecoin）横空出世。据说SCRYPT是由一位著名的黑客开发，由于没有得到诸如SHA系列的严格的安全审查和全面论证，一直没被广泛推广使用。</p>
+
+<p><strong>串联算法</strong>，2013年7月，夸克币（Quark）发布，首创使用多轮Hash算法，看似高大上，其实很简单，就是对输入数据运算了9次hash函数，前一轮运算结果作为后一轮运算的输入。这9轮Hash共使用6种加密算法，分别为BLAKE, BMW, GROESTL, JH, KECCAK和SKEIN，这些都是公认的安全Hash算法，并且早已存在现成的实现代码。这种多轮Hash一出现就给人造成直观上很安全很强大的感觉，追捧者无数。现今价格依然坚挺的达世币（DASH，前身是暗黑币，Darkcoin，）接过下一棒，率先使用11种加密算法（BLAKE, BMW, GROESTL, JH, KECCAK, SKEIN, LUFFA, CUBEHASH, SHAVITE, SIMD, ECHO），美其名曰X11，紧接着X13，X15这一系列就有人开发出来了。</p>
+
+<p><strong>并联算法</strong>，有人串联，就有人并联，Heavycoin（HVC）率先做了尝试。HVC如今在国内名不见经传，当时还是名噪一时，首次实现链上游戏，作者是俄罗斯人，后来不幸英年早逝，在币圈引起一阵惋惜。</p>
+
+<p><strong>primecoin算法</strong>，正当一部分人在算法探索之路上进行的如火如荼之时，另一部分人的声音也非常刺耳，那就是指责POW浪费能源（彼时POS机制已经实现）。POW党虽极力维护，但也承认耗费能源这一事实。这一指责打开了另一条探索之路，即如果能找到一种算法，既能维护区块链安全，这些Hash运算又能在其他方面产生价值，那简直更完美。在这条探索之路上最让人振奋人心的成果来自于Sunny King（这大神之前已经开发了Peercoin，点点币）发明的素数币（Primecoin）。素数币算法的核心理念是：在做Hash运算的同时寻找大素数。素数如今已被广泛应用于各个领域，但人类对他的认识还是有限。素数在数轴上不但稀有（相对于偶数而言），而且分布不规律，在数轴上寻找素数只能盲目搜索探测，这正是POW的特征。POW还有另一个要求是容易验证，这方面人类经过几百年探索已经获得一些成果。素数币使用两种方法测试，首先进行费马测试（Fermat Test），通过则再进行欧拉-拉格朗日-立夫习兹测试（Euler-Lagrange-Lifchitz Test），还通过测试则被视为是素数。需要指出的是，这种方法并不能保证通过测试的数百分百是素数，不过这并不影响系统运行，即便测试结果错误，只要每个节点都认为是素数就行。</p>
+
+<p><strong>ethash算法</strong>，以太坊（Ethereum）一开始就打算使用POS方式，但由于POS设计存在一些问题，开发团队决定在以太坊1.0阶段使用POW方式，预计在Serenity阶段转入POS。以太坊POW算法叫Ethash，虽只是一个过渡算法，但开发团队一点也不含糊，一如既往发扬其“简单问题复杂化，繁琐细节秀智商”的设计风格。Ethash 是最新版本的 Dagger-Hashimoto改良算法，是Hashimoto算法结合Dagger算法产成的一个新变种。Ethash设计时就明确两大目标：</p>
+
+<p>1）抵御矿机性能（ASIC-resistance），团队希望CPU也能参与挖矿获得收益。</p>
+
+<p>2）轻客户端可快速验证（Light client verifiability）。</p>
+
+<p>基于以上两个目标，开发团队最后倒腾出来的Ethash挖矿时基本与CPU性能无关，却和内存大小和内存带宽成正相关。不过在实现上还是借鉴了SHA3的设计思路，但是使用的”SHA3_256” ,”SHA3_512”与标准实现很不同。</p>
+
+<p><strong>Ethash算法</strong>，基本流程是这样的：对于每一个块，首先计算一个种子（seed），该种子只和当前块的信息有关；然后根据种子生成一个32M的随机数据集（Cache）；紧接着根据Cache生成一个1GB大小的数据集合（DAG），DAG可以理解为一个完整的搜索空间，挖矿的过程就是从DAG中随机选择元素（类似于比特币挖矿中查找合适Nonce）再进行哈希运算。可以从Cache快速计算DAG指定位置的元素，进而哈希验证。此外还要求对Cache和DAG进行周期性更新，每1000个块更新一次，并且规定DAG的大小随着时间推移线性增长，从1G开始，每年大约增长7G左右。</p>
+
+<p><strong>equihash算法</strong>，最近在国内发展势头最猛的莫过于Zcash，该币种最大的特点是使用零知识证明实现隐私交易。距离发布还有几天，但从社区讨论来看，各方矿工都已在磨刀霍霍。Zcash对于算法的选择非常慎重，在先后考量了SHA256D，SCRYPT，CUCKOO HASH以及LYRA2等算法后，最终选择Equihash。Equihash算法由Alex Biryukov 和 Dmitry Khovratovich联合发明，其理论依据是一个著名的计算法科学及密码学问题——广义生日悖论问题。Equihash是一个内存（ARM）依赖型算法，机器算力大小主要取决于拥有多少内存，根据两位发明者的论文描述，该算法执行至少需要700M内存，1.8 GHz CPU计算30秒，经Zcash项目优化后，目前每个挖矿线程需要1G内存，因此Zcash官方认为该算法在短时间内很难出现矿机（ASIC）。此外，Zcash官方还相信该算法比较公平，他们认为很难有人或者机构能够对算法偷偷进行优化，因为广义生日悖论是一个已经被广泛研究的问题。此外，Equihash算法非常容易验证，这对于未来在受限设备上实现Zcash轻客户端非常重要。Zcash官方团队选择Equihash完全出于抵御矿机性能的需求，他们在官方博客中也承认并不敢确保Equihash一定是安全的，并表示如果发现Equihash存在问题，或者发现更优算法，Zcash会改变POW算法。</p>
+
+<p>Blockchain 以后的发展肯定是越来越侧重于行业领域的发展而不仅仅是货币金融体系的发展，安全领域还没有人进行探索与实践，笔者先抛砖引玉，谈谈区块链在安全领域的应用。</p>
+
+<h1 id="三区块链域安全解决方案">三、区块链域安全解决方案</h1>
+<p>在区块链网络中，跨域保护的角色将由高安全性平台（称为高安全业务节点（HSBN））上安装的区块链网络对等执行。 分布式跨域区块链商业网络内的数据移动采取加密保护的事务更新的形式到由业务网络的特定成员专用信道中的每个节点持有的共享分类帐。区块链商业网络的其他对等节点驻留在一个或另一个安全区域，不管是高还是低，接收被批准的分类账交易的保护区块。 签署的分类账更新通过边界HSBN发生在对面的安全域上，以保证区块链提供的安全控制不能被绕过或覆盖。</p>
+
+<p><img src="https://raw.githubusercontent.com/wiki/xianlimei/liaixian11030/41.png" alt="" /></p>
+
+<h1 id="四区块链域解决方案优点">四、区块链域解决方案优点</h1>
+
+<p>区块链跨领域解决方案可以提高您的信息交换过程中的效率，并改善信息交流的可访问性以及可追溯性。具体来说，它提供了：</p>
+
+<p>1、无论网络域如何，每个资产在整个生命周期中都是单一的共享视图。在一个标准的跨域保护中，没有办法确保保护的每一边驻留的信息在其生命周期中保持同步。保护的能见度和控制范围是有限的。在整个生命周期内对资产信息进行可审计控制和监督。共享分类账提供了一个确定的，不可改变的记录，即使是在网络安全领域，共享的内容和由谁分享的内容。这消除了试图追踪并将单独的仅保护数据流连接在一起的情况。</p>
+
+<p>2、信息共享，而不仅仅是移动数据。数据控制和共享自然而然地通过共享账本作为正常区块链业务网络的一部分进行。传统的保护只是移动数据。将信息共享扩展到其他安全域可以通过部署额外的HSBN托管的节点和通道轻松完成。</p>
+
+<p>3、降低成本，提高安全性。该技术利用现有开源区块链即可能实现，目前在做的商业的有IBM等企业。</p>
+
+<h1 id="五参考资料">五、参考资料</h1>
+
+<p>https://www.ibm.com/blogs/blockchain/2018/01/blockchain-as-a-cross-domain-security-solution/</p>
+
+<p>https://www.qkldx.net/topic/457/</p>
+
+<p>https://richtopia.com/emerging-technologies/blockchain-solutions-for-cyber-data-security</p>
+
+<p>https://www.accenture.com/us-en/service-blockchain-security</p>
+
+<p>https://www.hyperledger.org/</p>
+
+<p>https://www.alibabacloud.com/blog/The-Evolution-of-Blockchain-Development_p73812</p>
+
+<p>如有任何问题可以加<code class="highlighter-rouge">qq</code>群<code class="highlighter-rouge">581076433</code></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/01/05/rrcoin-pdf/" data-toggle="tooltip" data-placement="top" title="人人网人人坊 RRCoin 白皮书PDF下载">上一篇：  <span>人人网人人坊 RRCoin 白皮书PDF下载</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/02/05/Avoidingthepointlessblockchainproject/" data-toggle="tooltip" data-placement="top" title="孔壹学院|黎跃春：如何避免无意义的区块链项目">下一篇：  <span>孔壹学院|黎跃春：如何避免无意义的区块链项目</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=李程：区块链演进及跨域安全解决方案 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Golang经典笔试题及答案（下篇）</title>
+  <meta name="description" content="Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="golang经典笔试题及答案 "
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Golang经典笔试题及答案（下篇）">
+  <meta name="twitter:description" content="Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Golang经典笔试题及答案（下篇）">
+  <meta property="og:description" content="Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）Golang经典笔试题及答案（下篇）">
+  <meta property="og:site_name" content="golang经典笔试题及答案 e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/04/27/golang-interview/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Golang经典笔试题及答案（下篇）</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-04-27 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-04-27</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>整理：黎跃春</p>
+
+  <p>博客：http://liyuechun.org</p>
+
+  <p>官网：http://kongyixueyuan.com</p>
+
+  <p>备注：如有错误，请指正，不断更新迭代</p>
+</blockquote>
+
+<h3 id="1-下面代码能运行吗为什么">1. 下面代码能运行吗？为什么</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>type Param map[string]interface{}
+
+type Show struct {
+	Param
+}
+
+func main1() {
+	s := new(Show)
+	s.Param["RMB"] = 10000
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>panic: assignment to entry in nil map
+
+goroutine 1 [running]:
+main.main()
+</code></pre>
+</div>
+
+<p>如上所示，运行过程中会发生异常，原因是因为字典<code class="highlighter-rouge">Param</code>的默认值为<code class="highlighter-rouge">nil</code>，当给字典<code class="highlighter-rouge">nil</code>增加键值对是就会发生运行时错误<code class="highlighter-rouge">panic: assignment to entry in nil map</code>。</p>
+
+<p><strong>正确的修改方案如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import "fmt"
+
+type Param map[string]interface{}
+
+type Show struct {
+	Param
+}
+
+func main() {
+
+	// 创建Show结构体对象
+	s := new(Show)
+	// 为字典Param赋初始值
+	s.Param = Param{}
+	// 修改键值对
+	s.Param["RMB"] = 10000
+	fmt.Println(s)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&amp;{map[RMB:10000]}
+
+Process finished with exit code 0
+</code></pre>
+</div>
+
+<h3 id="2-请说出下面代码存在什么问题">2. 请说出下面代码存在什么问题</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>type student struct {
+	Name string
+}
+
+func f(v interface{}) {
+	switch msg := v.(type) {
+    	case *student, student:
+    		msg.Name
+	}
+}
+</code></pre>
+</div>
+
+<p><strong>有两个问题：</strong></p>
+
+<ol>
+  <li>问题一：<code class="highlighter-rouge">interface{}</code>是一个没有声明任何方法的接口。</li>
+  <li>问题二：<code class="highlighter-rouge">Name</code>是一个属性，而不是方法，<code class="highlighter-rouge">interface{}</code>类型的变量无法调用属性。</li>
+</ol>
+
+<h3 id="3-写出打印的结果">3. 写出打印的结果。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>type People struct {
+	name string `json:"name"`
+}
+
+func main() {
+	js := `{
+		"name":"11"
+	}`
+	var p People
+	err := json.Unmarshal([]byte(js), &amp;p)
+	if err != nil {
+		fmt.Println("err: ", err)
+		return
+	}
+	fmt.Println("people: ", p)
+}
+</code></pre>
+</div>
+
+<p><strong>输出内容如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>people:  {}
+</code></pre>
+</div>
+
+<p><strong>p中的属性值为空的原因是因为，name的首字母小写，修改成大写，重新运行即可。</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type People struct {
+	Name string `json:"name"`
+}
+
+func main() {
+	js := `{
+        "name":"11"
+    }`
+	var p People
+	err := json.Unmarshal([]byte(js), &amp;p)
+	if err != nil {
+		fmt.Println("err: ", err)
+		return
+	}
+	fmt.Println("people: ", p)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>people:  {11}
+
+Process finished with exit code 0
+</code></pre>
+</div>
+
+<h3 id="4-下面的代码是有问题的请说明原因">4. 下面的代码是有问题的，请说明原因。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import "fmt"
+
+type People struct {
+	Name string
+}
+
+func (p *People) String() string {
+	return fmt.Sprintf("print: %v", p)
+}
+
+func main() {
+	p := &amp;People{}
+	p.String()
+}
+
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>runtime: goroutine stack exceeds 1000000000-byte limit
+fatal error: stack overflow
+
+runtime stack:
+runtime.throw(0x10c122b, 0xe)
+</code></pre>
+</div>
+
+<p><strong>如下所示，上面的代码出现了栈溢出，原因是因为%v格式化字符串是本身会调用String()方法，上面的栈溢出是因为无限递归所致。</strong></p>
+
+<h3 id="5-请找出下面代码的问题所在">5. 请找出下面代码的问题所在。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch := make(chan int, 1000)
+	go func() {
+		for i := 0; i &lt; 10; i++ {
+			ch &lt;- i
+		}
+	}()
+	go func() {
+		for {
+			a, ok := &lt;-ch
+			if !ok {
+				fmt.Println("close")
+				return
+			}
+			fmt.Println("a: ", a)
+		}
+	}()
+	close(ch)
+	fmt.Println("ok")
+	time.Sleep(time.Second * 100)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>panic: send on closed channel
+ok
+
+goroutine 5 [running]:
+main.main.func1(0xc420098000)
+</code></pre>
+</div>
+
+<p><strong>解析：出现上面错误的原因是因为提前关闭通道所致。</strong></p>
+
+<p><strong>正确代码如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// 创建一个缓冲通道
+	ch := make(chan int, 1000)
+
+	go func() {
+		for i := 0; i &lt; 10; i++ {
+			ch &lt;- i
+		}
+	}()
+
+	go func() {
+		for i := 0; i &lt; 10; i++ {
+			a, ok := &lt;-ch
+			
+			if !ok {
+				fmt.Println("close")
+				close(ch)
+				return
+			}
+			fmt.Println("a: ", a)
+		}
+	}()
+
+	fmt.Println("ok")
+	time.Sleep(time.Second)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ok
+a:  0
+a:  1
+a:  2
+a:  3
+a:  4
+a:  5
+a:  6
+a:  7
+a:  8
+a:  9
+</code></pre>
+</div>
+
+<h3 id="6-请说明下面代码书写是否正确">6. 请说明下面代码书写是否正确。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>var value int32
+
+func SetValue(delta int32) {
+	for {
+		v := value
+		if atomic.CompareAndSwapInt32(&amp;value, v(v+delta)) {
+			break
+		}
+	}
+}
+</code></pre>
+</div>
+
+<p><strong><code class="highlighter-rouge">atomic.CompareAndSwapInt32</code>里面一共三个参数，上面的书写错误，正确的书写是：<code class="highlighter-rouge">atomic.CompareAndSwapInt32(&amp;value, v,v+delta)</code></strong></p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">func CompareAndSwapInt32(addr *int32, old, new int32) (swapped bool)</code></p>
+  </li>
+  <li>第一个参数的值应该是指向被操作值的指针值。该值的类型即为<code class="highlighter-rouge">*int32</code>。</li>
+  <li>后两个参数的类型都是<code class="highlighter-rouge">int32</code>类型。它们的值应该分别代表被操作值的旧值和新值</li>
+  <li><code class="highlighter-rouge">CompareAndSwapInt32·函数在被调用之后会先判断参数</code>addr<code class="highlighter-rouge">指向的被操作值与参数</code>old`的值是否相等。</li>
+  <li>仅当此判断得到肯定的结果之后，该函数才会用参数<code class="highlighter-rouge">new</code>代表的新值替换掉原先的旧值。否则，后面的替换操作就会被忽略。</li>
+</ul>
+
+<p><strong>完整代码如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"sync/atomic"
+	"fmt"
+)
+
+var value int32
+
+func SetValue(delta int32) {
+	for {
+		v := value
+		// 比较并交换
+
+		if atomic.CompareAndSwapInt32(&amp;value, v,v+delta) {
+			fmt.Println(value)
+			break
+		}
+	}
+}
+
+func main()  {
+	SetValue(100)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果为<code class="highlighter-rouge">100</code>.</strong></p>
+
+<h3 id="7-下面的程序运行后为什么会爆异常">7. 下面的程序运行后为什么会爆异常。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type Project struct{}
+
+func (p *Project) deferError() {
+	if err := recover(); err != nil {
+		fmt.Println("recover: ", err)
+	}
+}
+
+func (p *Project) exec(msgchan chan interface{}) {
+	for msg := range msgchan {
+		m := msg.(int)
+		fmt.Println("msg: ", m)
+	}
+}
+
+func (p *Project) run(msgchan chan interface{}) {
+	for {
+		defer p.deferError()
+		go p.exec(msgchan)
+		time.Sleep(time.Second * 2)
+	}
+}
+
+func (p *Project) Main() {
+	a := make(chan interface{}, 100)
+	go p.run(a)
+	go func() {
+		for {
+			a &lt;- "1"
+			time.Sleep(time.Second)
+		}
+	}()
+	time.Sleep(time.Second * 100)
+}
+
+func main() {
+	p := new(Project)
+	p.Main()
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>panic: interface conversion: interface {} is string, not int
+
+goroutine 17 [running]:
+main.(*Project).exec(0x1157c08, 0xc420068060)
+</code></pre>
+</div>
+
+<p><strong>出现异常的原因是因为写入到管道的数据类型为<code class="highlighter-rouge">string</code>,而<code class="highlighter-rouge">m := msg.(int)</code>这句代码里面却使用了<code class="highlighter-rouge">int</code>，修改方法，将<code class="highlighter-rouge">int</code>修改为<code class="highlighter-rouge">string</code>即可。</strong></p>
+
+<p><strong>完整正确代码如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"fmt"
+	"time"
+)
+
+type Project struct{}
+
+func (p *Project) deferError() {
+	if err := recover(); err != nil {
+		fmt.Println("recover: ", err)
+	}
+}
+
+func (p *Project) exec(msgchan chan interface{}) {
+	for msg := range msgchan {
+		m := msg.(string)
+		fmt.Println("msg: ", m)
+	}
+}
+
+func (p *Project) run(msgchan chan interface{}) {
+	for {
+		defer p.deferError()
+		go p.exec(msgchan)
+		time.Sleep(time.Second * 2)
+	}
+}
+
+func (p *Project) Main() {
+	a := make(chan interface{}, 100)
+	go p.run(a)
+	go func() {
+		for {
+			a &lt;- "1"
+			time.Sleep(time.Second)
+		}
+	}()
+	time.Sleep(time.Second * 100)
+}
+
+func main() {
+	p := new(Project)
+	p.Main()
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>msg:  1
+msg:  1
+msg:  1
+.
+.
+.
+msg:  1
+msg:  1
+msg:  1
+msg:  1
+msg:  1
+</code></pre>
+</div>
+
+<h3 id="8-请说出下面代码哪里写错了">8. 请说出下面代码哪里写错了。</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>func main() {
+	abc := make(chan int, 1000)
+	for i := 0; i &lt; 10; i++ {
+		abc &lt;- i
+	}
+	go func() {
+		for {
+			a := &lt;-abc
+			fmt.Println("a: ", a)
+		}
+	}()
+	close(abc)
+	fmt.Println("close")
+	time.Sleep(time.Second * 100)
+}
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">go中的for循环是死循环，应该设置出口。正确代码如下：</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	abc := make(chan int, 1000)
+	for i := 0; i &lt; 10; i++ {
+		abc &lt;- i
+	}
+	go func() {
+		for {
+			a,ok := &lt;-abc
+			if !ok {
+				fmt.Println("结束！")
+				return
+			}
+			fmt.Println("a: ", a)
+		}
+	}()
+	close(abc)
+	fmt.Println("close")
+	time.Sleep(time.Second * 100)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果为：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>close
+a:  0
+a:  1
+a:  2
+a:  3
+a:  4
+a:  5
+a:  6
+a:  7
+a:  8
+a:  9
+结束！
+</code></pre>
+</div>
+
+<h3 id="9-请说出下面代码执行时为什么会报错">9. 请说出下面代码，执行时为什么会报错</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>type Student struct {
+	name string
+}
+
+func main() {
+	m := map[string]Student{"people": {"liyuechun"}}
+	m["people"].name = "wuyanzu"
+}
+</code></pre>
+</div>
+
+<p><strong>答案：报错的原因是因为不能修改字典中<code class="highlighter-rouge">value</code>为结构体的属性值。</strong></p>
+
+<p><strong>代码作如下修改方可运行：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package main
+
+import "fmt"
+
+type Student struct {
+	name string
+}
+
+func main() {
+	m := map[string]Student{"people": {"liyuechun"}}
+	fmt.Println(m)
+	fmt.Println(m["people"])
+
+	// 不能修改字典中结构体属性的值
+	//m["people"].name = "wuyanzu"
+	
+	var s Student = m["people"] //深拷贝
+	s.name = "xietingfeng"
+	fmt.Println(m)
+	fmt.Println(s)
+}
+</code></pre>
+</div>
+
+<p><strong>运行结果如下：</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>map[people:{liyuechun}]
+{liyuechun}
+map[people:{liyuechun}]
+{wuyanzu}
+</code></pre>
+</div>
+
+<h3 id="10-请说出下面的代码存在什么问题">10. 请说出下面的代码存在什么问题</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>type query func(string) string
+
+func exec(name string, vs ...query) string {
+	ch := make(chan string)
+	fn := func(i int) {
+		ch &lt;- vs[i](name)
+	}
+	for i, _ := range vs {
+		go fn(i)
+	}
+	return &lt;-ch
+}
+
+func main() {
+	ret := exec("111", func(n string) string {
+		return n + "func1"
+	}, func(n string) string {
+		return n + "func2"
+	}, func(n string) string {
+		return n + "func3"
+	}, func(n string) string {
+		return n + "func4"
+	})
+	fmt.Println(ret)
+}
+</code></pre>
+</div>
+
+<p><strong><code class="highlighter-rouge">return &lt;-ch</code></strong>之执行一次，所以不管传入多少<code class="highlighter-rouge">query</code>函数，都只是读取最先执行完的<code class="highlighter-rouge">query</code>。</p>
+
+<h3 id="关注区块链部落实时获取最新技术文章">关注区块链部落，实时获取最新技术文章</h3>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD-1.jpg" alt="" /></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/04/24/golang-interview/" data-toggle="tooltip" data-placement="top" title="Golang经典笔试题及答案（上篇）">上一篇：  <span>Golang经典笔试题及答案（上篇）</span>
+            </a>
+        </li>
+        
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=Golang经典笔试题及答案（下篇） ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

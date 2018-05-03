@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>第三篇 - EOS DAWN-V3.0.0 智能合约开发之Hello World</title>
+  <meta name="description" content="不管是`C、C++、Java`还是任何其他语言，一般刚开始学习的时候，我们都会从`HelloWorld`开始，这篇文章主要讲解`EOS DAWN-V3.0.0` 智能合约开发之`Hello World`。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="EOS Hello World Smart Contract"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="第三篇 - EOS DAWN-V3.0.0 智能合约开发之Hello World">
+  <meta name="twitter:description" content="不管是`C、C++、Java`还是任何其他语言，一般刚开始学习的时候，我们都会从`HelloWorld`开始，这篇文章主要讲解`EOS DAWN-V3.0.0` 智能合约开发之`Hello World`。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="第三篇 - EOS DAWN-V3.0.0 智能合约开发之Hello World">
+  <meta property="og:description" content="不管是`C、C++、Java`还是任何其他语言，一般刚开始学习的时候，我们都会从`HelloWorld`开始，这篇文章主要讲解`EOS DAWN-V3.0.0` 智能合约开发之`Hello World`。">
+  <meta property="og:site_name" content="EOS Hello World Smart Contracte"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/04/18/eos-contract/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">第三篇 - EOS DAWN-V3.0.0 智能合约开发之Hello World</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-04-18 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-04-18</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>作者：黎跃春 | 孔壹学院创始人
+视频网站：http://kongyixueyuan.com
+微信搜索「kongyixueyuan」添加莉莉微信申请进群
+黎跃春区块链博客：http://liyuechun.org</p>
+</blockquote>
+
+<p>不管是<code class="highlighter-rouge">C、C++、Java</code>还是任何其他语言，一般刚开始学习的时候，我们都会从<code class="highlighter-rouge">HelloWorld</code>开始，这篇文章主要讲解<code class="highlighter-rouge">EOS DAWN-V3.0.0</code> 智能合约开发之<code class="highlighter-rouge">Hello World</code>。</p>
+
+<p>在看这篇文章之前，请先阅读下面两篇入门文章。</p>
+
+<ul>
+  <li><a href="http://liyuechun.org/2018/04/04/eos-dev/">第一篇 - 手把手教你理清EOS各种开发环境搭建来龙去脉</a></li>
+  <li><a href="http://liyuechun.org/2018/04/13/eos-contract/">第二篇 - EOS Currency 合约案例</a></li>
+</ul>
+
+<h3 id="1-编写合约代码">1. 编写合约代码</h3>
+
+<p>在桌面创建一个文件夹，比如：<code class="highlighter-rouge">0418</code>，用<code class="highlighter-rouge">Atom</code>打开<code class="highlighter-rouge">0418</code>文件夹。新建文件<code class="highlighter-rouge">Hello.cpp</code>文件，并将下面的源码拷贝到<code class="highlighter-rouge">Hello.cpp</code>文件中。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;eosiolib/eosio.hpp&gt;
+#include &lt;eosiolib/print.hpp&gt;
+
+// 视频网站：http://kongyixueyuan.com
+// 个人博客：http://liyuechun.org
+// 公众号：区块链部落
+// 进技术群，请加微信（kongyixueyuan）
+
+//用eosio命名空间
+using namespace eosio;
+
+//所有的智能合约都继承自contract类
+class Hello : public eosio::contract {
+
+  public:
+      using contract::contract;
+
+      /// @abi action
+      void hi( account_name user ) {
+         print( "Hello, ", name{user} );
+      }
+
+};
+EOSIO_ABI( Hello, (hi) )
+</code></pre>
+</div>
+
+<h3 id="2-生成wast文件">2. 生成<code class="highlighter-rouge">.wast</code>文件</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Project yuechunli$ eosiocpp -o Hello.wast Hello.cpp
+liyuechun:Project yuechunli$ ls
+Hello.cpp	Hello.wast
+liyuechun:Project yuechunli$ 
+</code></pre>
+</div>
+
+<h3 id="3-生成abi文件">3. 生成<code class="highlighter-rouge">.abi</code>文件</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Project yuechunli$ eosiocpp -g Hello.abi Hello.cpp 
+Generated Hello.abi ...
+liyuechun:Project yuechunli$ ls
+Hello.abi	Hello.cpp	Hello.wast
+liyuechun:Project yuechunli$
+</code></pre>
+</div>
+
+<ul>
+  <li><code class="highlighter-rouge">Hello.abi</code>文件内容如下：</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"____comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This file was generated by eosio-abigen. DO NOT EDIT - 2018-04-18T08:15:50"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"types"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"structs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"base"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"account_name"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hi"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"ricardian_contract"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"clauses"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="4-创建钱包账号">4. 创建钱包账号</h3>
+
+<h5 id="41-创建钱包">4.1 创建钱包</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Hello yuechunli$ cleos wallet create
+Creating wallet: default
+Save password to use in the future to unlock this wallet.
+Without password imported keys will not be retrievable.
+"PW5J3rx7Bfg9zb8Kf2owTytccFyJqtDTrqnUX8iBRRUvbwM8RyzRL"
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">PW5J3rx7Bfg9zb8Kf2owTytccFyJqtDTrqnUX8iBRRUvbwM8RyzRL</code>必须保存好，解锁钱包时需要使用到这个密码。</p>
+
+<h5 id="42-创建两组key">4.2 创建两组key</h5>
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Hello yuechunli$ ./cleos create key
+-bash: ./cleos: No such file or directory
+liyuechun:Hello yuechunli$ cleos create key
+Private key: 5K7QdknUZsF9apdBhD8TDMZGJjw8zJ8esYwS173YyFRv2453Z9t
+Public key: EOS5RU8VsYBLnN5snGeUKmt1sDDzpvQbGyW7LPP6qEryaFctYieCK
+liyuechun:Hello yuechunli$ cleos create key
+Private key: 5J8kComGiQHZyNmH6VvkHgtFggeQemazLpihKR4QW75DNkWTVdA
+Public key: EOS5fqiC3VFAJ1riMrKf8vzD28nqd4EpXvZGpXt6YewEBnH8DYinG
+
+</code></pre>
+</div>
+
+<h5 id="43-向钱包导入私钥">4.3 向钱包导入私钥</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:Hello yuechunli$ cleos wallet import 5K7QdknUZsF9apdBhD8TDMZGJjw8zJ8esYwS173YyFRv2453Z9t
+imported private key for: EOS5RU8VsYBLnN5snGeUKmt1sDDzpvQbGyW7LPP6qEryaFctYieCK
+liyuechun:Hello yuechunli$ cleos wallet import 5J8kComGiQHZyNmH6VvkHgtFggeQemazLpihKR4QW75DNkWTVdA
+imported private key for: EOS5fqiC3VFAJ1riMrKf8vzD28nqd4EpXvZGpXt6YewEBnH8DYinG
+</code></pre>
+</div>
+
+<h5 id="44-创建账户">4.4 创建账户</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:cleos yuechunli$ ./cleos create account eosio liyc111 EOS5RU8VsYBLnN5snGeUKmt1sDDzpvQbGyW7LPP6qEryaFctYieCK EOS5fqiC3VFAJ1riMrKf8vzD28nqd4EpXvZGpXt6YewEBnH8DYinG
+</code></pre>
+</div>
+
+<h3 id="5-部署合约">5. 部署合约</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:build yuechunli$ cleos set contract liyc111 ./contracts/Hello
+Reading WAST/WASM from ./contracts/Hello/Hello.wast...
+Assembling WASM...
+Publishing contract...
+executed transaction: 21d891e425f3d65852432e2b6a78146e2e2992a267c9f28c8ce56cd5dbea98f2  1632 bytes  2200576 cycles
+#         eosio &lt;= eosio::setcode               {"account":"liyc111","vmtype":0,"vmversion":0,"code":"0061736d0100000001370b60027f7e0060027e7e006001...
+#         eosio &lt;= eosio::setabi                {"account":"liyc111","abi":{"types":[],"structs":[{"name":"hi","base":"","fields":[{"name":"user","t...
+liyuechun:build yuechunli$ cleos get code liyc111
+code hash: e387951f9a18870f2c151fbceea5b279a3861bdabab58ea87a67296a8a6583d0
+liyuechun:build yuechunli$ 
+</code></pre>
+</div>
+
+<h3 id="6-执行合约">6. 执行合约</h3>
+
+<h5 id="61-解锁钱包">6.1 解锁钱包</h5>
+
+<p><code class="highlighter-rouge">PW5J3rx7Bfg9zb8Kf2owTytccFyJqtDTrqnUX8iBRRUvbwM8RyzRL</code>是创建钱包是的密码。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:build yuechunli$ cleos wallet unlock --password PW5J3rx7Bfg9zb8Kf2owTytccFyJqtDTrqnUX8iBRRUvbwM8RyzRL
+Unlocked: default
+</code></pre>
+</div>
+
+<h5 id="62-执行合约">6.2 执行合约</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:build yuechunli$ cleos push action liyc111 hi '{"user":"liyc1215"}' -p liyc111
+executed transaction: 9abcaec2711ce31c693e5124af507f34aa666702bd5bb230ec31ddd6903248a8  232 bytes  102400 cycles
+#       liyc111 &lt;= liyc111::hi                  {"user":"liyc1215"}
+&gt;&gt; Hello, liyc1215
+liyuechun:build yuechunli$ 
+</code></pre>
+</div>
+
+<h3 id="7-关注公众号获取最新视频教程">7. 关注公众号获取最新视频教程</h3>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD-1.jpg" alt="" /></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/04/13/eos-contract/" data-toggle="tooltip" data-placement="top" title="第二篇 - EOS Currency 合约案例">上一篇：  <span>第二篇 - EOS Currency 合约案例</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/04/24/golang-interview/" data-toggle="tooltip" data-placement="top" title="Golang经典笔试题及答案（上篇）">下一篇：  <span>Golang经典笔试题及答案（上篇）</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=第三篇 - EOS DAWN-V3.0.0 智能合约开发之Hello World ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>
