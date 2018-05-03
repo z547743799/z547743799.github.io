@@ -1,0 +1,59 @@
+# Basic
+title: 黎跃春区块链博客
+subtitle: 公众号：区块链部落
+description: 黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。
+keywords: 区块链技术,区块链视频,区块链培训,solidity 中文,fabric 中文,hyperledger 中文
+# 头像里面的标题
+avatarTitle: 微信:liyc1215
+# 头像里面的描述
+avatarDesc: 孔壹学院|链乎
+url: "http://liyuechun.org"
+
+# Comment
+comment:
+    # disqus: liyuechun
+    # duoshuo: liyuechun
+    # cloudTie: liyuechun
+
+# Social
+social:
+    weibo: mobiledevelopment
+    github: liyuechun
+    # twitter:
+    mail: liyuechun2009@163.com
+
+# 百度统计
+# 使用博客模板请去掉或者更换 id
+baidu:
+    id: f3290601666dc2ca016a38c340c144f1
+
+# Google Analytics
+# 使用博客模板请去掉或者更换 id
+ga:
+    id: UA-104237177-1
+    host: auto
+
+permalink: /:year/:month/:day/:title/
+# Format
+highlighter: rouge
+
+textColor: #FF0000
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: clear
+
+# The blog button should not be removed.
+blog_button:
+    title: 博客主页
+
+# Navigation buttons in the front page.s
+nav:
+    - {title: 所有文章, description: archive, url: '/archive'}
+    - {title: 分类, description: tags, url: '/tags'}
+    - {title: 关于我, description: about, url: '/about'}
+
+
+# Pagination
+plugins: [jekyll-paginate,jekyll-sitemap]
+paginate: 20
+paginate_path: "page/:num/"

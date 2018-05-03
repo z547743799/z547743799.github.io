@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>第16章-错误处理</title>
+  <meta name="description" content="错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。
+Go中的错误也是一种类型。错误用内置的`error` 类型表示。就像其他类型的，如int，浮动64，。错误值可以存储在变量中，从函数中返回，等等。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="错误处理 golang"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="第16章-错误处理">
+  <meta name="twitter:description" content="错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。
+Go中的错误也是一种类型。错误用内置的`error` 类型表示。就像其他类型的，如int，浮动64，。错误值可以存储在变量中，从函数中返回，等等。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="第16章-错误处理">
+  <meta property="og:description" content="错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。
+Go中的错误也是一种类型。错误用内置的`error` 类型表示。就像其他类型的，如int，浮动64，。错误值可以存储在变量中，从函数中返回，等等。">
+  <meta property="og:site_name" content="错误处理 golange"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/03/06/golang-error/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">第16章-错误处理</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-03-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-03-06</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h1 id="错误处理">错误处理</h1>
+
+<h2 id="11-什么是错误">1.1 什么是错误</h2>
+
+<p>错误是什么?</p>
+
+<p>错误指出程序中的异常情况。假设我们正在尝试打开一个文件，文件系统中不存在这个文件。这是一个异常情况，它表示为一个错误。</p>
+
+<p>Go中的错误也是一种类型。错误用内置的<code class="highlighter-rouge">error</code> 类型表示。就像其他类型的，如int，浮动64，。错误值可以存储在变量中，从函数中返回，等等。</p>
+
+<h2 id="12-演示错误">1.2 演示错误</h2>
+
+<p>让我们从一个示例程序开始，这个程序尝试打开一个不存在的文件。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"os"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">f</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s">"/test.txt"</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">Name</span><span class="p">(),</span><span class="x"> </span><span class="s">"opened successfully"</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<blockquote>
+  <p>在os包中有打开文件的功能函数：</p>
+
+  <p>​	func Open(name string) (file *File, err error)</p>
+
+  <p>如果文件已经成功打开，那么Open函数将返回文件处理。如果在打开文件时出现错误，将返回一个非nil错误。</p>
+</blockquote>
+
+<p>​</p>
+
+<p>如果一个函数或方法返回一个错误，那么按照惯例，它必须是函数返回的最后一个值。因此，<code class="highlighter-rouge">Open</code> 函数返回的值是最后一个值。</p>
+
+<p>处理错误的惯用方法是将返回的错误与nil进行比较。nil值表示没有发生错误，而非nil值表示出现错误。在我们的例子中，我们检查错误是否为nil。如果它不是nil，我们只需打印错误并从主函数返回。</p>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>open /test.txt: No such file or directory
+</code></pre>
+</div>
+
+<p>我们得到一个错误，说明该文件不存在。</p>
+
+<h2 id="13-错误类型表示">1.3 错误类型表示</h2>
+
+<p>Go 语言通过内置的错误接口提供了非常简单的错误处理机制。</p>
+
+<p>让我们再深入一点，看看如何定义错误类型的构建。错误是一个带有以下定义的接口类型，</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="k">interface</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>它包含一个带有Error（）字符串的方法。任何实现这个接口的类型都可以作为一个错误使用。这个方法提供了对错误的描述。</p>
+
+<p>当打印错误时，fmt.Println函数在内部调用Error() 方法来获取错误的描述。这就是错误描述是如何在一行中打印出来的。</p>
+
+<p><strong>从错误中提取更多信息的不同方法</strong></p>
+
+<p>既然我们知道错误是一种接口类型，那么让我们看看如何提取更多关于错误的信息。</p>
+
+<p>在上面的例子中，我们仅仅是打印了错误的描述。如果我们想要的是导致错误的文件的实际路径。一种可能的方法是解析错误字符串。这是我们程序的输出，</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>open /test.txt: No such file or directory
+</code></pre>
+</div>
+
+<p>我们可以解析这个错误消息并从中获取文件路径”/test.txt”。但这是一个糟糕的方法。在新版本的语言中，错误描述可以随时更改，我们的代码将会中断。</p>
+
+<p>是否有办法可靠地获取文件名？答案是肯定的，它可以做到，标准Go库使用不同的方式提供更多关于错误的信息。让我们一看一看。</p>
+
+<p>1.断言底层结构类型并从结构字段获取更多信息</p>
+
+<p>如果仔细阅读打开函数的文档，可以看到它返回的是PathError类型的错误。PathError是一个struct类型，它在标准库中的实现如下，</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">PathError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">Op</span><span class="x">   </span><span class="kt">string</span><span class="x">
+    </span><span class="n">Path</span><span class="x"> </span><span class="kt">string</span><span class="x">
+    </span><span class="n">Err</span><span class="x">  </span><span class="kt">error</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">PathError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="k">return</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">Op</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="s">" "</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">Path</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="s">": "</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">Err</span><span class="o">.</span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>从上面的代码中，您可以理解PathError通过声明错误（）string方法实现了错误接口。该方法连接操作、路径和实际错误并返回它。这样我们就得到了错误信息，</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>open /test.txt: No such file or directory
+</code></pre>
+</div>
+
+<p>PathError结构的路径字段包含导致错误的文件的路径。让我们修改上面写的程序，并打印出路径。</p>
+
+<p>修改代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"os"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">f</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s">"/test.txt"</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="p">,</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">PathError</span><span class="p">);</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"File at path"</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span><span class="x"> </span><span class="s">"failed to open"</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">Name</span><span class="p">(),</span><span class="x"> </span><span class="s">"opened successfully"</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>在上面的程序中，我们使用类型断言获得错误接口的基本值。然后我们用错误来打印路径.这个程序输出,</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>File at path /test.txt failed to open
+</code></pre>
+</div>
+
+<ol>
+  <li>断言底层结构类型，并使用方法获取更多信息</li>
+</ol>
+
+<p>获得更多信息的第二种方法是断言底层类型，并通过调用struct类型的方法获取更多信息。</p>
+
+<p>示例代码：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">DNSError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="o">...</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">DNSError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="o">...</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">DNSError</span><span class="p">)</span><span class="x"> </span><span class="n">Timeout</span><span class="p">()</span><span class="x"> </span><span class="kt">bool</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="o">...</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">DNSError</span><span class="p">)</span><span class="x"> </span><span class="n">Temporary</span><span class="p">()</span><span class="x"> </span><span class="kt">bool</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="o">...</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>从上面的代码中可以看到，DNSError struct有两个方法Timeout() bool和Temporary() bool，它们返回一个布尔值，表示错误是由于超时还是临时的。</p>
+
+<p>让我们编写一个断言*DNSError类型的程序，并调用这些方法来确定错误是临时的还是超时的。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"net"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">addr</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">net</span><span class="o">.</span><span class="n">LookupHost</span><span class="p">(</span><span class="s">"golangbot123.com"</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="p">,</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">net</span><span class="o">.</span><span class="n">DNSError</span><span class="p">);</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">Timeout</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"operation timed out"</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">Temporary</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"temporary error"</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"generic error: "</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>在上面的程序中，我们正在尝试获取一个无效域名的ip地址，这是一个无效的域名。golangbot123.com。我们通过声明它来输入*net.DNSError来获得错误的潜在价值。</p>
+
+<p>在我们的例子中，错误既不是暂时的，也不是由于超时，因此程序会打印出来，</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>generic error:  lookup golangbot123.com: no such host
+</code></pre>
+</div>
+
+<p>如果错误是临时的或超时的，那么相应的If语句就会执行，我们可以适当地处理它。</p>
+
+<p>3。直接比较</p>
+
+<p>获得更多关于错误的详细信息的第三种方法是直接与类型错误的变量进行比较。让我们通过一个例子来理解这个问题。</p>
+
+<p>filepath包的Glob函数用于返回与模式匹配的所有文件的名称。当模式出现错误时，该函数将返回一个错误ErrBadPattern。</p>
+
+<p>在filepath包中定义了ErrBadPattern，如下所述：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">var</span><span class="x"> </span><span class="n">ErrBadPattern</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"syntax error in pattern"</span><span class="p">)</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>errors.New()用于创建新的错误。</p>
+
+<p>当模式出现错误时，由Glob函数返回ErrBadPattern。</p>
+
+<p>让我们写一个小程序来检查这个错误：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"path/filepath"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">files</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">filepath</span><span class="o">.</span><span class="n">Glob</span><span class="p">(</span><span class="s">"["</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="n">filepath</span><span class="o">.</span><span class="n">ErrBadPattern</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">error</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"matched files"</span><span class="p">,</span><span class="x"> </span><span class="n">files</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>syntax error in pattern
+</code></pre>
+</div>
+
+<p><strong>不要忽略错误</strong></p>
+
+<p>永远不要忽略一个错误。忽视错误会招致麻烦。让我重新编写一个示例，该示例列出了与模式匹配的所有文件的名称，而忽略了错误处理代码。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"path/filepath"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">files</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">filepath</span><span class="o">.</span><span class="n">Glob</span><span class="p">(</span><span class="s">"["</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"matched files"</span><span class="p">,</span><span class="x"> </span><span class="n">files</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>我们从前面的例子中已经知道模式是无效的。我忽略了Glob函数返回的错误，方法是使用行号中的空白标识符。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>matched files []
+</code></pre>
+</div>
+
+<p>由于我们忽略了这个错误，输出看起来好像没有文件匹配这个模式，但是实际上这个模式本身是畸形的。所以不要忽略错误。</p>
+
+<h2 id="14-自定义错误">1.4 自定义错误</h2>
+
+<p>创建自定义错误的最简单方法是使用错误包的新功能。</p>
+
+<p>在使用新函数创建自定义错误之前，让我们了解它是如何实现的。下面提供了错误包中的新功能的实现。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="c">// Package errors implements functions to manipulate errors.</span><span class="x">
+  </span><span class="k">package</span><span class="x"> </span><span class="n">errors</span><span class="x">
+
+  </span><span class="c">// New returns an error that formats as the given text.</span><span class="x">
+  </span><span class="k">func</span><span class="x"> </span><span class="n">New</span><span class="p">(</span><span class="n">text</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="kt">error</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="k">return</span><span class="x"> </span><span class="o">&amp;</span><span class="n">errorString</span><span class="p">{</span><span class="n">text</span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+
+  </span><span class="c">// errorString is a trivial implementation of error.</span><span class="x">
+  </span><span class="k">type</span><span class="x"> </span><span class="n">errorString</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">s</span><span class="x"> </span><span class="kt">string</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+
+  </span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">errorString</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="k">return</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">s</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>既然我们知道了新函数是如何工作的，那么就让我们在自己的程序中使用它来创建一个自定义错误。</p>
+
+<p>我们将创建一个简单的程序，计算一个圆的面积，如果半径为负，将返回一个错误。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"errors"</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"math"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="x"> </span><span class="kt">float64</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="kt">float64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">return</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"Area calculation failed, radius is less than zero"</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">math</span><span class="o">.</span><span class="n">Pi</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">radius</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">-</span><span class="m">20.0</span><span class="x">
+    </span><span class="n">area</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Area of circle %0.2f"</span><span class="p">,</span><span class="x"> </span><span class="n">area</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Area calculation failed, radius is less than zero
+</code></pre>
+</div>
+
+<p>使用Errorf向错误添加更多信息</p>
+
+<p>上面的程序运行得很好，但是如果我们打印出导致错误的实际半径，那就不好了。这就是fmt包的Errorf函数的用武之地。这个函数根据一个格式说明器格式化错误，并返回一个字符串作为值来满足错误。</p>
+
+<p>使用Errorf函数，修改程序。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"math"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="x"> </span><span class="kt">float64</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="kt">float64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">return</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s">"Area calculation failed, radius %0.2f is less than zero"</span><span class="p">,</span><span class="x"> </span><span class="n">radius</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">math</span><span class="o">.</span><span class="n">Pi</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">radius</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">-</span><span class="m">20.0</span><span class="x">
+    </span><span class="n">area</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Area of circle %0.2f"</span><span class="p">,</span><span class="x"> </span><span class="n">area</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Area calculation failed, radius -20.00 is less than zero
+</code></pre>
+</div>
+
+<p>使用struct类型和字段提供关于错误的更多信息</p>
+
+<p>还可以使用将错误接口实现为错误的struct类型。这给我们提供了更多的错误处理的灵活性。在我们的示例中，如果我们想要访问导致错误的半径，那么现在唯一的方法是解析错误描述区域计算失败，半径-20.00小于零。这不是一种正确的方法，因为如果描述发生了变化，我们的代码就会中断。</p>
+
+<p>我们将使用在前面的教程中解释的标准库的策略，在“断言底层结构类型并从struct字段获取更多信息”，并使用struct字段来提供对导致错误的半径的访问。我们将创建一个实现错误接口的struct类型，并使用它的字段来提供关于错误的更多信息。</p>
+
+<p>第一步是创建一个struct类型来表示错误。错误类型的命名约定是，名称应该以文本Error结束。让我们把struct类型命名为areaError</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">areaError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">err</span><span class="x">    </span><span class="kt">string</span><span class="x">
+    </span><span class="n">radius</span><span class="x"> </span><span class="kt">float64</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>上面的struct类型有一个字段半径，它存储了为错误负责的半径的值，并且错误字段存储了实际的错误消息。</p>
+
+<p>下一步，是实现error 接口</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">areaError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"radius %0.2f: %s"</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>在上面的代码片段中，我们使用一个指针接收器区域错误来实现错误接口的Error() string方法。这个方法打印出半径和错误描述。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"math"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">type</span><span class="x"> </span><span class="n">areaError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">err</span><span class="x">    </span><span class="kt">string</span><span class="x">
+    </span><span class="n">radius</span><span class="x"> </span><span class="kt">float64</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">areaError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"radius %0.2f: %s"</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="x"> </span><span class="kt">float64</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="kt">float64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">return</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="o">&amp;</span><span class="n">areaError</span><span class="p">{</span><span class="s">"radius is negative"</span><span class="p">,</span><span class="x"> </span><span class="n">radius</span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">math</span><span class="o">.</span><span class="n">Pi</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">radius</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">radius</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">-</span><span class="m">20.0</span><span class="x">
+    </span><span class="n">area</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">circleArea</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="p">,</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">areaError</span><span class="p">);</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Radius %0.2f is less than zero"</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Area of rectangle1 %0.2f"</span><span class="p">,</span><span class="x"> </span><span class="n">area</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>程序输出：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Radius -20.00 is less than zero
+</code></pre>
+</div>
+
+<p>使用结构类型的方法提供关于错误的更多信息</p>
+
+<p>在本节中，我们将编写一个程序来计算矩形的面积。如果长度或宽度小于0，这个程序将输出一个错误。</p>
+
+<p>第一步是创建一个结构来表示错误。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">type</span><span class="x"> </span><span class="n">areaError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">err</span><span class="x">    </span><span class="kt">string</span><span class="x"> </span><span class="c">//error description</span><span class="x">
+    </span><span class="n">length</span><span class="x"> </span><span class="kt">float64</span><span class="x"> </span><span class="c">//length which caused the error</span><span class="x">
+    </span><span class="n">width</span><span class="x">  </span><span class="kt">float64</span><span class="x"> </span><span class="c">//width which caused the error</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>上面的错误结构类型包含一个错误描述字段，以及导致错误的长度和宽度。</p>
+
+<p>现在我们有了错误类型，让我们实现错误接口，并在错误类型上添加一些方法来提供关于错误的更多信息。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">areaError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">areaError</span><span class="p">)</span><span class="x"> </span><span class="n">lengthNegative</span><span class="p">()</span><span class="x"> </span><span class="kt">bool</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">length</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">e</span><span class="x"> </span><span class="o">*</span><span class="n">areaError</span><span class="p">)</span><span class="x"> </span><span class="n">widthNegative</span><span class="p">()</span><span class="x"> </span><span class="kt">bool</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">e</span><span class="o">.</span><span class="n">width</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>在上面的代码片段中，我们返回<code class="highlighter-rouge">Error() string</code> 方法的错误描述。当长度小于0时，lengthNegative() bool方法返回true;当宽度小于0时，widthNegative() bool方法返回true。这两种方法提供了更多关于误差的信息，在这种情况下，他们说面积计算是否失败，因为长度是负的，还是宽度为负的。因此，我们使用了struct错误类型的方法来提供更多关于错误的信息。</p>
+
+<p>下一步是写出面积计算函数。</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">rectArea</span><span class="p">(</span><span class="n">length</span><span class="p">,</span><span class="x"> </span><span class="n">width</span><span class="x"> </span><span class="kt">float64</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="kt">float64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">""</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">length</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">err</span><span class="x"> </span><span class="o">+=</span><span class="x"> </span><span class="s">"length is less than zero"</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">width</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="s">""</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"width is less than zero"</span><span class="x">
+        </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">err</span><span class="x"> </span><span class="o">+=</span><span class="x"> </span><span class="s">", width is less than zero"</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="s">""</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">return</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="o">&amp;</span><span class="n">areaError</span><span class="p">{</span><span class="n">err</span><span class="p">,</span><span class="x"> </span><span class="n">length</span><span class="p">,</span><span class="x"> </span><span class="n">width</span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">length</span><span class="x"> </span><span class="o">*</span><span class="x"> </span><span class="n">width</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>上面的rectArea函数检查长度或宽度是否小于0，如果它返回一个错误消息，则返回矩形的面积为nil。</p>
+
+<p>主函数：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">length</span><span class="p">,</span><span class="x"> </span><span class="n">width</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">-</span><span class="m">5.0</span><span class="p">,</span><span class="x"> </span><span class="o">-</span><span class="m">9.0</span><span class="x">
+    </span><span class="n">area</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">rectArea</span><span class="p">(</span><span class="n">length</span><span class="p">,</span><span class="x"> </span><span class="n">width</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="p">,</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">areaError</span><span class="p">);</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">lengthNegative</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"error: length %0.2f is less than zero</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">length</span><span class="p">)</span><span class="x">
+
+            </span><span class="p">}</span><span class="x">
+            </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">widthNegative</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"error: width %0.2f is less than zero</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="o">.</span><span class="n">width</span><span class="p">)</span><span class="x">
+
+            </span><span class="p">}</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+        </span><span class="k">return</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"area of rect"</span><span class="p">,</span><span class="x"> </span><span class="n">area</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>error: length -5.00 is less than zero
+error: width -9.00 is less than zero
+</code></pre>
+</div>
+
+<p>其他案例：</p>
+
+<p>函数通常在最后的返回值中返回错误信息。使用errors.New 可返回一个错误信息</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">Sqrt</span><span class="p">(</span><span class="n">f</span><span class="x"> </span><span class="kt">float64</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="kt">float64</span><span class="p">,</span><span class="x"> </span><span class="kt">error</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">f</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">return</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"math: square root of negative number"</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="c">// 实现</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="c">// 定义一个 DivideError 结构</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">DivideError</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">dividee</span><span class="x"> </span><span class="kt">int</span><span class="x">
+	</span><span class="n">divider</span><span class="x"> </span><span class="kt">int</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// 实现 	`error` 接口</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">de</span><span class="x"> </span><span class="o">*</span><span class="n">DivideError</span><span class="p">)</span><span class="x"> </span><span class="n">Error</span><span class="p">()</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">strFormat</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">`
+	Cannot proceed, the divider is zero.
+	dividee: %d
+	divider: 0
+`</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="n">strFormat</span><span class="p">,</span><span class="x"> </span><span class="n">de</span><span class="o">.</span><span class="n">dividee</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// 定义 `int` 类型除法运算的函数</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">Divide</span><span class="p">(</span><span class="n">varDividee</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="n">varDivider</span><span class="x"> </span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">(</span><span class="n">result</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="x"> </span><span class="n">errorMsg</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">varDivider</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">dData</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">DivideError</span><span class="p">{</span><span class="x">
+			</span><span class="n">dividee</span><span class="o">:</span><span class="x"> </span><span class="n">varDividee</span><span class="p">,</span><span class="x">
+			</span><span class="n">divider</span><span class="o">:</span><span class="x"> </span><span class="n">varDivider</span><span class="p">,</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+		</span><span class="n">errorMsg</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">dData</span><span class="o">.</span><span class="n">Error</span><span class="p">()</span><span class="x">
+		</span><span class="k">return</span><span class="x">
+	</span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">return</span><span class="x"> </span><span class="n">varDividee</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="n">varDivider</span><span class="p">,</span><span class="x"> </span><span class="s">""</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+	</span><span class="c">// 正常情况</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">result</span><span class="p">,</span><span class="x"> </span><span class="n">errorMsg</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">Divide</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="x"> </span><span class="m">10</span><span class="p">);</span><span class="x"> </span><span class="n">errorMsg</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="s">""</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"100/10 = "</span><span class="p">,</span><span class="x"> </span><span class="n">result</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+	</span><span class="c">// 当被除数为零的时候会返回错误信息</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">errorMsg</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">Divide</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="p">);</span><span class="x"> </span><span class="n">errorMsg</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="s">""</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"errorMsg is: "</span><span class="p">,</span><span class="x"> </span><span class="n">errorMsg</span><span class="p">)</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p><code class="highlighter-rouge">结果</code></p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="m">100</span><span class="o">/</span><span class="m">10</span><span class="x"> </span><span class="o">=</span><span class="x">  </span><span class="m">10</span><span class="x">
+</span><span class="n">errorMsg</span><span class="x"> </span><span class="n">is</span><span class="o">:</span><span class="x">
+	</span><span class="n">Cannot</span><span class="x"> </span><span class="n">proceed</span><span class="p">,</span><span class="x"> </span><span class="n">the</span><span class="x"> </span><span class="n">divider</span><span class="x"> </span><span class="n">is</span><span class="x"> </span><span class="n">zero</span><span class="o">.</span><span class="x">
+	</span><span class="n">dividee</span><span class="o">:</span><span class="x"> </span><span class="m">100</span><span class="x">
+	</span><span class="n">divider</span><span class="o">:</span><span class="x"> </span><span class="m">0</span><span class="x">
+</span></code></pre>
+</div>
+
+<h2 id="官方公众号">官方公众号</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD-1.jpg" alt="" /></p>
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/03/05/golang-defer/" data-toggle="tooltip" data-placement="top" title="第15章-defer语句">上一篇：  <span>第15章-defer语句</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/03/09/golang-dis-system/" data-toggle="tooltip" data-placement="top" title="第17章-golang实现简易的分布式系统">下一篇：  <span>第17章-golang实现简易的分布式系统</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=第16章-错误处理 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

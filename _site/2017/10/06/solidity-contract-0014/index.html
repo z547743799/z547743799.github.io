@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>『0014』 - Solidity Types - 动态大小字节数组(Dynamically-sized byte array)</title>
+  <meta name="description" content="这篇文章将系统讲解动态大小字节数组(Dynamically-sized byte array)，比如：string和bytes之间的转换，汉字字符串和普通字母数字或者特殊字符字符串，以及深入讲解solidity中的可变字符串和不可变字符串之间的区别等等">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="solidity 动态大小字节数组(Dynamically-sized byte array)"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="『0014』 - Solidity Types - 动态大小字节数组(Dynamically-sized byte array)">
+  <meta name="twitter:description" content="这篇文章将系统讲解动态大小字节数组(Dynamically-sized byte array)，比如：string和bytes之间的转换，汉字字符串和普通字母数字或者特殊字符字符串，以及深入讲解solidity中的可变字符串和不可变字符串之间的区别等等">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="『0014』 - Solidity Types - 动态大小字节数组(Dynamically-sized byte array)">
+  <meta property="og:description" content="这篇文章将系统讲解动态大小字节数组(Dynamically-sized byte array)，比如：string和bytes之间的转换，汉字字符串和普通字母数字或者特殊字符字符串，以及深入讲解solidity中的可变字符串和不可变字符串之间的区别等等">
+  <meta property="og:site_name" content="solidity 动态大小字节数组(Dynamically-sized byte array)e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/10/06/solidity-contract-0014/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">『0014』 - Solidity Types - 动态大小字节数组(Dynamically-sized byte array)</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-10-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-10-06</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>孔壹学院：国内区块链职业教育领先品牌</p>
+
+  <p>作者：黎跃春，区块链、高可用架构工程师
+微信：liyc1215  QQ群：348924182  博客：http://liyuechun.org</p>
+</blockquote>
+
+<h2 id="一dynamically-sized-byte-array">一、Dynamically-sized byte array</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">string</code> 是一个动态尺寸的<code class="highlighter-rouge">UTF-8</code>编码字符串，它其实是一个特殊的可变字节数组，<code class="highlighter-rouge">string</code>是引用类型，而非值类型。</li>
+  <li><code class="highlighter-rouge">bytes</code> 动态字节数组，引用类型。</li>
+</ul>
+
+<p>根据经验，在我们不确定字节数据大小的情况下，我们可以使用<code class="highlighter-rouge">string</code>或者<code class="highlighter-rouge">bytes</code>，而如果我们清楚的知道或者能够将字节书控制在<code class="highlighter-rouge">bytes1</code> ~ <code class="highlighter-rouge">bytes32</code>，那么我们就使用<code class="highlighter-rouge">bytes1</code> ~ <code class="highlighter-rouge">bytes32</code>，这样的话能够降低存储成本。</p>
+
+<h2 id="二常规字符串-sting-转换为-bytes">二、常规字符串 sting 转换为 bytes</h2>
+
+<p><code class="highlighter-rouge">string</code>字符串中没有提供<code class="highlighter-rouge">length</code>方法获取字符串长度，也没有提供方法修改某个索引的字节码，不过我们可以将<code class="highlighter-rouge">string</code>转换为<code class="highlighter-rouge">bytes</code>，再调用<code class="highlighter-rouge">length</code>方法获取字节长度，当然可以修改某个索引的字节码。</p>
+
+<h3 id="1源码">1、源码</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract C {
+    
+    bytes9 public g = 0x6c697975656368756e;
+    
+    string public name = "liyuechun";
+    
+    function gByteLength() constant returns (uint) {
+        
+        return g.length;
+    }
+    
+    function nameBytes() constant returns (bytes) {
+        
+        return bytes(name);
+    }
+    
+    function nameLength() constant returns (uint) {
+        
+        return bytes(name).length;
+    }
+    
+    function setNameFirstByteForL(bytes1 z) {
+        
+        // 0x4c =&gt; "L"
+        bytes(name)[0] = z;
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="2效果图">2、效果图</h3>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/string%20to%20bytes.gif" alt="" /></p>
+
+<h3 id="3说明">3、说明</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>function nameBytes() constant returns (bytes) {
+        
+    return bytes(name);
+}
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">nameBytes</code>这个函数的功能是将字符串<code class="highlighter-rouge">name</code>转换为<code class="highlighter-rouge">bytes</code>，并且返回的结果为<code class="highlighter-rouge">0x6c697975656368756e</code>。<code class="highlighter-rouge">0x6c697975656368756e</code>一共为<code class="highlighter-rouge">9字节</code>，也就是一个英文字母对应一个字节。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>function nameLength() constant returns (uint) {
+        
+    return bytes(name).length;
+}
+</code></pre>
+</div>
+
+<p>我们之前讲过，<code class="highlighter-rouge">string</code>字符串它并不提供<code class="highlighter-rouge">length</code>方法帮助我们返回字符串的长度，所以在<code class="highlighter-rouge">nameLength</code>方法中，我们将<code class="highlighter-rouge">name</code>转换为<code class="highlighter-rouge">bytes</code>，然后再调用<code class="highlighter-rouge">length</code>方法来返回字节数，因为一个字节对应一个英文字母，所以返回的字节数量刚好等于字符串的长度。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>function setNameFirstByteForL(bytes1 z) {
+    
+    // 0x4c =&gt; "L"
+    bytes(name)[0] = z;
+}
+</code></pre>
+</div>
+
+<p>如果我们想将<code class="highlighter-rouge">name</code>字符串中的某个字母进行修改，那么我们直接通过<code class="highlighter-rouge">x[k] = z</code>的形式进行修改即可。<code class="highlighter-rouge">x</code>是bytes类型的字节数组，<code class="highlighter-rouge">k</code>是索引，<code class="highlighter-rouge">z</code>是<code class="highlighter-rouge">byte1</code>类型的变量值。</p>
+
+<p><code class="highlighter-rouge">setNameFirstByteForL</code>方法中，我就将<code class="highlighter-rouge">liyuechun</code>中的首字母修改成<code class="highlighter-rouge">L</code>，我传入的<code class="highlighter-rouge">z</code>的值为<code class="highlighter-rouge">0x4c</code>，即大写的<code class="highlighter-rouge">L</code>。</p>
+
+<h2 id="三汉字字符串或特殊字符的字符串转换为bytes">三、汉字字符串或特殊字符的字符串转换为bytes</h2>
+
+<h3 id="1特殊字符">1、特殊字符</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract C {
+    
+    
+    string public name = "a!+&amp;520";
+    
+
+    function nameBytes() constant returns (bytes) {
+        
+        return bytes(name);
+    }
+    
+    function nameLength() constant returns (uint) {
+        
+        return bytes(name).length;
+    }
+    
+}
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171027_12.png" alt="" /></p>
+
+<p>在这个案例中，我们声明了一个<code class="highlighter-rouge">name</code>字符串，值为<code class="highlighter-rouge">a!+&amp;520</code>，根据<code class="highlighter-rouge">nameBytes</code>和<code class="highlighter-rouge">nameLength</code>返回的结果中，我们不难看出，不管是<code class="highlighter-rouge">字母</code>、<code class="highlighter-rouge">数字</code>还是<code class="highlighter-rouge">特殊符号</code>，每个字母对应一个<code class="highlighter-rouge">byte（字节）</code>。</p>
+
+<h3 id="2中文字符串">2、中文字符串</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract C {
+    
+    
+    string public name = "黎跃春";
+    
+
+    function nameBytes() constant returns (bytes) {
+        
+        return bytes(name);
+    }
+    
+    function nameLength() constant returns (uint) {
+        
+        return bytes(name).length;
+    }
+    
+}
+</code></pre>
+</div>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20171027_13.png" alt="solidity 汉字 字符串长度" /></p>
+
+<p>在上面的代码中，我们不难看出，<code class="highlighter-rouge">黎跃春</code>转换为<code class="highlighter-rouge">bytes</code>以后的内容为<code class="highlighter-rouge">0xe9bb8ee8b783e698a5</code>，一共<code class="highlighter-rouge">9个字节</code>。也就是一个汉字需要通过<code class="highlighter-rouge">3个字节</code>来进行存储。那么问题来了，以后我们取字符串时，字符串中最好不要带汉字，否则计算字符串长度时还得特殊处理。</p>
+
+<h2 id="四创建bytes字节数组">四、创建bytes字节数组</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract C {
+    
+    
+    bytes public name = new bytes(1);
+    
+    
+    function setNameLength(uint length) {
+        
+        name.length = length;
+    }
+    
+    function nameLength() constant returns (uint) {
+        
+        return name.length;
+    }
+    
+}
+</code></pre>
+</div>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84.gif" alt="孔壹学院" /></p>
+
+<h2 id="五bytes可变数组length和push两个函数的使用案例">五、bytes可变数组length和push两个函数的使用案例</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+
+contract C {
+    
+    // 0x6c697975656368756e
+    // 初始化一个两个字节空间的字节数组
+    bytes public name = new bytes(2);
+    
+    // 设置字节数组的长度
+    function setNameLength(uint len) {
+        
+        name.length = len;
+    }
+    
+    // 返回字节数组的长度
+    function nameLength() constant returns (uint) {
+        
+        return name.length;
+    }
+    
+    // 往字节数组中添加字节
+    function pushAByte(byte b) {
+        
+        name.push(b);
+    }
+    
+}
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/bytes%20methods.gif" alt="" /></p>
+
+<p><strong>说明：</strong>当字节数组的长度只有2时，如果你通过push往里面添加了一个字节，那么它的长度将变为3，当字节数组里面有3个字节，但是你通过length方法将其长度修改为2时，字节数组中最后一个字节将被从字节数组中移除。</p>
+
+<h2 id="五总结">五、总结</h2>
+
+<p><strong>对比分析：</strong></p>
+
+<ul>
+  <li>不可变字节数组</li>
+</ul>
+
+<p>我们之前的文章中提到过如果我们清楚我们存储的字节大小，那么我们可以通过<code class="highlighter-rouge">bytes1</code>,<code class="highlighter-rouge">bytes2</code>,<code class="highlighter-rouge">bytes3</code>,<code class="highlighter-rouge">bytes4</code>,……,<code class="highlighter-rouge">bytes32</code>来声明字节数组变量，不过通过<code class="highlighter-rouge">bytesI</code>来声明的字节数组为不可变字节数组，字节不可修改，字节数组长度不可修改。</p>
+
+<ul>
+  <li>可变字节数组</li>
+</ul>
+
+<p>我们可以通过<code class="highlighter-rouge">bytes name = new bytes(length)</code> - <code class="highlighter-rouge">length</code>为字节数组长度，来声明可变大小和可修改字节内容的可变字节数组。</p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/10/05/solidity-contract-0013/" data-toggle="tooltip" data-placement="top" title="『0013』 - Solidity Types - 固定大小字节数组(Fixed-size byte arrays)">上一篇：  <span>『0013』 - Solidity Types - 固定大小字节数组(Fixed-size byte arrays)</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/10/07/solidity-contract-0015/" data-toggle="tooltip" data-placement="top" title="『0015』 - Solidity Types - 动态字节数组（Dynamically-sized byte array）、固定大小字节数组（Fixed-size byte arrays）、string之间的转换关系">下一篇：  <span>『0015』 - Solidity Types - 动态字节数组（Dynamically-sized byte array）、固定大小字节数组（Fixed-size byte arrays）、string之间的转换关系</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=『0014』 - Solidity Types - 动态大小字节数组(Dynamically-sized byte array) ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

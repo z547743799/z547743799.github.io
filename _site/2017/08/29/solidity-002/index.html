@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>第一章 Solidity源文件的结构</title>
+  <meta name="description" content="Solidity开发，Solidity文件导入，Solidity注释">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="Solidity开发，Solidity文件导入，Solidity注释"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="第一章 Solidity源文件的结构">
+  <meta name="twitter:description" content="Solidity开发，Solidity文件导入，Solidity注释">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="第一章 Solidity源文件的结构">
+  <meta property="og:description" content="Solidity开发，Solidity文件导入，Solidity注释">
+  <meta property="og:site_name" content="Solidity开发，Solidity文件导入，Solidity注释e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/08/29/solidity-002/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">第一章 Solidity源文件的结构</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-08-29 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-08-29</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <p>源文件可以包含任意数量的智能合约的定义以及任意数量的include指令和pragma伪指令。</p>
+
+<h2 id="版本声明">版本声明</h2>
+
+<p>版本声明代码格式如下：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.4</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>这段代码的声明表示，源文件不会被<code class="highlighter-rouge">0.4.0</code>以下版本的编译器编译。当然同时也不会被<code class="highlighter-rouge">0.5.0</code>以上版本的编译器起作用（这是由<code class="highlighter-rouge">^</code>符号来决定的）。</p>
+
+<p><code class="highlighter-rouge">0.4.0</code> ~ <code class="highlighter-rouge">0.4.9</code> 这些版本支持上面代码声明的源码编译，这样处理的好处是，如果<code class="highlighter-rouge">0.4.0</code>编译器有问题，可以随时修复<code class="highlighter-rouge">bug</code>，将其调整为<code class="highlighter-rouge">0.4.1</code>。</p>
+
+<h2 id="导入其他源文件">导入其他源文件</h2>
+
+<h3 id="语法和语义">语法和语义</h3>
+
+<p>尽管<code class="highlighter-rouge">Solidity</code>中没有<code class="highlighter-rouge">默认导出</code>的概念，但是<code class="highlighter-rouge">Solidity</code>支持<code class="highlighter-rouge">ES6</code>中可用的导入声明。</p>
+
+<h5 id="全局引入您可以使用以下形式的导入语句">全局引入，您可以使用以下形式的导入语句：</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="s2">"filename"</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>这个声明可以将<code class="highlighter-rouge">filename</code>文件中可导出的所有的全局变量导入到当前文件的全局作用域中。</p>
+
+<h5 id="自定义导入变量名">自定义导入变量名</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">symbolName</span> <span class="nx">from</span> <span class="s2">"filename"</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>创建一个全局的变量名<code class="highlighter-rouge">symbolName</code>，<code class="highlighter-rouge">symbolName</code>里面包含<code class="highlighter-rouge">filename</code>这个文件中所有的全局变量。</p>
+
+<h5 id="自定义别名">自定义别名</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="p">{</span><span class="nx">symbol1</span> <span class="nx">as</span> <span class="nx">alias</span><span class="p">,</span> <span class="nx">symbol2</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">"filename"</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">alias</code>等价于<code class="highlighter-rouge">filename</code>文件中的<code class="highlighter-rouge">symbol1</code>，<code class="highlighter-rouge">symbol2</code>等价于<code class="highlighter-rouge">filename</code>文件中的<code class="highlighter-rouge">symbol2</code>。</p>
+
+<h5 id="另外一种非es6的导入方式">另外一种非<code class="highlighter-rouge">ES6</code>的导入方式</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="s2">"filename"</span> <span class="nx">as</span> <span class="nx">symbolName</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>这种写法不是<code class="highlighter-rouge">ES6</code>里面的写法，但是使用非常方便，它等价于<code class="highlighter-rouge">import * as symbolName from "filename";</code>。</p>
+
+<h3 id="路径paths">路径（Paths）</h3>
+
+<p>在上面的<code class="highlighter-rouge">filename</code>中，始终用<code class="highlighter-rouge">/</code>符号来进行路径分离，<code class="highlighter-rouge">.</code>代表当前路径，<code class="highlighter-rouge">..</code>代表上一级路径。当<code class="highlighter-rouge">.</code>和<code class="highlighter-rouge">..</code>后面没有跟随<code class="highlighter-rouge">/</code>符号时，它不能表示当前路径和上一级路径。还有，如果没有<code class="highlighter-rouge">.</code>或者<code class="highlighter-rouge">..</code>时，所有的路径都默认绝对路径而不是相对路径。</p>
+
+<p>从当前路径导入一个<code class="highlighter-rouge">x</code>文件，使用<code class="highlighter-rouge">import "./x" as x</code>;如果你使用<code class="highlighter-rouge">import "x" as x</code>代替上面的代码，它将不能正确引用到<code class="highlighter-rouge">x</code>文件。</p>
+
+<h3 id="在实际编译器中使用">在实际编译器中使用</h3>
+
+<p>当编译器被调用，它不仅可以指定如何发现路径的起始元素，还可以指定路径前缀映射，例如：将<code class="highlighter-rouge">github.com/ethereum/dapp-bin/library</code>映射到<code class="highlighter-rouge">/usr/local/dapp-bin/library</code>，编译器将从被映射到的新路径中读取文件。如果同一个路径存在多个被映射的路径，<code class="highlighter-rouge">key</code>最长的映射路径先被尝试应用。还允许回滚重新映射，例如：<code class="highlighter-rouge">""</code>映射到<code class="highlighter-rouge">/usr/local/include/solidity</code>。除此以外，这些映射还依赖于导入的不同版本同名的依赖包。</p>
+
+<h5 id="solc">solc:</h5>
+
+<p>对于<code class="highlighter-rouge">solc</code>命令行编译工具，这些映射还提供了<code class="highlighter-rouge">context:prefix=target</code>参数，其中<code class="highlighter-rouge">context:</code>和<code class="highlighter-rouge">=target</code>是可选的，在<code class="highlighter-rouge">context:prefix=target</code>参数中，<code class="highlighter-rouge">target</code>默认为当前案例中的前缀。所有重新映射的那些有规律的文件的值都会包涵他们的依赖项一起被编译。只要文件名中不包含<code class="highlighter-rouge">=</code>或者<code class="highlighter-rouge">:</code>，这个机制就完全向后兼容并且不会发生变化。如果一个导入的文件被重新映射，那么在编译的时候，它的前缀将会被替换参数中的<code class="highlighter-rouge">target</code>的值。</p>
+
+<p>举个🌰，如果你想将<code class="highlighter-rouge">github.com/ethereum/dapp-bin/</code>克隆到本地的<code class="highlighter-rouge">/usr/local/dapp-bin</code>这个路径中，你可以在你的源文件中使用下面的代码：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="s2">"github.com/ethereum/dapp-bin/library/iterable_mapping.sol"</span> <span class="nx">as</span> <span class="nx">it_mapping</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>并且运行下面的代码。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">solc</span> <span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">ethereum</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin</span><span class="o">/=</span><span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin</span><span class="o">/</span> <span class="nx">source</span><span class="p">.</span><span class="nx">sol</span>
+</code></pre>
+</div>
+
+<p>作为一个更复杂的例子，支持你依赖于更老版本的<code class="highlighter-rouge">dapp-bin</code>。你可以在<code class="highlighter-rouge">/usr/local/dapp-bin_old,</code>中检测出<code class="highlighter-rouge">dapp-bin</code>的比较老的版本。你可以这样使用：</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">solc</span> <span class="nx">module1</span><span class="err">:</span><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">ethereum</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin</span><span class="o">/=</span><span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin</span><span class="o">/</span> <span class="o">\</span>
+<span class="nx">module2</span><span class="err">:</span><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">ethereum</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin</span><span class="o">/=</span><span class="sr">/usr/</span><span class="nx">local</span><span class="o">/</span><span class="nx">dapp</span><span class="o">-</span><span class="nx">bin_old</span><span class="o">/</span> <span class="o">\</span>
+<span class="nx">source</span><span class="p">.</span><span class="nx">sol</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">module2</code>指向所有的旧版本，<code class="highlighter-rouge">module1</code>指向所有的新版本。</p>
+
+<p><strong>注意：</strong> <code class="highlighter-rouge">solc</code>只允许你从某一目录中包含文件：它们必须是具体指定的源文件中的一个文件的目录或者子目录，或者是一个重新映射目标的目录或者子目录。如果你希望允许包含绝对路径，自需要添加重映射<code class="highlighter-rouge">=/</code>。</p>
+
+<p>如果存在多个有效文件的重映射，那么前缀最长的一个重映射将被应用。</p>
+
+<h5 id="remix">Remix:</h5>
+
+<p>Remix provides an automatic remapping for github and will also automatically retrieve the file over the network: You can import the iterable mapping by e.g.</p>
+
+<p><code class="highlighter-rouge">Remix</code>为github提供自动重映射并且自动通过网络自动取回文件：你可以如下所示使用。</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kr">import</span> <span class="s2">"github.com/ethereum/dapp-bin/library/iterable_mapping.sol"</span> <span class="nx">as</span> <span class="nx">it_mapping</span><span class="p">;.</span>
+</code></pre>
+</div>
+
+<h2 id="注释">注释</h2>
+
+<h5 id="单行注释">单行注释</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// This is a single-line comment.</span>
+</code></pre>
+</div>
+
+<h5 id="多行注释">多行注释</h5>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+This is a
+multi-line comment.
+*/</span>
+</code></pre>
+</div>
+
+<h5 id="natspec注释">natspec注释</h5>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.4</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/** @title Shape calculator. */</span>
+<span class="nx">contract</span> <span class="nx">shapeCalculator</span> <span class="p">{</span>
+    <span class="cm">/** @dev Calculates a rectangle's surface and perimeter.
+      * @param w Width of the rectangle.
+      * @param h Height of the rectangle.
+      * @return s The calculated surface.
+      * @return p The calculated perimeter.
+      */</span>
+    <span class="kd">function</span> <span class="nx">rectangle</span><span class="p">(</span><span class="nx">uint</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">uint</span> <span class="nx">h</span><span class="p">)</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">uint</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">uint</span> <span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">s</span> <span class="o">=</span> <span class="nx">w</span> <span class="o">*</span> <span class="nx">h</span><span class="p">;</span>
+        <span class="nx">p</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">+</span> <span class="nx">h</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="春哥简介">春哥简介</h2>
+
+<p><strong>简介：</strong> 资深讲师，全栈工程师；区块链、高可用架构技术爱好者。
+<strong>个人博客：</strong><a href="http://liyuechun.org">http://liyuechun.org</a>
+<strong>新浪微博：</strong><a href="http://weibo.com/mobiledevelopment">黎跃春-追时间的人</a>
+<strong>github：</strong><a href="http://github.com/liyuechun">http://github.com/liyuechun</a></p>
+
+<h2 id="技术交流">技术交流</h2>
+
+<ul>
+  <li>
+    <p>区块链技术交流QQ群：348924182</p>
+  </li>
+  <li>
+    <p>添加<code class="highlighter-rouge">liyc1215</code>微信，私聊拉你进微信群</p>
+  </li>
+</ul>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/08/16/solidity-001/" data-toggle="tooltip" data-placement="top" title="Solidity 智能合约开发工具准备第一篇">上一篇：  <span>Solidity 智能合约开发工具准备第一篇</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/09/02/token/" data-toggle="tooltip" data-placement="top" title="Coinbase 推出基於以太坊的聊天 APP「Token」">下一篇：  <span>Coinbase 推出基於以太坊的聊天 APP「Token」</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=第一章 Solidity源文件的结构 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

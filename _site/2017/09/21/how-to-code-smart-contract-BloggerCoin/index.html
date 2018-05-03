@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>如何编写智能合约（Smart Contract）？（III）建立标准代币部落币「BLC」</title>
+  <meta name="description" content="本篇文章通过truffle unbox react-box创建集成了React Web的智能合约项目，通过这个篇文章，你将进一步学习truffle框架的使用，以及如何一步步通过OpenZeppelin三方库简化智能合约数字货币的开发以及部署。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="truffle unbox react-box，OpenZeppelin，ERC20，zeppelin-solidity"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="如何编写智能合约（Smart Contract）？（III）建立标准代币部落币「BLC」">
+  <meta name="twitter:description" content="本篇文章通过truffle unbox react-box创建集成了React Web的智能合约项目，通过这个篇文章，你将进一步学习truffle框架的使用，以及如何一步步通过OpenZeppelin三方库简化智能合约数字货币的开发以及部署。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="如何编写智能合约（Smart Contract）？（III）建立标准代币部落币「BLC」">
+  <meta property="og:description" content="本篇文章通过truffle unbox react-box创建集成了React Web的智能合约项目，通过这个篇文章，你将进一步学习truffle框架的使用，以及如何一步步通过OpenZeppelin三方库简化智能合约数字货币的开发以及部署。">
+  <meta property="og:site_name" content="truffle unbox react-box，OpenZeppelin，ERC20，zeppelin-soliditye"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/09/21/how-to-code-smart-contract-BloggerCoin/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">如何编写智能合约（Smart Contract）？（III）建立标准代币部落币「BLC」</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-09-21 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-09-21</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <p>在上一篇中，我们我们<a href="http://liyuechun.org/2017/09/20/how-to-code-smart-contract-EncryptedToken/">如何编写智能合约？（II） 建立简易的加密代币</a>，但是它存在很多安全问题，在本章中，我们将一步步带领大家创建一个能够放到<code class="highlighter-rouge">以太币钱包</code>的加密代币。</p>
+
+<h2 id="创建项目">创建项目</h2>
+
+<p>有别于之前使用<code class="highlighter-rouge">truffle init</code>指令来初始化项目，在<code class="highlighter-rouge">Truffle</code>推出<code class="highlighter-rouge">Boxes</code>功能之后，我们可以直接套用称作<code class="highlighter-rouge">react-box</code>的样板，此样板已经整合<code class="highlighter-rouge">create-react-app</code>，可以直接用它来开发<code class="highlighter-rouge">react web</code>，省下项目设置的时间。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:BloggerCoin yuechunli$ pwd
+/Users/liyuechun/Desktop/SmartContractDemo/BloggerCoin
+liyuechun:BloggerCoin yuechunli$ truffle unbox react-box
+Downloading...
+Unpacking...
+Setting up...
+Unbox successful. Sweet!
+
+Commands:
+
+  Compile:              truffle compile
+  Migrate:              truffle migrate
+  Test contracts:       truffle test
+  Test dapp:            npm test
+  Run dev server:       npm run start
+  Build for production: npm run build
+liyuechun:BloggerCoin yuechunli$ 
+</code></pre>
+</div>
+<p><img src="http://om1c35wrq.bkt.clouddn.com/react-unbox.gif" alt="" /></p>
+
+<h4 id="目录结构">目录结构：</h4>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_26.png" alt="" /></p>
+
+<ul>
+  <li><code class="highlighter-rouge">/contracts</code>:存放智能合约原始码的地方，可以看到里面已经有放两个<code class="highlighter-rouge">sol</code>文件。我们开发的<code class="highlighter-rouge">BloggerCoin.sol</code>也会放在这里。</li>
+  <li><code class="highlighter-rouge">/migrations</code>:这是<code class="highlighter-rouge">Truffle</code>用来部署智能合约的功能，待会我们会修改<code class="highlighter-rouge">2_deploy_contracts.js</code>来部署<code class="highlighter-rouge">BloggerCoin.sol</code>。</li>
+  <li><code class="highlighter-rouge">/test</code>:测试智能合约的代码放这目录，支持<code class="highlighter-rouge">js</code>与<code class="highlighter-rouge">sol</code>测试。</li>
+  <li><code class="highlighter-rouge">/public</code>、<code class="highlighter-rouge">/src</code>:存放<code class="highlighter-rouge">react web</code>的地方，后面用到会再说明。</li>
+  <li><code class="highlighter-rouge">truffle.js</code>: <code class="highlighter-rouge">Truffle</code>的设置文件。</li>
+</ul>
+
+<h2 id="开发前的准备">开发前的准备</h2>
+
+<ol>
+  <li>打开终端，启动<code class="highlighter-rouge">testrpc</code>，继续通过<code class="highlighter-rouge">testrpc</code>模拟以太坊区块链测试环境。</li>
+  <li>创建的代币如果想要能够通过以太币钱包来进行转账和收帐，必须兼容于以太坊的<code class="highlighter-rouge">ERC20</code>标准，<code class="highlighter-rouge">ERC20</code>定义了支持钱包所必需的合约界面。</li>
+  <li>在本篇文章中，我们将安装<code class="highlighter-rouge">OpenZeppelin</code>来简化加密钱包开发的过程。<code class="highlighter-rouge">OpenZeppelin</code>是一套能够给我们方便提供编写加密合约的函数库，同时里面也提供了兼容<code class="highlighter-rouge">ERC20</code>的智能合约。</li>
+</ol>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:BloggerCoin yuechunli$ npm install zeppelin-solidity
+</code></pre>
+</div>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/npm-install-zeppelin-solidity%20.gif" alt="" /></p>
+
+<h2 id="atom打开项目查看zeppelin-solidity安装结果">Atom打开项目查看zeppelin-solidity安装结果</h2>
+
+<p>通过Atom打开项目，在<code class="highlighter-rouge">node_modules</code>中的最后一个文件夹就是<code class="highlighter-rouge">zeppelin-solidity</code>的内容。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_28.png" alt="" /></p>
+
+<h2 id="创建标准的blc代币合约">创建标准的「BLC」代币合约</h2>
+
+<p>在<code class="highlighter-rouge">contracts/</code>目录下建立一个<code class="highlighter-rouge">BloggerCoin.sol</code>文件。也可以使用以下命令来创建文件：</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_25.png" alt="" /></p>
+
+<p><code class="highlighter-rouge">BloggerCoin.sol</code>代码如下：</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_29.png" alt="" /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+import "zeppelin-solidity/contracts/token/StandardToken.sol";
+
+contract BloggerCoin is StandardToken {
+  string public name = "BloggerCoin";
+  string public symbol = "BLC";
+  uint8 public decimals = 4;
+  uint256 public INITIAL_SUPPLY = 666666;
+  function BloggerCoin() {
+    totalSupply = INITIAL_SUPPLY;
+    balances[msg.sender] = INITIAL_SUPPLY;
+  }
+}
+</code></pre>
+</div>
+
+<h4 id="代码解释">代码解释</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.4;
+</code></pre>
+</div>
+
+<p>第一行代表<code class="highlighter-rouge">solidity</code>的版本，不同的版本编译的字节码不一样，<code class="highlighter-rouge">^</code>代表向上兼容，不过版本不能超过<code class="highlighter-rouge">0.5.0</code>。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import "zeppelin-solidity/contracts/token/StandardToken.sol";
+</code></pre>
+</div>
+
+<p>这句代码是通过<code class="highlighter-rouge">import</code>来导入我们需要使用到的<code class="highlighter-rouge">StandardToken</code>合约。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>contract BloggerCoin is StandardToken {
+    ...
+}
+</code></pre>
+</div>
+
+<p>建立<code class="highlighter-rouge">BloggerCoin</code>合约时，让<code class="highlighter-rouge">BloggerCoin</code>合约直接继承自<code class="highlighter-rouge">StandardToken</code>。<code class="highlighter-rouge">is</code>既是继承。因此<code class="highlighter-rouge">BloggerCoin</code>继承了<code class="highlighter-rouge">StandardToken</code>所有的状态数据和方法。</p>
+
+<p>当我们继承了<code class="highlighter-rouge">StandardToken</code>合约，也就支持了以下<code class="highlighter-rouge">ERC20</code>标准中规定的函数。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">函数</th>
+      <th style="text-align: left">方法</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">totalSupply()</td>
+      <td style="text-align: left">代币发行的总量</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">balanceOf(A)</td>
+      <td style="text-align: left">查询A帐户下的代币数目</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">transfer(A,x)</td>
+      <td style="text-align: left">发送x个代币到A帐户</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">transferFrom(A,x)</td>
+      <td style="text-align: left">从A帐户提取x个代币</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">approve(A,x)</td>
+      <td style="text-align: left">同意A帐户从我的帐户中提取代币</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">allowance(A,B)</td>
+      <td style="text-align: left">查询B帐户可以从A帐户提取多少代币</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>和之前一样，后面验证时会用到<code class="highlighter-rouge">balanceOf</code>和<code class="highlighter-rouge">transfer</code>两个函数。因为<code class="highlighter-rouge">StandardToken</code>合约中已经帮我们实现了这些函数，因此我们不需要自己从头再写一次。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>string public name = "BloggerCoin";
+string public symbol = "BLC";
+uint8 public decimals = 4;
+uint256 public INITIAL_SUPPLY = 666666;
+</code></pre>
+</div>
+
+<p>这边设定参数的目的是指定这个代币的一些特性。以人民币为例，人民币的名称（name）是<code class="highlighter-rouge">RMB</code>，美元的代号为<code class="highlighter-rouge">¥</code>，拿<code class="highlighter-rouge">100元</code>去找零最小可以拿到零钱是一分，也就是<code class="highlighter-rouge">0.0001</code>元。因为<code class="highlighter-rouge">1元</code>最小可分割到小数点<code class="highlighter-rouge">后4位（0.0001）</code>，因此最小交易单位（<code class="highlighter-rouge">decimals</code>）为<code class="highlighter-rouge">4</code>。</p>
+
+<p>这里将这个加密代币取名（name）为<code class="highlighter-rouge">BloggerCoin（部落币）</code>，代币的代号（symbol）为<code class="highlighter-rouge">BLC</code>，最小分割单位是<code class="highlighter-rouge">4</code>（最小可以找0.0001个部落币）。</p>
+
+<p>以下为<code class="highlighter-rouge">人民币</code>，<code class="highlighter-rouge">比特币</code>，<code class="highlighter-rouge">以太币</code>，<code class="highlighter-rouge">部落币</code>的对照表供参考：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">name</th>
+      <th style="text-align: center">symbol</th>
+      <th style="text-align: center">decimals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">RMB</td>
+      <td style="text-align: center">¥</td>
+      <td style="text-align: center">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Bitcoin</td>
+      <td style="text-align: center">BTC</td>
+      <td style="text-align: center">8</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ethereum</td>
+      <td style="text-align: center">ETH</td>
+      <td style="text-align: center">18</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BloggerCoin</td>
+      <td style="text-align: center">BLC</td>
+      <td style="text-align: center">4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>最后也定义了初始代币数目INITIAL_SUPPLY。这里选择了一个吉祥数字<code class="highlighter-rouge">666666</code>。另外，当我们把全局变量设为<code class="highlighter-rouge">public</code>（公开），编译时就会自动新增一个读取公开变量的<code class="highlighter-rouge">ABI接口</code>，我们在<code class="highlighter-rouge">truffle console</code>中也可以读取这些变量。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>function BloggerCoin() {
+    totalSupply = INITIAL_SUPPLY;
+    balances[msg.sender] = INITIAL_SUPPLY;
+}
+</code></pre>
+</div>
+
+<p>和合约同名的<code class="highlighter-rouge">BloggerCoin</code>方法，就是<code class="highlighter-rouge">BloggerCoin</code>合约的<code class="highlighter-rouge">构造函函数（constructor）</code>。在构造函数里指定了<code class="highlighter-rouge">totalSupply</code>数目，并将所有的初始代币<code class="highlighter-rouge">INITIAL_SUPPLY</code>都指定给<code class="highlighter-rouge">msg.sender</code>帐号，也就是用来部署这个合约的帐号。<code class="highlighter-rouge">totalSupply</code>定义于<code class="highlighter-rouge">ERC20Basic.sol</code>中，<code class="highlighter-rouge">balances</code>定义于<code class="highlighter-rouge">BasicToken.sol</code>中。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_30.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/Snip20170921_31.png" alt="" /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pragma solidity ^0.4.11;
+
+
+import './ERC20Basic.sol';
+import '../math/SafeMath.sol';
+
+
+/**
+ * @title Basic token
+ * @dev Basic version of StandardToken, with no allowances.
+ */
+contract BasicToken is ERC20Basic {
+    using SafeMath for uint256;
+
+    mapping(address =&gt; uint256) balances;
+
+  /**
+  * @dev transfer token for a specified address
+  * @param _to The address to transfer to.
+  * @param _value The amount to be transferred.
+  */
+    function transfer(address _to, uint256 _value) returns (bool) {
+        balances[msg.sender] = balances[msg.sender].sub(_value);
+        balances[_to] = balances[_to].add(_value);
+        Transfer(msg.sender, _to, _value);
+        return true;
+    }
+
+  /**
+  * @dev Gets the balance of the specified address.
+  * @param _owner The address to query the the balance of.
+  * @return An uint256 representing the amount owned by the passed address.
+  */
+    function balanceOf(address _owner) constant returns (uint256 balance) {
+        return balances[_owner];
+    }
+
+}
+</code></pre>
+</div>
+
+<p>进一步追去看·BasicToken.sol<code class="highlighter-rouge">合约的内容，可以发现</code>BasicToken.sol<code class="highlighter-rouge">合约中导入了</code>SafeMath.sol<code class="highlighter-rouge">合约。</code>SafeMath`对各种数值运算加入了必要的验证，让合约中的数字计算更安全。</p>
+
+<p><strong>如此一来，我们已写好一个可通过以太币钱包交易的新加密代币合约。这个合约一经部署，就可以一直存在于以太坊区块链上，世界上从此也就多了一种新的加密代币。只要你能找到人想拥有这种代币，这种代币就有交易的价值。</strong></p>
+
+<h2 id="编译部署验证">编译、部署、验证</h2>
+
+<p>在<code class="highlighter-rouge">migrations/</code>目录下建立一个<code class="highlighter-rouge">3_deploy_bloggerchain.js</code>文件，内容如下：</p>
+
+<h4 id="现在执行compile与migrate命令">现在执行compile与migrate命令</h4>
+
+<p><strong>备注：</strong>确保<code class="highlighter-rouge">testrpc</code>处于运行状态。</p>
+
+<ul>
+  <li>truffle compile</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/Users/liyuechun/Desktop/SmartContractDemo/BloggerCoin
+liyuechun:BloggerCoin yuechunli$ truffle compile
+Compiling ./contracts/BloggerCoin.sol...
+Compiling ./contracts/Migrations.sol...
+Compiling ./contracts/SimpleStorage.sol...
+Compiling zeppelin-solidity/contracts/math/SafeMath.sol...
+Compiling zeppelin-solidity/contracts/token/BasicToken.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20Basic.sol...
+Compiling zeppelin-solidity/contracts/token/StandardToken.sol...
+Writing artifacts to ./build/contracts
+
+liyuechun:BloggerCoin yuechunli$ 
+</code></pre>
+</div>
+
+<ul>
+  <li>truffle migrate</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:BloggerCoin yuechunli$ truffle migrate
+Using network 'development'.
+
+Running migration: 1_initial_migration.js
+  Deploying Migrations...
+  ... 0xac35fdd655a7b8916d5a43fb608227f1827aa666e4d4aa7b4d50347f8883de8a
+  Migrations: 0x5c7102091425e16998b8bed1cd6634f499ab3684
+Saving successful migration to network...
+  ... 0x1131a209a1ca27cadbec4ef8f84cecbe322e59d01b2b584f3e0ddada5a7a53d8
+Saving artifacts...
+Running migration: 2_deploy_contracts.js
+  Deploying BloggerCoin...
+  ... 0xc23199c5fe72206a5d74ad09797c9df17deb361c56ee1cb14b816ee0d874d5e2
+  BloggerCoin: 0xbacb9b3da2e3140df11516be2244c4ea230d6d39
+Saving successful migration to network...
+  ... 0x32bf4f5299bb4d260cc86da76591d9564376a82c4b8122261043d74a70c57b9e
+Saving artifacts...
+Running migration: 3_deploy_bloggerchain.js
+  Replacing BloggerCoin...
+  ... 0x87e8c7a24727a06da750a2c9f3b4ea1bc4b87c8c3e9c8a9219c3dada911e0991
+  BloggerCoin: 0x5262d2b6de1a1187abdd203cb726b387bcd6140f
+Saving successful migration to network...
+  ... 0x75166d7f6ee595437718df960d9a3bc76466bd890988a92b1aac1a396dc7f018
+Saving artifacts...
+liyuechun:BloggerCoin yuechunli$ 
+</code></pre>
+</div>
+
+<h4 id="验证">验证</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>liyuechun:BloggerCoin yuechunli$ truffle console
+truffle(development)&gt; let contract
+undefined
+truffle(development)&gt; BloggerCoin.deployed().then(instance =&gt; contract = instance)
+......
+truffle(development)&gt; contract.balanceOf(web3.eth.coinbase)
+{ [String: '66666'] s: 1, e: 5, c: [ 666666 ] }
+truffle(development)&gt; contract.balanceOf(web3.eth.accounts[1])
+{ [String: '600000'] s: 1, e: 0, c: [ 0 ] }
+truffle(development)&gt; contract.transfer(web3.eth.accounts[1], 600000)
+truffle(development)&gt; contract.balanceOf(web3.eth.coinbase)
+{ [String: '66666'] s: 1, e: 4, c: [ 66666 ] }
+truffle(development)&gt; contract.balanceOf(web3.eth.accounts[1])
+{ [String: '600000'] s: 1, e: 5, c: [ 600000 ] }
+truffle(development)&gt; 
+</code></pre>
+</div>
+
+<p>验证过程中具体方法的讲解，请看这篇文章：<a href="http://liyuechun.org/2017/09/20/how-to-code-smart-contract-EncryptedToken/">如何编写智能合约？（II） 建立简易的加密代币</a></p>
+
+<h2 id="结语">结语</h2>
+
+<p>我们用到<code class="highlighter-rouge">OpenZeppelin</code>来简化我们加密代币的开发，当然在正式的系统中，建议大家看看<code class="highlighter-rouge">OpenZeppelin</code>源码，检查一下是否还有缺陷，同时也可以从这个开源库中学到不少东西。</p>
+
+<h2 id="打赏地址">打赏地址</h2>
+
+<p><strong>比特币：</strong>1FcbBw62FHBJKTiLGNoguSwkBdVnJQ9NUn
+<strong>以太坊：</strong>0xF055775eBD516e7419ae486C1d50C682d4170645</p>
+
+<h2 id="技术交流">技术交流</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png" alt="" /></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>[1] <a href="http://solidity.readthedocs.io/en/latest/index.html">http://solidity.readthedocs.io/en/latest/index.html</a></li>
+  <li>[2] <a href="https://ethereum.github.io/browser-solidity/">https://ethereum.github.io/browser-solidity/</a></li>
+  <li>[3] <a href="http://truffleframework.com/">http://truffleframework.com/</a></li>
+  <li>[4] <a href="https://github.com/iurimatias/embark-framework">https://github.com/iurimatias/embark-framework</a></li>
+  <li>[5] <a href="https://github.com/ethereum/ens">https://github.com/ethereum/ens</a></li>
+  <li>[6] <a href="https://github.com/ethereumjs/testrpc">https://github.com/ethereumjs/testrpc</a></li>
+  <li>[7] <a href="https://github.com/ethereumjs/ethereumjs-vm">https://github.com/ethereumjs/ethereumjs-vm</a></li>
+  <li>[8] <a href="http://web3js.readthedocs.io/en/1.0/index.html">http://web3js.readthedocs.io/en/1.0/index.html</a></li>
+</ul>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/09/20/how-to-code-smart-contract-EncryptedToken/" data-toggle="tooltip" data-placement="top" title="如何编写智能合约（Smart Contract）？（II）建立加密代币">上一篇：  <span>如何编写智能合约（Smart Contract）？（II）建立加密代币</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/09/23/smart-contract-train/" data-toggle="tooltip" data-placement="top" title="『区块链智能合约』从零构建Ethereum智能合约到实战开发">下一篇：  <span>『区块链智能合约』从零构建Ethereum智能合约到实战开发</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=如何编写智能合约（Smart Contract）？（III）建立标准代币部落币「BLC」 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

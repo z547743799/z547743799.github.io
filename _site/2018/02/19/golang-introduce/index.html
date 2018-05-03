@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>第1章-简介和配置</title>
+  <meta name="description" content="Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。
+Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="golang 环境安装配置"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="第1章-简介和配置">
+  <meta name="twitter:description" content="Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。
+Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="第1章-简介和配置">
+  <meta property="og:description" content="Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。
+Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。">
+  <meta property="og:site_name" content="golang 环境安装配置e"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2018/02/19/golang-introduce/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">第1章-简介和配置</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2018-02-19 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2018-02-19</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <h1 id="一介绍和安装">一、介绍和安装</h1>
+<h2 id="1介绍">1.介绍</h2>
+
+<h3 id="11-什么是golang">1.1 什么是Golang</h3>
+
+<p>Go也被称为Golang，它是由谷歌创建的一种开源、编译和静态类型的编程语言。</p>
+
+<p>Golang的主要目标是使高可用性和可伸缩的web应用程序的开发变得简单易行。</p>
+
+<h3 id="12-为什么选择golang">1.2 为什么选择Golang</h3>
+
+<p>当有很多其他语言(如python、ruby、node.js)时，为什么选择Golang作为服务端编程语言呢?</p>
+
+<ul>
+  <li>并发是语言的一个固有部分。因此编写多线程程序是小菜一碟。这是通过Goroutines和channel实现的，我们将在后面的教程中讨论。</li>
+  <li>Golang是一种编译语言。源代码编译成原生二进制。这在解释语言(如nodejs中使用的JavaScript)中丢失了。</li>
+  <li>语言规范非常简单。整个规范适合于一个页面，您甚至可以使用它来编写自己的编译器:)</li>
+  <li>go编译器支持静态链接。所有的go代码都可以静态地链接到一个大的fat二进制文件中，并且可以轻松地部署到云服务器中，而不用担心依赖关系。</li>
+</ul>
+
+<h2 id="2安装">2.安装</h2>
+
+<h3 id="21下载">2.1下载</h3>
+
+<p>在Mac、Windows和Linux三个平台上都支持Golang。您可以从https://golang.org/dl/下载相应平台的二进制文件。</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85.jpg" alt="" /></p>
+
+<p>Mac OS
+从<a href="https://golang.org/dl/">https://golang.org/dl/</a>下载<code class="highlighter-rouge">osx</code>安装程序。双击启动安装。按照提示，这应该在<code class="highlighter-rouge">/usr/local/go</code>中安装了<code class="highlighter-rouge">Golang</code>，并且还会将文件夹<code class="highlighter-rouge">/usr/local/go/bin</code>添加到您的<code class="highlighter-rouge">PATH</code>环境变量中。</p>
+
+<p>Windows
+从<a href="https://golang.org/dl/">https://golang.org/dl/</a>下载<code class="highlighter-rouge">MSI</code>安装程序。双击启动安装并遵循提示。这将在位置<code class="highlighter-rouge">C</code>中安装<code class="highlighter-rouge">Golang:\Go</code>，并且还将添加目录<code class="highlighter-rouge">C:\Go\bin</code>到您的<code class="highlighter-rouge">path</code>环境变量。</p>
+
+<p>Linux
+从<a href="https://golang.org/dl/">https://golang.org/dl/</a>下载 <code class="highlighter-rouge">tar </code>文件，并将其解压到<code class="highlighter-rouge">/usr/local</code>。</p>
+
+<p>将<code class="highlighter-rouge">/usr/local/go/bin</code>添加到<code class="highlighter-rouge">PATH</code>环境变量中。这应该安装在<code class="highlighter-rouge">linux</code>中。</p>
+
+<h3 id="22-windows下安装并配置环境变量">2.2 windows下安装并配置环境变量</h3>
+
+<p>安装步骤就不在多说什么了，一路到底</p>
+
+<p><strong>A、配置环境变量</strong></p>
+
+<p>注意：如果是 <code class="highlighter-rouge">msi</code> 安装文件，<code class="highlighter-rouge">Go</code> 语言的环境变量会自动设置好。</p>
+
+<p>我的电脑——右键“属性”——“高级系统设置”——“环境变量”——“系统变量”</p>
+
+<p>​	假设GO安装于C盘根目录</p>
+
+<p><strong>新建：</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">GOROOT：Go</code> 安装路径（例：<code class="highlighter-rouge">C:\Go</code>）</li>
+  <li><code class="highlighter-rouge">GOBIN：Go</code>安装路径的bin路径（例：<code class="highlighter-rouge">C:\Go\bin</code>）</li>
+  <li><code class="highlighter-rouge">GOPATH：Go</code>工程的路径（例：<code class="highlighter-rouge">E:\go</code>）。如果有多个，就以分号分隔添加</li>
+</ul>
+
+<p><strong>修改：</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">Path：</code> 添加上<code class="highlighter-rouge">Go</code>安装路径，以分号结尾</li>
+</ul>
+
+<blockquote>
+  <p>工作目录就是我们用来存放开发的源代码的地方，对应的也是Go里的GOPATH这个环境变量。这个环境变量指定之后，我们编译源代码等生成的文件都会放到这个目录下，GOPATH环境变量的配置参考上面的安装Go，配置到Windows下的系统变量里。</p>
+</blockquote>
+
+<p><strong>B、查看是否安装配置成功</strong></p>
+
+<p>使用快捷键win+R键，输入cmd，打开命令行提示符，在命令行中输入</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>go env  # 查看得到go的配置信息
+go version  # 查看go的版本号
+</code></pre>
+</div>
+
+<h3 id="23-mac系统安装并配置">2.3 mac系统安装并配置</h3>
+
+<p><strong>安装</strong></p>
+
+<p>双击 pkg 包，顺着指引，即可安装成功。
+在命令行输入 go version，获取到 go 的version，则代表安装成功。</p>
+
+<p><strong>配置环境变量</strong></p>
+
+<p>1、打开终端输入cd ~进入用户主目录;
+2、输入ls -all命令查看是否存在.bash_profile;
+3、存在既使用vim .bash_profile 打开文件;
+4、输入 i 进入vim编辑模式；
+5、输入下面代码，
+其中 GOPATH: 日常开发的根目录。GOBIN:是GOPATH下的bin目录。</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">export GOPATH=/Users/yztc/go</code></p>
+
+  <p><code class="highlighter-rouge">export GOBIN=$GOPATH/bin</code></p>
+
+  <p><code class="highlighter-rouge">export PATH=$PATH:$GOBIN</code></p>
+</blockquote>
+
+<p>6、点击ESC，并输入 :wq 保存并退出编辑。可输入vim .bash_profile 查看是否保存成功。</p>
+
+<p>7、输入source ~/.bash_profile 完成对golang环境变量的配置，配置成功没有提示。
+8、输入go env 查看配置结果</p>
+
+<h1 id="二搭建开发工具">二、搭建开发工具</h1>
+
+<p>安装好atom工具，然后安装go-plus插件和atom-terminal-panel插件。</p>
+
+<p>1.安装go-plus插件</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/002_%E6%8F%92%E4%BB%B6.bmp" alt="" /></p>
+
+<p>2.安装atom-terminal-panel插件</p>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/001_%E6%8F%92%E4%BB%B6.bmp" alt="" /></p>
+
+<h1 id="三第一个程序helloworld">三、第一个程序：HelloWorld</h1>
+
+<h3 id="31-编写第一个程序">3.1 编写第一个程序</h3>
+
+<p>1.打开编辑器创建一个新的helloworld.go文件，并输入以下内容：</p>
+
+<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="c">/* 输出 */</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+</div>
+
+<p>2.执行go程序</p>
+
+<p>执行go程序由几种方式</p>
+
+<p>方式一：使用go run命令</p>
+
+<p>​	step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+
+<p>​	step2：进入helloworld.go所在的目录</p>
+
+<p>​	step3：输入go run helloworld.go命令并观察运行结果。</p>
+
+<p>方式二：使用go build命令</p>
+
+<p>​	step1：使用快捷键win+R，输入cmd打开命令行提示符</p>
+
+<p>​	step2：进入helloworld.go所在的目录</p>
+
+<p>​	step3：输入go build helloworld.go命令进行编译，产生同名的helloworld.exe文件</p>
+
+<p>​	step4：输入helloworld.exe，执行</p>
+
+<p>方式三：使用 go playground</p>
+
+<p>​	step1：打开一下网址https://play.golang.org/</p>
+
+<p>​</p>
+
+<h3 id="32-第一个程序的解释说明">3.2 第一个程序的解释说明</h3>
+
+<h4 id="321-package">3.2.1 package</h4>
+
+<ul>
+  <li>在同一个包下面的文件属于同一个工程文件，不用<code class="highlighter-rouge">import</code>包，可以直接使用</li>
+  <li>在同一个包下面的所有文件的package名，都是一样的</li>
+  <li>在同一个包下面的文件<code class="highlighter-rouge">package</code>名都建议设为是该目录名，但也可以不是</li>
+</ul>
+
+<h4 id="322--import">3.2.2  import</h4>
+
+<p>import “fmt” 告诉 Go 编译器这个程序需要使用 fmt 包的函数，fmt 包实现了格式化 IO（输入/输出）的函数</p>
+
+<p>可以是相对路径也可以是绝对路径，推荐使用绝对路径（起始于工程根目录）</p>
+
+<ol>
+  <li>
+    <p>点操作
+我们有时候会看到如下的方式导入包</p>
+
+    <div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="p">(</span><span class="x">
+	</span><span class="o">.</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+</span></code></pre>
+    </div>
+
+    <p>这个点操作的含义就是这个包导入之后在你调用这个包的函数时，你可以省略前缀的包名，也就是前面你调</p>
+
+    <p>用的<code class="highlighter-rouge">fmt.Println("hello world")</code>可以省略的写成<code class="highlighter-rouge">Println("hello world")</code></p>
+  </li>
+  <li>
+    <p>别名操作
+别名操作顾名思义我们可以把包命名成另一个我们用起来容易记忆的名字</p>
+
+    <div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="p">(</span><span class="x">
+	</span><span class="n">f</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+</span></code></pre>
+    </div>
+
+    <p>别名操作的话调用包函数时前缀变成了我们的前缀，即<code class="highlighter-rouge">f.Println("hello world")</code></p>
+  </li>
+  <li>
+    <p>_操作
+这个操作经常是让很多人费解的一个操作符，请看下面这个import</p>
+
+    <div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+  </span><span class="s">"database/sql"</span><span class="x">
+  </span><span class="n">_</span><span class="x"> </span><span class="s">"github.com/ziutek/mymysql/godrv"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+</span></code></pre>
+    </div>
+
+    <p>_操作其实是引入该包，而不直接使用包里面的函数，而是调用了该包里面的init函数</p>
+  </li>
+</ol>
+
+<h4 id="333-main与init">3.3.3 main与init</h4>
+
+<ul>
+  <li>这两个函数在定义时不能有任何的参数和返回值</li>
+  <li>虽然一个package里面可以写任意多个init函数，但推荐只用一个</li>
+  <li>Go程序会自动调用init()和main()</li>
+  <li>每个package中的init函数都是可选的，但package main就必须包含一个main函数</li>
+  <li>先调用init函数，再调用main函数</li>
+  <li>运行程序，必须要运行存在main函数的go文件</li>
+</ul>
+
+<p><code class="highlighter-rouge">初始化顺序：</code></p>
+
+<p>程序的初始化和执行都起始于main包。如果main包还导入了其它的包，那么就会在编译时将它们依次导入。有时一个包会被多个包同时导入，那么它只会被导入一次（例如很多包可能都会用到fmt包，但它只会被导入一次，因为没有必要导入多次）。当一个包被导入时，如果该包还导入了其它的包，那么会先将其它包导入进来，然后再对这些包中的包级常量和变量进行初始化，接着执行init函数（如果有的话），依次类推。等所有被导入的包都加载完毕了，就会开始对main包中的包级常量和变量进行初始化，然后执行main包中的init函数（如果存在的话），最后执行main函数。</p>
+
+<h1 id="四编码规范">四、编码规范</h1>
+
+<h3 id="41-编码规范">4.1 编码规范</h3>
+
+<h3 id="42-注释">4.2 注释</h3>
+
+<ul>
+  <li>单行注释是最常见的注释形式，你可以在任何地方使用以 // 开头的单行注释</li>
+  <li>多行注释也叫块注释，均已以 /* 开头，并以 */ 结尾，且不可以嵌套使用，多行注释一般用于包的文档描述或注释成块的代码片段</li>
+</ul>
+
+<h3 id="43-标识符">4.3 标识符</h3>
+
+<p>当标识符（包括常量、变量、类型、函数名、结构字段等等）以一个大写字母开头，如：Group1，那么使用这种形式的标识符的对象就<strong>可以被外部包的代码所使用</strong>（客户端程序需要先导入这个包），这被称为导出（像面向对象语言中的 public）；<strong>标识符如果以小写字母开头，则对包外是不可见的，但是他们在整个包的内部是可见并且可用的</strong>（像面向对象语言中的 private ）</p>
+
+<h3 id="44-语句的结尾">4.4 语句的结尾</h3>
+
+<p>Go语言中是不需要类似于Java需要冒号结尾，默认一行就是一条数据</p>
+
+<p>如果你打算将多个语句写在同一行，它们则必须使用 <strong>;</strong></p>
+
+<h2 id="官方公众号">官方公众号</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD-1.jpg" alt="" /></p>
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/02/17/consensus/" data-toggle="tooltip" data-placement="top" title="分布式一致性与共识算法 · 面向信仰编程">上一篇：  <span>分布式一致性与共识算法 · 面向信仰编程</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/02/20/golang-Basic-grammar/" data-toggle="tooltip" data-placement="top" title="第2章-基本语法">下一篇：  <span>第2章-基本语法</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=第1章-简介和配置 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>

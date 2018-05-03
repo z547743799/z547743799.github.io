@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>基于Ethereum &amp; IPFS的去中心化Ebay区块链项目开发实战</title>
+  <meta name="description" content="这是一个中级水平的课程，您可以建立一个类似`eBay`的市场，在这个市场上**卖家**可以拍卖他们的产品，**买家**也可以通过拍卖来购买。
+因为我们会将所有的业务逻辑和数据存储在以太坊区块链上，所以这将是一个完全去中心化的应用程序。与此同时，如果我们将所有的图片和大量文本都存储在以太坊区块链上，这将非常昂贵，甚至由于以太坊`EVM`的一些限制，我们根本不可能将大量的图片和文本存储到区块链。为了解决这个问题，我们将在`IPFS（Inter Planetary File System）`上存储大量的文本和图像。我们将更多地了解`IPFS`并将其融入到本课程的应用中。">
+  <meta name="author" content="黎跃春">
+
+  <meta name="keywords" content="IPFS  Ethereum js-ipfs-api ebay nodejs mongodb"
+  />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="基于Ethereum &amp; IPFS的去中心化Ebay区块链项目开发实战">
+  <meta name="twitter:description" content="这是一个中级水平的课程，您可以建立一个类似`eBay`的市场，在这个市场上**卖家**可以拍卖他们的产品，**买家**也可以通过拍卖来购买。
+因为我们会将所有的业务逻辑和数据存储在以太坊区块链上，所以这将是一个完全去中心化的应用程序。与此同时，如果我们将所有的图片和大量文本都存储在以太坊区块链上，这将非常昂贵，甚至由于以太坊`EVM`的一些限制，我们根本不可能将大量的图片和文本存储到区块链。为了解决这个问题，我们将在`IPFS（Inter Planetary File System）`上存储大量的文本和图像。我们将更多地了解`IPFS`并将其融入到本课程的应用中。">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="基于Ethereum &amp; IPFS的去中心化Ebay区块链项目开发实战">
+  <meta property="og:description" content="这是一个中级水平的课程，您可以建立一个类似`eBay`的市场，在这个市场上**卖家**可以拍卖他们的产品，**买家**也可以通过拍卖来购买。
+因为我们会将所有的业务逻辑和数据存储在以太坊区块链上，所以这将是一个完全去中心化的应用程序。与此同时，如果我们将所有的图片和大量文本都存储在以太坊区块链上，这将非常昂贵，甚至由于以太坊`EVM`的一些限制，我们根本不可能将大量的图片和文本存储到区块链。为了解决这个问题，我们将在`IPFS（Inter Planetary File System）`上存储大量的文本和图像。我们将更多地了解`IPFS`并将其融入到本课程的应用中。">
+  <meta property="og:site_name" content="IPFS  Ethereum js-ipfs-api ebay nodejs mongodbe"
+  />
+
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+
+
+  <link rel="stylesheet" href=" /css/main.css ">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://liyuechun.org/2017/11/23/ipfs-ethereum-ebay/">
+  <link rel="alternate" type="application/rss+xml" title="黎跃春区块链博客" href="http://liyuechun.org /feed.xml
+    ">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+  <!-- 站点统计 -->
+  <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <script>(function() {var _53code = document.createElement("script");_53code.src = "https://tb.53kf.com/code/code/10174862/1";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(_53code, s);})();</script>
+  <!-- 百度统计 -->
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f3290601666dc2ca016a38c340c144f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  
+
+  <!-- google 统计 -->
+  
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-104237177-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+</head>
+
+
+<body>
+
+  <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      分类
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+          
+      </div>
+    </span> <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">
+          <a href="/#blog" title="前往 黎跃春区块链博客 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+            <div class="info">
+              <div class="info-back">
+                <h2 style="font-size: 14px">
+                   微信:liyc1215 
+                </h2>´
+                <p style="font-size: 6px">
+                   孔壹学院|链乎 
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for 黎跃春区块链博客" class="blog-button">黎跃春区块链博客</a></h1>
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">黎跃春，江湖人称春哥，孔壹学院、 链乎创始人，区块链职业教育布道师，通信和信息技术培养工程区块链高级授课专家。</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" /> 
+
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">分类</a></li>
+                
+                <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:center;-webkit-justify-content:center">
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-right:10px">
+            <img src="/images/zhishixingqiu.png" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎问答社区</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;-webkit-flex-direction:column;-webkit-align-items:center;margin-left:10px">
+            <img src="/images/lianhu.jpg" style="width:120px;height:120px;margin-top:30px;margin-bottom:10px" />
+            <span class="panel-cover__subtitle panel-subtitle" style="font-size: 12px">链乎公众号</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="panel-cover--overlay cover-clear"></div>
+  
+
+  </div>
+</header>
+
+
+  <div class="content-wrapper">
+    <div class="content-wrapper__inner">
+      <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">基于Ethereum & IPFS的去中心化Ebay区块链项目开发实战</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px"/>
+      <time datetime="2017-11-23 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2017-11-23</time>
+
+      <span id="busuanzi_container_page_pv"> | 阅读：<span id="busuanzi_value_page_pv"></span>次</span>
+    </p>
+    </div>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>孔壹学院：国内区块链职业教育引领品牌，专注于区块链产品底层研发和职业教育培训，孔壹学院是一家集产品研发、外包服务、脱产班、周末班、企业内训、区块链人才服务提供商为一体的综合性区块链商学院。
+官方网站：http://www.kongyixueyuan.com
+黎跃春（微信：liyc1215）：孔壹学院 、 BloggerChain创始人，资深讲师，区块链、高可用架构师。
+联系我们：微信：ershiyidianjian</p>
+</blockquote>
+
+<p><strong>参加Ebay项目线下周末班请点击<a href="https://mp.weixin.qq.com/s/feY21MxV_-LuWogPW6qqWA">周末班详情</a></strong></p>
+
+<h2 id="目录">目录</h2>
+<ul>
+  <li><a href="#1-介绍">1. 介绍</a>
+    <ul>
+      <li><a href="#11-eBay简介">1.1 eBay简介</a></li>
+      <li><a href="#12-本课程介绍">1.2 本课程介绍</a></li>
+      <li><a href="#13-为什么要去中心化">1.3 为什么要去中心化</a></li>
+      <li><a href="#14-项目详情">1.4 项目详情</a></li>
+      <li><a href="#15-技术需求">1.5 技术需求</a></li>
+    </ul>
+  </li>
+  <li><a href="#2-项目架构">2. 项目架构</a></li>
+  <li><a href="#3-应用程序流">3. 应用程序流</a></li>
+  <li><a href="#4-实现步骤">4. 实现步骤</a></li>
+  <li><a href="#5-以太坊智能合约(Ethereum Contract)">5. 以太坊智能合约(Ethereum Contract)</a></li>
+  <li><a href="#6-IPFS">6. IPFS</a></li>
+  <li><a href="#7-Web前端 - Product">7. Web前端 - Product</a></li>
+  <li><a href="#8-Web前端 - 拍卖">8. Web前端 - 拍卖</a></li>
+  <li><a href="#9-托管服务(Escrow Service)">9. 托管服务(Escrow Service)</a></li>
+  <li><a href="#10-产品离线(Products Offchain)">10. 产品离线(Products Offchain)</a></li>
+  <li><a href="#11-项目效果">11. 项目效果</a></li>
+</ul>
+
+<h2 id="1-介绍">1. 介绍</h2>
+
+<h3 id="11-ebay简介">1.1 eBay简介</h3>
+
+<p><code class="highlighter-rouge">eBay</code>，（<code class="highlighter-rouge">EBAY</code>，中文电子湾、亿贝、易贝）是一个管理可让全球民众上网买卖物品的线上拍卖及购物网站。<code class="highlighter-rouge">ebay</code>于<code class="highlighter-rouge">1995年9月4日</code>由<code class="highlighter-rouge">Pierre Omidyar</code>以<code class="highlighter-rouge">Auctionweb</code>的名称创立于加利福尼亚州圣荷西。人们可以在<code class="highlighter-rouge">ebay</code>上通过网络出售商品。</p>
+
+<h3 id="12-本课程介绍">1.2 本课程介绍</h3>
+
+<p>这是一个中级水平的课程，您可以建立一个类似<code class="highlighter-rouge">eBay</code>的市场，在这个市场上<strong>卖家</strong>可以拍卖他们的产品，<strong>买家</strong>也可以通过拍卖来购买。</p>
+
+<p>因为我们会将所有的业务逻辑和数据存储在以太坊区块链上，所以这将是一个完全去中心化的应用程序。与此同时，如果我们将所有的图片和大量文本都存储在以太坊区块链上，这将非常昂贵，甚至由于以太坊<code class="highlighter-rouge">EVM</code>的一些限制，我们根本不可能将大量的图片和文本存储到区块链。为了解决这个问题，我们将在<code class="highlighter-rouge">IPFS（Inter Planetary File System）</code>上存储大量的文本和图像。我们将更多地了解<code class="highlighter-rouge">IPFS</code>并将其融入到本课程的应用中。</p>
+
+<h3 id="13-为什么要去中心化">1.3 为什么要去中心化</h3>
+
+<p>在我们开始构建应用程序之前，花一分钟的时间来了解在像<code class="highlighter-rouge">Ethereum</code>这样的去中心化平台上构建产品的动机。</p>
+
+<p><code class="highlighter-rouge">eBay</code>取得了巨大的成功，因为它使得买卖非常有效率。在互联网成为主流之前，人们只能在当地社区购买和出售商品，当然也可以在一定的地理范围内购物。随着越来越多的人上网，像<code class="highlighter-rouge">eBay</code>这样的公司完全可以体验整个线下购物拍卖的场景，任何人都可以在互联网上从世界任何地方买卖任何东西。 <code class="highlighter-rouge">eBay</code>对于消费者和商人都具有划时代的意义。</p>
+
+<p><strong>尽管这对大家都有好处，并且总体上改善了贸易和经济，但是它有一些缺点。</strong></p>
+
+<ul>
+  <li>
+    <p>参与的商人都在受到公司的相关限制：公司可以随时决定是否阻止商家自行处理交易，这对商人来说可能是一个巨大的打击。</p>
+  </li>
+  <li>
+    <p>商家支付费用列出他们的产品，并支付销售佣金。付费本身并不是那么糟糕，因为<code class="highlighter-rouge">eBay</code>提供服务。然而，<strong>上市费有时太高</strong>，商家要么保证金很高，要么把这笔费用交给消费者。</p>
+  </li>
+  <li>
+    <p><strong>商家/消费者不拥有他们的任何数据</strong>。评论、购买历史等都是这些公司所有。例如，如果商家想将自己的操作转移到另一个提供商，那么导出她的评论或其他数据是几乎不可能的。</p>
+  </li>
+</ul>
+
+<p>在以太坊这样的平台上构建产品解决了这些问题。商户的账户不能被封锁，数据是公开的，所以它可以很容易导出，交易费用比中心化的公司少很多很多。</p>
+
+<h3 id="14-项目详情">1.4 项目详情</h3>
+
+<p>现在，您已经了解了构建此应用程序的原因以及为什么要构建这个应用程序，接下来我们来看一个高级别的，我们将在此项目中实现的所有功能。</p>
+
+<ul>
+  <li>
+    <p><strong>项目展示：</strong>一个网站应该允许商家列出他们的项目。我们将为任何人建立免费列出他们的项目的功能。我们会将这些项目都存储在区块链和非区块链的数据库中，以方便查询。</p>
+  </li>
+  <li>
+    <p><strong>将文件添加到IPFS：</strong>我们将添加将产品图像和产品描述（大文本）上传到IPFS的功能。</p>
+  </li>
+  <li>
+    <p><strong>浏览产品：</strong>我们将添加根据类别、拍卖时间等过滤和浏览产品的功能。</p>
+  </li>
+  <li>
+    <p><strong>拍卖：</strong>就像<code class="highlighter-rouge">eBay</code>，我们将实现<a href="https://zh.wikipedia.org/wiki/%E7%B6%AD%E5%85%8B%E9%87%8C%E6%8B%8D%E8%B3%A3"><strong>维克里拍卖（Vickrey auction），即次价密封投标拍卖(Second-price sealed-bid auction)</strong></a>对物品进行投标。因为以太坊上的一切都是公开的，不像中心化应用程序，所以我们的实现将有所不同。我们的实现将非常类似于<strong><code class="highlighter-rouge">ENS</code></strong>的招标流程。</p>
+  </li>
+  <li>
+    <p><strong>托管合约：</strong>一旦投标结束，产品有赢家，我们将在<strong>买方</strong>，<strong>卖方</strong>和<strong>第三方仲裁人</strong>之间创建一个托管合同。</p>
+  </li>
+  <li>
+    <p><strong>2-of-3 数字签名：</strong>我们将通过实施<code class="highlighter-rouge">2-of-3 数字签名</code>解决方案来<strong>增加欺诈保护</strong>，其中<code class="highlighter-rouge">3名</code>参与者中的<code class="highlighter-rouge">2名</code>必须投票将资金释放给卖方或将金额退还给买方。</p>
+  </li>
+</ul>
+
+<h3 id="15-技术需求">1.5 技术需求</h3>
+
+<p><strong>要成功完成本课程，您应该对以下语言/技术有基本的了解：</strong></p>
+
+<ul>
+  <li>
+    <p><strong>Solidity面向对象编程：</strong>在讲解这个项目之前，我们会先给大家讲解<code class="highlighter-rouge">Solidity</code>面向对象编程基础，如何编写简单合约，部署合约，合约简单互动。</p>
+  </li>
+  <li>
+    <p><strong>HTML/CSS/React：</strong>您应该对构建前端的<code class="highlighter-rouge">HTML / CSS</code>有基本的了解。</p>
+  </li>
+  <li>
+    <p><strong>Javascript：</strong>我们在这个过程中广泛使用<code class="highlighter-rouge">JavaScript</code>。它在服务器端用于将数据保存到数据库并查询数据库并将结果返回到前端。前端使用<code class="highlighter-rouge">Web3.js</code>与<code class="highlighter-rouge">区块链</code>进行交互。我们尽力保持<code class="highlighter-rouge">javascript</code>代码尽可能简单，以迎合不同背景的学生。</p>
+  </li>
+  <li>
+    <p><strong>Database：</strong>我们将在本课程中使用<code class="highlighter-rouge">MongoDB</code>来存储产品信息。没有必要特别了解<code class="highlighter-rouge">MongoDB</code>的知识，但是对这个过程需要对数据库有基本的了解。</p>
+  </li>
+</ul>
+
+<h2 id="2-项目架构">2. 项目架构</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/zastrin-ebay-dapp-architecture.png" alt="eBay dapp 项目架构" /></p>
+
+<p>在我们开始执行代码之前，让我们来看看我们将在本课程中构建的Dapp的体系结构。</p>
+
+<ul>
+  <li>
+    <p><strong>Web前端：</strong><code class="highlighter-rouge">Web</code>前端是<code class="highlighter-rouge">HTML</code>，<code class="highlighter-rouge">CSS</code>和<code class="highlighter-rouge">Javascript</code>的组合（大量使用<code class="highlighter-rouge">web3js</code>）。用户将通过这个<strong><code class="highlighter-rouge">前端应用程序</code>与<code class="highlighter-rouge">区块链</code>，<code class="highlighter-rouge">IPFS</code>和<code class="highlighter-rouge">nodeJS服务器</code>交互</strong>。</p>
+  </li>
+  <li>
+    <p><strong>区块链：</strong>这是所有<strong>代码和交易</strong>所在的<strong>应用程序的心脏</strong>。商店中的<strong>所有产品</strong>、<strong>用户出价</strong>和<strong>托管</strong>都写在<strong>区块链</strong>上。</p>
+  </li>
+  <li>
+    <p><strong>MongoDB：</strong>尽管产品存储在区块链中，但是<strong>查询区块链展示产品</strong>和<strong>应用各种过滤器</strong>（仅显示特定类别的产品，显示即将过期的产品等）<strong>效率并不高</strong>。我们将使用<code class="highlighter-rouge">MongoDB</code>数据库来存储产品信息并查询它以展示产品。</p>
+  </li>
+  <li>
+    <p><strong>NodeJS服务器：</strong>这是前端通过其与数据库进行通信的后端服务器。我们将公开一些简单的API来为前端查询和从数据库中检索产品。</p>
+  </li>
+  <li>
+    <p><strong>IPFS：</strong>当用户在商店中列出商品时，前端会将产品文件和描述上传到<code class="highlighter-rouge">IPFS</code>，并将上传文件的<strong>散列HASH存储到区块链</strong>中。</p>
+  </li>
+</ul>
+
+<h2 id="3-应用程序流">3. 应用程序流</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/ebay-list-item.png" alt="应用程序流" /></p>
+
+<p>为了理解我们在前面部分中看到的所有组件，让我们看看用户列出项目时的应用程序流程。这将使您更好地了解所有组件如何协同工作。</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">Web</code>前端将包含一个<code class="highlighter-rouge">HTML</code>表单，用户可以在其中输入产品详细信息（名称，起始价格，图像，说明等）并点击保存 ①。</p>
+  </li>
+  <li>
+    <p>网络前端将产品图像和产品描述上传到<code class="highlighter-rouge">IPFS</code>，并获取这些上传数据的链接。 ② 和 ③。</p>
+  </li>
+  <li>
+    <p>网页前端然后调用合约将<strong>产品信息 + IPFS链接存储到区块链</strong>上。在成功将产品添加到区块链中时，合约会触发事件，该事件会返回所有产品信息。 ④ 和 ⑤。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">NodeJS</code>服务器设置为监听这些事件，当事件被合约触发时，服务器读取事件的内容并将产品插入到<code class="highlighter-rouge">MongoDB</code>中。 ⑥，⑦ 和 ⑧。</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>当我们实现这些功能时，我们将继续讨论剩下的应用程序流程。</p>
+</blockquote>
+
+<h2 id="4-实现步骤">4. 实现步骤</h2>
+
+<ul>
+  <li>
+    <p>先通过<code class="highlighter-rouge">truffle framework</code>和<code class="highlighter-rouge">Solidity</code>实现合约代码，并将其部署到<code class="highlighter-rouge">truffle develop</code>自带的测试网络中，并且在<code class="highlighter-rouge">truffle console</code>中可以自由交互。</p>
+  </li>
+  <li>
+    <p>然后我们将学习<code class="highlighter-rouge">IPFS</code>，通过命令行安装并与之交互。</p>
+  </li>
+  <li>
+    <p>在后端实现完成后，我们将构建<code class="highlighter-rouge">Web</code>前端以与合约和<code class="highlighter-rouge">IPFS</code>进行交互。我们也会实现招标，揭示前端的拍卖功能。</p>
+  </li>
+  <li>
+    <p>我们将安装<strong>MongoDB</strong>并<strong>设计数据结构</strong>来存储产品。</p>
+  </li>
+  <li>
+    <p>数据库启动并运行后，我们将实现<strong>监听合约事件的NodeJS服务器端代码</strong>，并将请求记录到控制台。然后我们将执行代码将产品插入数据库。</p>
+  </li>
+  <li>
+    <p>我们将更新我们的前端，从数据库而不是区块链中查找产品。</p>
+  </li>
+  <li>
+    <p>我们将实现<strong>托管合同</strong>和<strong>相应的前端</strong>，参与者可以向<strong>买方/卖方</strong>发放或退款。</p>
+  </li>
+</ul>
+
+<h2 id="5-以太坊智能合约ethereum-contract">5. 以太坊智能合约(Ethereum Contract)</h2>
+
+<ol>
+  <li>Truffle Project</li>
+  <li>电子商务产品（Ecommerce Product）智能合约</li>
+  <li>从区块链中添加和检索产品</li>
+  <li>控制台交互</li>
+  <li>eBay拍卖</li>
+  <li>密封拍卖</li>
+  <li>揭标</li>
+  <li>Contract Code</li>
+  <li>控制台交互</li>
+</ol>
+
+<h2 id="6-ipfs">6. IPFS</h2>
+
+<ol>
+  <li><code class="highlighter-rouge">IPFS</code>安装配置</li>
+  <li><code class="highlighter-rouge">API</code> 介绍
+    <ul>
+      <li><code class="highlighter-rouge">ipfs</code></li>
+      <li><code class="highlighter-rouge">ipfs-api</code></li>
+      <li><code class="highlighter-rouge">interface-ipfs-core</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">demo</code>演示
+    <ul>
+      <li>直接在终端和<code class="highlighter-rouge">IPFS</code>交互</li>
+      <li>创建一个节点并向<code class="highlighter-rouge">IPFS</code>添加一个文件</li>
+      <li>部署个人独立博客到<code class="highlighter-rouge">IPFS</code></li>
+      <li>创建一个浏览器<code class="highlighter-rouge">APP</code>来在节点之间交换文件</li>
+      <li><code class="highlighter-rouge">dag API</code></li>
+      <li><code class="highlighter-rouge">IPFS + Ethereum BlockChain</code></li>
+      <li>如何使用<code class="highlighter-rouge">IPFS PubSub Room</code>构建应用程序</li>
+      <li>如何使用<code class="highlighter-rouge">CRDT</code>与<code class="highlighter-rouge">IPFS</code>建立协作编辑应用程序</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="7-web前端---product">7. Web前端 - Product</h2>
+
+<ol>
+  <li>概述</li>
+  <li>设置上传到区块链的种子数据</li>
+  <li>HTML/React 设置</li>
+  <li>渲染产品</li>
+  <li>展示产品列表</li>
+  <li>实现产品提交表单</li>
+  <li>上传表单数据到IPFS</li>
+  <li>保存</li>
+</ol>
+
+<h2 id="8-web前端---拍卖">8. Web前端 - 拍卖</h2>
+
+<ol>
+  <li>React 前端</li>
+  <li>JS 实现拍卖逻辑</li>
+  <li>锁定和显示出价</li>
+</ol>
+
+<h2 id="9-托管服务escrow-service">9. 托管服务(Escrow Service)</h2>
+
+<ol>
+  <li>概述</li>
+  <li>托管智能合约(Escrow Contract)</li>
+  <li>声明获胜者</li>
+  <li>发行资金</li>
+</ol>
+
+<h2 id="10-产品离线products-offchain">10. 产品离线(Products Offchain)</h2>
+
+<ol>
+  <li>概述</li>
+  <li>MongoDB设置</li>
+  <li>产品定义</li>
+  <li>NodeJS app 设置</li>
+  <li>Solidity Events</li>
+  <li>存储产品</li>
+  <li>查看产品</li>
+</ol>
+
+<h2 id="11-项目效果">11. 项目效果</h2>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/b_00001.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00002.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00003.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00004.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00005.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00006.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00007.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00008.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00009.png" alt="" />
+<img src="http://om1c35wrq.bkt.clouddn.com/b_00010.png" alt="" /></p>
+
+<h2 id="12-技术交流">12. 技术交流</h2>
+
+<ul>
+  <li>区块链技术交流QQ群：<code class="highlighter-rouge">348924182</code></li>
+  <li>进微信群请加微信：<code class="highlighter-rouge">liyc1215</code></li>
+  <li>「区块链部落」官方公众号</li>
+</ul>
+
+<p><img src="http://om1c35wrq.bkt.clouddn.com/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%83%A8%E8%90%BD.png" alt="" /></p>
+
+
+  </section>
+  <h2 style="color:red"><strong>版权声明：博客中的文章版权归博主所有，未经授权，禁止转载，转载请注明出处，合作请联系：liyc1215(微信)</strong></h2>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">打赏一个呗</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">扫码打赏，你说多少就多少</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/11/22/ipfs-api/" data-toggle="tooltip" data-placement="top" title="【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （上篇）-js-ipfs-api">上一篇：  <span>【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （上篇）-js-ipfs-api</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/11/25/ipfs-upload-image/" data-toggle="tooltip" data-placement="top" title="【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （中篇）-js-ipfs-api - 图片上传到IPFS以及下载">下一篇：  <span>【IPFS + 区块链 系列】 入门篇 - IPFS + Ethereum （中篇）-js-ipfs-api - 图片上传到IPFS以及下载</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+  <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid=基于Ethereum & IPFS的去中心化Ebay区块链项目开发实战 ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytfSz8yx';
+var conf = 'prod_ad710bf09d342725ed536beddc68aa27';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+</section>
+
+ <section class="footer">
+  <footer>
+    <div class="footer_div">
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Weibo -->
+          <li class="navigation__item_social">
+            <a href="http://weibo.com/mobiledevelopment" title="@mobiledevelopment 的微博" target="_blank">
+              <i class='social fa fa-weibo fa-2x'></i>
+              <span class="label">Weibo</span>
+            </a>
+          </li>
+           
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/liyuechun" title="@liyuechun 的 Github" target="_blank">
+              <i class='social fa fa-github fa-2x'></i>
+              <span class="label">Github</span>
+            </a>
+          </li>
+            
+
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <i class='social fa fa-rss fa-2x'></i>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:liyuechun2009@163.com" title="Contact me">
+              <i class='social fa fa-envelope fa-2x'></i>
+              <span class="label">Email</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </nav>
+
+    </div>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr id="bar_head">
+          <th colspan="11">友情链接</th>
+        </tr>
+      </thead>
+
+      <tr align="center" valign="middle">
+          <td><a href="http://www.kongyixueyuan.com">区块链技术视频网站</a></td>
+
+          <td><a href="https://www.ethereum.org">以太坊官网</a></td>
+
+          <td><a href="https://solidity.readthedocs.io/en/develop/">Solidity</a></td>
+
+          <td><a href="http://truffleframework.com/">Truffle FrameWork</a></td>
+
+          <td><a href="http://embark.readthedocs.io">Embark FrameWork</a></td>
+
+      </tr>
+      <tr align="center" valign="middle">
+
+          <td><a href="https://www.ibm.com/developerworks/community/groups/service/html/communityview?communityUuid=3302cc3b-074e-44da-90b1-5055f1dc0d9c&amp;lang=zh">IBM开源技术微讲堂</a></td>
+
+          <td><a href="https://www.bitcoin.com/">Bitcoin.com</a></td>
+
+          <td><a href="https://github.com/bitshares/bitshares1-core">bitshares1-core</a></td>
+
+          <td><a href="https://ipfs.io">ipfs官网</a></td>
+
+          <td><a href="http://ipfser.org">ipfs中文网</a></td>
+
+      </tr>
+    </table>
+
+    <div class="footer_div">
+      <p class="copyright text-muted">
+        Copyright &copy; 2018 黎跃春区块链博客 京ICP备15065741号. 区块链部落QQ群：348924182
+      </p>
+      <div align="right">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- 访问统计 -->
+        <span id="busuanzi_container_site_pv">
+            本站总访问量
+            <span id="busuanzi_value_site_pv"></span>次
+        </span>
+
+      </div>
+      <div>
+  </footer>
+</section>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+</body>
+
+</html>
