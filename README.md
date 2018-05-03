@@ -1,14 +1,21 @@
-# 关于我
+## the theme of guxiangfly ##
 
-> 黎跃春，孔壹学院 & 链乎创始人，区块链底层开发者、架构师，通信和信息技术培养工程区块链高级授课专家，国内区块链职业教育培训布道师，中国链乎智能合约审计师团队发起人。区块链知名博主，巴比特专栏作家，《从零构建以太坊智能合约实战》书籍作者。
+### you can view  it from [blog.guxiangfly.cn](http://blog.guxiangfly.cn)
 
-## 联系我
+![blog-theme-mala](https://github.com/GuXiangFly/next-guxiangfly/blob/master/imgs/1.jpg)
 
-- 微信：liyc1215
-- QQ：939442932
+---
+
+### change the background ###
+
+you can fand the image from   **\next-guxiangfly\source\images**
+
+-----
 
 
+## thanks
+**感谢   [idhyt](https://github.com/idhyt)**
 
-## 关注链乎官方公众号
+这个theme有不少借鉴自
+[https://github.com/idhyt/hexo-theme-next/tree/magiclamp](https://github.com/idhyt/hexo-theme-next/tree/magiclamp)
 
-![](http://om1c35wrq.bkt.clouddn.com/lianhu.jpg)
