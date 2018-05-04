@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "ubuntu16.4优化"
+title:  "Moon Jekyll Theme"
 date:   2016-04-06
-excerpt: "让你使用ubuntu进行区块链工作"
+excerpt: "Minimal, one column Jekyll theme for your blog."
 project: true
 tag:
 - jekyll 
@@ -12,7 +12,6 @@ tag:
 - theme
 comments: true
 ---
-
 
 # ubuntu16.4优化
 ### 首先卸载不用的软件
