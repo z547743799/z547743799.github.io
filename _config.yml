@@ -4,7 +4,7 @@ bio:                '这是我的个人博客'
 description:        "非常欢迎大家来参观我的个人博客"
 reading_time:       true
 words_per_minute:   200
-logo:               'assets/img/d2dfinto9n5k.png'
+logo:               'assets/img/logo.png'
 background:         'assets/img/placeholder-big.jpg'
 tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
 locale:             en_US
@@ -40,7 +40,7 @@ disqus_shortname:   taylantatli
 #email:
 twitter:            username
 facebook:           username
-github-url:         username
+github-url:         z547743799
 #stackoverflow:     123456/username   from a "http://stackoverflow.com/users/123456/username" link
 #linkedin:          username
 #xing:              username
