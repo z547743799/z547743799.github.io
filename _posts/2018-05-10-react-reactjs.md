@@ -1,6 +1,7 @@
+---
 layout: post
 title:  "ubuntu16.4安装官方reactjs"
-date:   2018-05-04
+date:   2018-05-10
 excerpt: "ubuntu安装官方reactjs"
 description: "ubuntu安装官方react"
 project: true
@@ -17,7 +18,7 @@ comments: true
 
 
 
-  #### 清理缓存
+#### 清理缓存
      npm cache clean --force
      
   #### ubuntu 出错大部分是权限问题
@@ -30,10 +31,11 @@ comments: true
      如果没有设置root密码
         
         sudo passwd
- ![](http://images2017.cnblogs.com/blog/1154148/201712/1154148-20171201103242867-114669375.png)
+
+![](http://images2017.cnblogs.com/blog/1154148/201712/1154148-20171201103242867-114669375.png)
   
- ###### 出现的黄色部分是警告
+###### 出现的黄色部分是警告
    ![reactjs](http://p8am46xs9.bkt.clouddn.com/npm%E5%AE%89%E8%A3%85%E5%8F%AA%E6%98%AF%E8%AD%A6%E5%91%8A.png)
  
- ##### npm  6.0降级5.6
+  ##### npm  6.0降级5.6
 npm i -g npm@5.6.0     //基本没用
