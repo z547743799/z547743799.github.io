@@ -36,5 +36,5 @@ comments: true
   
 ###### 出现的黄色部分是警告
    ![reactjs](http://p8am46xs9.bkt.clouddn.com/npm%E5%AE%89%E8%A3%85%E5%8F%AA%E6%98%AF%E8%AD%A6%E5%91%8A.png)
- ##### npm  6.0降级5.6
+##### npm  6.0降级5.6
 npm i -g npm@5.6.0     //基本没用
