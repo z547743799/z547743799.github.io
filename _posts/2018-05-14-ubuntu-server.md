@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "ubuntu优化"
+title:  "server-ubuntu配置"
 date:   2018-05-10
-excerpt: "ubuntu搭建区块链"
-description: "ubuntu16.4优化"
+excerpt: "server-ubuntu"
+description: "ubuntu16.4"
 tag:
 - ubuntu 
 comments: true
