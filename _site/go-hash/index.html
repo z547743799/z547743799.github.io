@@ -1,0 +1,184 @@
+<!DOCTYPE html> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--> <!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8"><![endif]--> <!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9"><![endif]--> <!--[if gt IE 8]><!--> <html class="no-js"><!--<![endif]--> <head> <meta charset="UTF-8"> <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"> <meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"> <title>goland-hash散列原理查询 &#8211; Shadow Knight</title> <meta name="description" content="ubuntu16.4"> <meta name="keywords" content="goland, hash"> <!-- Twitter Cards --> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="http://localhost:4000/assets/img/logo.png"> <meta name="twitter:title" content="goland-hash散列原理查询"> <meta name="twitter:description" content="goland-hash散列原理查询"> <meta name="twitter:site" content="@username"> <meta name="twitter:creator" content="@username"> <!-- Open Graph --> <meta property="og:locale" content="en_US"> <meta property="og:type" content="article"> <meta property="og:title" content="goland-hash散列原理查询"> <meta property="og:description" content="goland-hash散列原理查询"> <meta property="og:url" content="http://localhost:4000/go-hash/"> <meta property="og:site_name" content="Shadow Knight"> <meta property="og:image" content="http://localhost:4000/assets/img/logo.png"> <link rel="canonical" href="http://localhost:4000/go-hash/"> <link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Shadow Knight Feed"> <!-- Handheld --> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- CSS --> <link rel="stylesheet" href="http://localhost:4000/assets/css/main.css"> <!-- JS --> <script src="http://localhost:4000/assets/js/modernizr-3.3.1.custom.min.js"></script> <!-- Favicons --> <link rel="apple-touch-icon" href="http://localhost:4000/assets/img/favicons/apple-icon-precomposed.png"> <link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/assets/img/favicons/apple-icon-72x72.png"> <link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/assets/img/favicons/apple-icon-114x114.png"> <link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/assets/img/favicons/apple-icon-144x144.png"> <link rel="shortcut icon" type="image/png" href="http://localhost:4000/favicon.png" /> <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" /> <!-- Background Image --> <style type="text/css">body {background-image:url(http://localhost:4000/assets/img/placeholder-big.jpg); background-repeat: no-repeat; background-size: cover; }</style> <!-- Post Feature Image --> </head> <body> <nav id="dl-menu" class="dl-menuwrapper" role="navigation"> <button class="dl-trigger">Open Menu</button> <ul class="dl-menu"> <li><a href="http://localhost:4000/">Home</a></li> <li> <a href="#">About</a> <ul class="dl-submenu"> <li> <img src="http://localhost:4000/assets/img/logo.png" alt="Shadow Knight photo" class="author-photo"> <h4>Shadow Knight</h4> <p>非常欢迎大家来参观我的个人博客</p> </li> <li><a href="http://localhost:4000/about/"><span class="btn btn-inverse">Learn More</span></a></li> <li> <a href="http://twitter.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a> </li> <li> <a href="http://facebook.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a> </li> <li> <a href="http://instagram.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-instagram"></i> Instagram</a> </li> <li> <a href="http://github.com/z547743799" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-github"></i> Github</a> </li> <li> <a href="http://steamcommunity.com/id/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-steam-square"></i> Steam</a> </li> </ul><!-- /.dl-submenu --> </li> <li> <a href="#">Posts</a> <ul class="dl-submenu"> <li><a href="http://localhost:4000/posts/">All Posts</a></li> <li><a href="http://localhost:4000/tags/">All Tags</a></li> </ul> </li> <li><a href="http://localhost:4000/projects/" >Projects</a></li> </ul><!-- /.dl-menu --> </nav><!-- /.dl-menuwrapper --> <!-- Header --> <header class="header" role="banner"> <div class="wrapper animated fadeIn"> <div class="content"> <div class="post-title "> <h1>goland-hash散列原理查询</h1> <h4>15 May 2018</h4> <p class="reading-time"> <i class="fa fa-clock-o"></i> Reading time ~2 minutes </p><!-- /.entry-reading-time --> <a class="btn zoombtn" href="http://localhost:4000/posts/"> <i class="fa fa-chevron-left"></i> </a> </div> <p>hash散列原理查询 包路径自己改 main文件导入其余两个go文件</p> <h2 id="myhashmapgo文件">MyHashMap.go文件</h2> <div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">HashMap</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="s">"Project/5-15/homework/LinkNodes"</span><span class="x">
+	</span><span class="s">"fmt"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">var</span><span class="x"> </span><span class="n">bultArr</span><span class="x"> </span><span class="p">[</span><span class="m">16</span><span class="p">]</span><span class="o">*</span><span class="n">LinkNodes</span><span class="o">.</span><span class="n">Node</span><span class="x">
+</span><span class="c">//为16个node循环添加头文件</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">CreateBulet</span><span class="p">()</span><span class="x">  </span><span class="p">{</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">arr</span><span class="x">  </span><span class="o">=</span><span class="x"> </span><span class="p">[</span><span class="m">16</span><span class="p">]</span><span class="o">*</span><span class="n">LinkNodes</span><span class="o">.</span><span class="n">Node</span><span class="p">{}</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="m">16</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">LinkNodes</span><span class="o">.</span><span class="n">CreateHeadNode</span><span class="p">(</span><span class="s">"头结点"</span><span class="p">,</span><span class="s">"sdfsdf"</span><span class="p">)</span><span class="x">
+
+
+	</span><span class="p">}</span><span class="x">
+  </span><span class="n">bultArr</span><span class="o">=</span><span class="n">arr</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">//将key 转换成数值下标的散列算法</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">HashCode</span><span class="p">(</span><span class="n">key</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">index</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="o">=</span><span class="m">0</span><span class="x">
+	</span><span class="n">index</span><span class="x"> </span><span class="o">=</span><span class="kt">int</span><span class="x"> </span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="m">0</span><span class="p">])</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="n">k</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">k</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">);</span><span class="x"> </span><span class="n">k</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="n">index</span><span class="x"> </span><span class="o">*=</span><span class="p">(</span><span class="m">1103515245</span><span class="x"> </span><span class="o">+</span><span class="kt">int</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span><span class="x">
+
+
+	</span><span class="p">}</span><span class="x">
+	</span><span class="n">index</span><span class="x"> </span><span class="o">&gt;&gt;=</span><span class="m">27</span><span class="x">
+	</span><span class="n">index</span><span class="x"> </span><span class="o">&amp;=</span><span class="m">16</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">index</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//向数组中添加键值对</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">AddKeyValue</span><span class="p">(</span><span class="n">k</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="n">v</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x">  </span><span class="p">{</span><span class="x">
+</span><span class="c">//使用hash散列算法求字符串k在0-16区间中的所属值赋给pos</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">pos</span><span class="x">  </span><span class="o">=</span><span class="x"> </span><span class="n">HashCode</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="x">
+</span><span class="c">//将下标为pos的节点取出赋给head</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">head</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">bultArr</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="x">
+</span><span class="c">//将 head节点添加到指定下标节点的末尾</span><span class="x">
+	</span><span class="n">LinkNodes</span><span class="o">.</span><span class="n">AddNode</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">head</span><span class="p">)</span><span class="x">
+
+
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//获取数据</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">GetValueByKey</span><span class="p">(</span><span class="n">k</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="kt">string</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="c">//使用hash散列算法求字符串k在0-16区间中的所属值赋给pos</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">pos</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">HashCode</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="x">
+	</span><span class="c">//将下标为pos的节点取出赋给head</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">head</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">bultArr</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="x">
+	</span><span class="c">//通过头节点便利链表</span><span class="x">
+	</span><span class="c">//LinkNodes.ShowNodes(head)</span><span class="x">
+	</span><span class="c">//查找对应下标下的链表，判断在key与节点中的key一直时打印</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">head</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">K</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="n">k</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">V</span><span class="p">)</span><span class="x">
+			</span><span class="k">break</span><span class="x">
+		</span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">head</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">head</span><span class="o">.</span><span class="n">NextNode</span><span class="x">
+			</span><span class="k">if</span><span class="x"> </span><span class="n">head</span><span class="o">.</span><span class="n">NextNode</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+			</span><span class="p">}</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="k">return</span><span class="x"> </span><span class="s">""</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+
+
+</span></code></pre></div></div> <p>Node.go文件 —–</p> <div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">LinkNodes</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="s">"fmt"</span><span class="x">
+
+</span><span class="k">type</span><span class="x"> </span><span class="n">DM</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">K</span><span class="x"> </span><span class="kt">string</span><span class="x">
+	</span><span class="n">V</span><span class="x"> </span><span class="kt">string</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//头结点</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">head</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="x">
+</span><span class="c">//最后一个节点</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">curr</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="x">
+
+</span><span class="c">//声明节点类型</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">Node</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="c">//数据域</span><span class="x">
+	</span><span class="n">Data</span><span class="x"> </span><span class="n">DM</span><span class="x">
+	</span><span class="c">//地址域</span><span class="x">
+	</span><span class="n">NextNode</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//创建头结点</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">CreateHeadNode</span><span class="p">(</span><span class="n">k</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="x"> </span><span class="n">v</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="c">//声明结构图new 为指针类型</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">node</span><span class="x"> </span><span class="o">=</span><span class="nb">new</span><span class="p">(</span><span class="n">Node</span><span class="p">)</span><span class="x">
+</span><span class="c">//设置头结点数据域的信息</span><span class="x">
+	</span><span class="n">node</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">K</span><span class="o">=</span><span class="n">k</span><span class="x">
+	</span><span class="n">node</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">V</span><span class="o">=</span><span class="n">v</span><span class="x">
+	</span><span class="c">//设置地址域</span><span class="x">
+	</span><span class="n">node</span><span class="o">.</span><span class="n">NextNode</span><span class="o">=</span><span class="no">nil</span><span class="x">
+</span><span class="c">//保存头结点</span><span class="x">
+	</span><span class="n">head</span><span class="o">=</span><span class="n">node</span><span class="x">
+
+	</span><span class="n">curr</span><span class="o">=</span><span class="n">node</span><span class="x">
+
+	</span><span class="k">return</span><span class="x"> </span><span class="n">node</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//在指定的节点后面添加新节点</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">AddNode</span><span class="p">(</span><span class="n">k</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="x"> </span><span class="n">v</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="x"> </span><span class="n">curr</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="p">)</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">newNode</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">new</span><span class="p">(</span><span class="n">Node</span><span class="p">)</span><span class="x">
+	</span><span class="c">//设置新节点中的数据域</span><span class="x">
+	</span><span class="n">newNode</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">K</span><span class="o">=</span><span class="n">k</span><span class="x">
+	</span><span class="n">newNode</span><span class="o">.</span><span class="n">Data</span><span class="o">.</span><span class="n">V</span><span class="o">=</span><span class="n">v</span><span class="x">
+
+	</span><span class="c">//设置地址域</span><span class="x">
+	</span><span class="n">newNode</span><span class="o">.</span><span class="n">NextNode</span><span class="o">=</span><span class="no">nil</span><span class="x">
+	</span><span class="c">//挂接新节点</span><span class="x">
+	</span><span class="c">//将当前节点中的下一个节点设置为新建的节点</span><span class="x">
+	</span><span class="n">curr</span><span class="o">.</span><span class="n">NextNode</span><span class="o">=</span><span class="n">newNode</span><span class="x">
+	</span><span class="c">//设置最后一个节点为新新建节点</span><span class="x">
+	</span><span class="n">curr</span><span class="o">=</span><span class="n">newNode</span><span class="x">
+	</span><span class="c">//返回值新建节点</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">newNode</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//在指定的节点后边遍历链表</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">ShowNodes</span><span class="p">(</span><span class="n">n</span><span class="x"> </span><span class="o">*</span><span class="n">Node</span><span class="p">)</span><span class="x">  </span><span class="p">{</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">node</span><span class="x">  </span><span class="o">=</span><span class="n">n</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+</span><span class="c">//如果当前node的下一个node为nil输出</span><span class="x">
+</span><span class="n">并推出循环</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">node</span><span class="o">.</span><span class="n">NextNode</span><span class="o">==</span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span><span class="x">
+			</span><span class="k">break</span><span class="x">
+</span><span class="c">//输出当前节点的值并把下一个节点付给当前的node</span><span class="x">
+		</span><span class="p">}</span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">Data</span><span class="p">)</span><span class="x">
+			</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">NextNode</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span><span class="c">//计算节点的个数</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">NodeCnt</span><span class="p">()</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">cnt</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">1</span><span class="x">
+	</span><span class="k">var</span><span class="x"> </span><span class="n">node</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">head</span><span class="x">
+	</span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+		</span><span class="k">if</span><span class="x"> </span><span class="n">node</span><span class="o">.</span><span class="n">NextNode</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="k">break</span><span class="x">
+		</span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+			</span><span class="n">node</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">node</span><span class="o">.</span><span class="n">NextNode</span><span class="x">
+			</span><span class="n">cnt</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">cnt</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="m">1</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+
+	</span><span class="p">}</span><span class="x">
+	</span><span class="k">return</span><span class="x"> </span><span class="n">cnt</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div> <p>main.go文件 —–</p> <div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// MyHashMap project main.go</span><span class="x">
+</span><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x">
+</span><span class="p">(</span><span class="x">   </span><span class="s">"fmt"</span><span class="x">
+	</span><span class="s">"Project/5-15/MyHashMap/HashMp"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span><span class="x">
+
+	</span><span class="c">//测试HashMp包下的散列因子是否平均分布</span><span class="x">
+	</span><span class="c">//fmt.Print(HashMp.HashCode("abc"))</span><span class="x">
+
+
+    </span><span class="n">HashMp</span><span class="o">.</span><span class="n">CreateBulet</span><span class="p">()</span><span class="x">
+
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"abc"</span><span class="p">,</span><span class="x"> </span><span class="s">"hello"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"bcd"</span><span class="p">,</span><span class="x"> </span><span class="s">"world"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"asd"</span><span class="p">,</span><span class="x"> </span><span class="s">"12"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"bsafqcd"</span><span class="p">,</span><span class="x"> </span><span class="s">"wor32ld"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"bsddfcd"</span><span class="p">,</span><span class="x"> </span><span class="s">"wo21rld"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"bcsdd"</span><span class="p">,</span><span class="x"> </span><span class="s">"worl3d"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">AddKeyValue</span><span class="p">(</span><span class="s">"basxdcd"</span><span class="p">,</span><span class="x"> </span><span class="s">"123"</span><span class="p">)</span><span class="x">
+	</span><span class="n">HashMp</span><span class="o">.</span><span class="n">GetValueByKey</span><span class="p">(</span><span class="s">"bsafqcd"</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span></code></pre></div></div> <div class="entry-meta"> <br> <hr> <span class="entry-tags"><a href="http://localhost:4000/tags/#goland" title="Pages tagged goland" class="tag"><span class="term">goland</span></a><a href="http://localhost:4000/tags/#hash" title="Pages tagged hash" class="tag"><span class="term">hash</span></a></span> <span class="social-share"> <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/go-hash/" title="Share on Facebook" class="tag"> <span class="term"><i class="fa fa-facebook-square"></i> Share</span> </a> <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/go-hash/" title="Share on Twitter" class="tag"> <span class="term"><i class="fa fa-twitter-square"></i> Tweet</span> </a> <a href="https://plus.google.com/share?url=http://localhost:4000/go-hash/" title="Share on Google+" class="tag"> <span class="term"><i class="fa fa-google-plus-square"></i> +1</span> </a> </span> <div style="clear:both"></div> </div> </div> </div> <section id="disqus_thread" class="animated fadeInUp"></section><!-- /#disqus_thread --> </header> <!-- JS --> <script src="http://localhost:4000/assets/js/jquery-1.12.0.min.js"></script> <script src="http://localhost:4000/assets/js/jquery.dlmenu.min.js"></script> <script src="http://localhost:4000/assets/js/jquery.goup.min.js"></script> <script src="http://localhost:4000/assets/js/jquery.magnific-popup.min.js"></script> <script src="http://localhost:4000/assets/js/jquery.fitvid.min.js"></script> <script src="http://localhost:4000/assets/js/scripts.js"></script> <script type="text/javascript"> var disqus_shortname = 'taylantatli'; (function() { var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); })(); (function () { var s = document.createElement('script'); s.async = true; s.type = 'text/javascript'; s.src = '//' + disqus_shortname + '.disqus.com/count.js'; (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s); }()); </script> <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> <!-- MathJax --> <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> </body> </html>
