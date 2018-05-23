@@ -11,7 +11,7 @@ tag:
 comments: true
 ---
 
- # ubuntu使用ffmpeg压缩视频
+# ubuntu使用ffmpeg压缩视频
 1、准备工作：
 http://ffmpeg.org/download.html 
 下载之后，正常安装，然后将bin目录加入全局环境变量；
