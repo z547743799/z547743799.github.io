@@ -10,7 +10,7 @@ tag:
 comments: true
 ---
 
-
+```go
 package main
 
 import (
@@ -65,4 +65,4 @@ func main() {
 	//fmt.Println(i3)
 
 }
-
+```
