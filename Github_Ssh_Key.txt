@@ -1,0 +1,18 @@
+1.在终端输入。
+
+ssh-keygen -t rsa -C "username" (注：username为你git上的用户名)
+2.一路回车 
+若出现（y/n）安y
+
+
+window
+/Users/username/.ssh/id_rsa.pub.
+Ubuntu 
+.ssh
+
+id_rsa.pub中的内容复制到github
+ setting 
+ ssh and gpg keys
+ new ssh 中
+ title
+ 随便填
