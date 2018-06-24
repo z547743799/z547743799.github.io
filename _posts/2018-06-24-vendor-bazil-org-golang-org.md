@@ -10,19 +10,19 @@ tag:
 comments: true
 ---
 
-#以太坊包gopkg.in解析
+# 以太坊包gopkg.in解析
 
 
-###以太源码不需要太过深揪
-###作为初学者应该先读懂白皮书然后
-###大致的把他所使用的包过一遍
+### 以太源码不需要太过深揪
+### 作为初学者应该先读懂白皮书然后
+### 大致的把他所使用的包过一遍
 
 
 
-##[bazil/fuse](https://github.com/bazil/fuse)
+## [bazil/fuse](https://github.com/bazil/fuse)
 ---
 
-####bazil.org/fuse 是用于编写FUSE用户空间文件系统的Go库。
+#### bazil.org/fuse 是用于编写FUSE用户空间文件系统的Go库。
 
 [ＡＰＩ](https://godoc.org/bazil.org/fuse) 
 
@@ -30,7 +30,7 @@ comments: true
 
 
 
-##[golang.org]( https://golang.org/pkg/)
+## [golang.org]( https://golang.org/pkg/)
  ---
 这个包我觉得不用怎么讲具体看[官网]( https://golang.org/pkg/)就可以了
 
