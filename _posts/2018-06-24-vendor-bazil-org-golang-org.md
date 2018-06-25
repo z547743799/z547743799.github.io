@@ -42,3 +42,9 @@ sync　　包同步提供了基本的同步基元，例如互斥锁。
 sys　　用于进行系统调用的包。
 text　　用于处理文本的包。
 tools　　godoc，goimports，gorename和其他工具。
+## gvt
+---
+在这里及介绍下go的主要的包管理工具是gvt 命令 他能使包下载到vendor中
+[项目地址](https://github.com/FiloSottile/gvt)
+例如：
+gvt fetch github.com/robertkrimen/otto 
