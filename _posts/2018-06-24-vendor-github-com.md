@@ -5,8 +5,7 @@ date:   2018-06-24
 excerpt: "以太坊包github.com解析"
 description: "以太坊包github.com解析"
 tag:
-- golang
-- raft
+- eth
 comments: true
 ---
 
