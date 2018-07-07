@@ -65,8 +65,19 @@ RLP实际只给以下两种类型数据编码：
 为了让你的Ðapp运行上以太坊，一种选择是使用web3.js library提供的web3。对象。底层实现上，它通过RPC 调用与本地节点通信。web3.js可以与任何暴露了RPC接口的以太坊节点连接。
 >#### [solidity](https://solidity.readthedocs.io/en/v0.4.24)
 solidity是一门静态语音
+是由以太坊cto:Gavin Wood发明
 与js不同
-
+ 
 >### [uncle(过时区块)](https://www.jianshu.com/p/b567a987241a)
 A挖出区块后广播途中，B也挖出了区块（过时区块），此时区块链会出现分叉。过时分叉上的区块就叫uncle区块。它不是这个块的父区块，父区块的兄弟区块（平级关系）。
 
+>#### [Whisper(私语)](http://qjpcpu.github.io/blog/2018/02/07/shen-ru-ethereumyuan-ma-whisperxie-yi-jie-du/)
+whisper是完全基于ID的消息系统,它的设计目的是形成一套p2p节点间的异步广播系统。whisper网络上的消息是加密传送的,完全可以暴露在公网进行传输;此外,为了防范DDos攻击,whisper使用了proof-of-work(PoW)工作量证明提高消息发送门槛。
+[p2p whisper聊天室](https://xgyopen.github.io/2018/04/20/2018-04-20-whisper-p2p-chat/)
+>#### [Swarm(蜂群)](https://ethfans.org/toya/articles/279)
+Swarm是一种分布式存储平台和内容分发服务 
+主要存储Dapp代码与数据以及区块数据提供一个足够去中心化以及足够重复的存储
+>[官网](http://swarm-gateways.net/bzz:/theswarm.eth/)
+
+
+未完待更新
