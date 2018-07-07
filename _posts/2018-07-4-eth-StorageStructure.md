@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "eth-concept"
+title:  "eth-StorageStructure"
 date:   2018-06-24
-excerpt: "eth-concept"
-description: "eth-concept"
+excerpt: "eth-StorageStructure"
+description: "eth-StorageStructure"
 tag:
 - eth
 comments: true
