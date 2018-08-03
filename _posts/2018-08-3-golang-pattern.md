@@ -8,6 +8,7 @@ tag:
 -golang
 comments: true
 ---
+
 #golang设计模式（pattern）
 
 ##设计模式大致可分为三类
