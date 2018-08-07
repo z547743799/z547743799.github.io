@@ -5,7 +5,7 @@ date:   2018-08-3
 excerpt: "golang-pattern"
 description: "golang-parttern"
 tag:
--golang
+- golang
 comments: true
 ---
 
