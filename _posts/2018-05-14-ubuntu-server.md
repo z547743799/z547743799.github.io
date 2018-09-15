@@ -87,21 +87,21 @@ vi /etc/hostname
  [root@localhost ~]# cat /etc/sysconfig/network
 
     NETWORKING=yes
-
+    
     HOSTNAME=localhost.localdomain
-
+    
     GATEWAY=192.168.10.1
-
+    
     修改network的HOSTNAME项。点前面是主机名，点后面是域名。没有点就是主机名。
-
+    
     [root@localhost ~]# vi /etc/sysconfig/network
-
+    
     NETWORKING=yes
-
+    
     NETWORKING_IPV6=no
-
+    
     HOSTNAME=gdbk
-
+    
     这个是永久修改，重启后生效。
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -111,44 +111,58 @@ vi /etc/hostname
  显示主机名：
 
     zhouhh@zzhh64:~$ hostname
-
+    
     zhh64
 
  
 
+
  修改主机名：
 
     zhouhh@zzhh64:~$ sudo hostname zzofs
-
+    
     zhouhh@zzhh64:~$ hostname
-
+    
     zzofs
 
 三，防火墙
-1、关闭ubuntu的防火墙
 
-  ufw disable
-1
-2
-2开启防火墙
+####  1、关闭ubuntu的防火墙
 
- ufw enable
-1
-2
-3、卸载了iptables
+ ` ufw disable`
 
-   apt-get remove iptables
-1
-2
-4、关闭ubuntu中的防火墙的其余命令
+
+
+#### 2开启防火墙
+
+` ufw enable`
+
+
+
+#### 3、卸载了iptables
+
+`   apt-get remove iptables`
+
+
+#### 4、关闭ubuntu中的防火墙的其余命令
 
     iptables -P INPUT ACCEPT
     iptables -P FORWARD ACCEPT
     iptables -P OUTPUT ACCEPT
     iptables -F
 
+查看当前防火墙状态
 
-四，ubuntu16.04 server 开启 ssh
+  在Ubuntu中 我们使用
+
+`sudo ufw status`
+
+命令查看当前防火墙状态;inactive状态是防火墙关闭状态 active是开启状态。
+
+
+
+#### 四，ubuntu16.04 server 开启 ssh
+
 sudo apt-get install openssh-server
 检查是否安装成功
 sudo ps -e |grep ssh
