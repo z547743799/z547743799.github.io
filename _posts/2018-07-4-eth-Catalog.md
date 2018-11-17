@@ -55,4 +55,3 @@ go-ethereum项目的组织结构基本上是按照功能模块划分的目录，
     tests           测试
     trie            以太坊重要的数据结构Package trie implements Merkle Patricia Tries.
     whisper         提供了whisper节点的协议。
-   
