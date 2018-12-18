@@ -61,7 +61,7 @@ steam:              username
 #keybase:           username
 #xmpp:              username@server.com
 #hackernews:        username
-paginate: 10
+paginate: 5
 
 jekyll-mentions:
     base_url: https://github.com
