@@ -61,7 +61,9 @@ steam:              username
 #keybase:           username
 #xmpp:              username@server.com
 #hackernews:        username
-paginate: 5
+#gems: [jekyll-paginate]
+#paginate:           5
+#paginate_path: "page:5"
 
 jekyll-mentions:
     base_url: https://github.com
