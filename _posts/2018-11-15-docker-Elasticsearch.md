@@ -1,12 +1,12 @@
 ---
 layout: post
 title:  "docker+Elasticsearch"
-date:   2018-011-15
-excerpt: "docker+Elasticsearch"
-description: "docker+Elasticsearch"
+date:   2018-11-15
+excerpt: "docker-Elasticsearch"
+description: "docker-Elasticsearch"
 tag:
 - docker
-- Elasticsearch
+- elasticsearch
 comments: true
 ---
 

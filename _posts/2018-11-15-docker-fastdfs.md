@@ -2,8 +2,8 @@
 layout: post
 title:  "docker+fastdfs"
 date:   2018-11-15
-excerpt: "docker+fastdfs"
-description: "docker+fastdfs"
+excerpt: "docker-fastdfs"
+description: "docker-fastdfs"
 tag:
 - docker
 - fastdfs
