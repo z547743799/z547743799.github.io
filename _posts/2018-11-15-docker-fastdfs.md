@@ -65,4 +65,3 @@ comments: true
 
  查看 `ls data/fast_data/data/00/00/`
  文件夹即可知道是否上传成功
- <iframe src="//player.bilibili.com/player.html?aid=25695529&cid=43840093&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>

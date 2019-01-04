@@ -1,13 +1,14 @@
 ---
 layout: post
 title:  "markdown"
-date:   2018-1-4
+date:   2018-01-4
 excerpt: "markdown"
 description: "markdown"
 tag:
 -markdown
 comments: true
 ---
+
 #下面是我在blibli 上找的 比较好的markdown 的教学
 
 ## 别看有12级都是每集只有几分钟的
