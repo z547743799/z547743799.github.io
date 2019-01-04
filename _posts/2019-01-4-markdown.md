@@ -5,7 +5,7 @@ date:   2018-01-4
 excerpt: "markdown"
 description: "markdown"
 tag:
--markdown
+- markdown
 comments: true
 ---
 
