@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Markdown"
+title:  "markdown"
 date:   2018-01-4
-excerpt: "Markdown"
-description: "Markdown"
+excerpt: "markdown"
+description: "markdown"
 tag:
-- Markdown
+- markdown
 comments: true
 ---
 
