@@ -69,3 +69,4 @@ comments: true
 ### Markdown入门预览插件
 <iframe src="//player.bilibili.com/player.html?aid=25695529&cid=43840093&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="500px" height="400px"> </iframe>
 
+<embed src='http://player.youku.com/player.php/sid/XMzk5NTgzMzUyOA==/v.swf' allowFullScreen='true' quality='high' width='480' height='400' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'></embed>
