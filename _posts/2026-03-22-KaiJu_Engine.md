@@ -47,6 +47,8 @@ comments: true
 
 
 # 二
+>### 开源游戏引擎
+
 ![20440734d1c4493199ff75efab28aac9.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/hh84eSXM.jpg)
 >#### A game engine that lets me make games the way I want to
 >
@@ -97,7 +99,7 @@ comments: true
 >避免多语言切换成本，提升代码复用与维护性（结合之前信息可知为 Go 语言）
 
 # 三
-
+>### 编程语言论战（Flame Wars）
 ![7d9e23d7dcc34092a530f622e23e3f99.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/YlRzEG4U.jpg)
 >#### Use the right tool for the job
 >- 为具体任务选择合适的工具
@@ -206,6 +208,7 @@ comments: true
 - 架构特点：所有系统功能都封装在 Host 中，通过依赖传递的方式在模块间共享，实现高内聚、低耦合
 - 设计哲学：递归式组合（“turtles all the way down”），复杂系统由更小的基础组件层层组合而成
 # 七
+>### 实体（Entities）与更新（Updates）
 ![cb31e1894af5402b8b2e5f70446999ac.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/5cjPmdN7.jpg)
 >#### Entities would be called “Actors” or “Game Objects” in other engines
 >
@@ -221,6 +224,7 @@ comments: true
 >符合 ECS（实体 - 组件 - 系统）架构思想，将数据与行为分离，提升性能与可维护性
 
 # 八
+>### 用户界面（User Interface）
 ![ac72878fd52d4c54b97404a8398f5a7e.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/vgicowRK.png)
 >#### Retained mode
 >- 保留模式（Retained Mode）
@@ -255,8 +259,8 @@ comments: true
 > |---|---|---|
 > | github.com/google/uuid  | 生成唯一 ID  | 否  |
 > | tdewolff/parse/v2  | CSS 解析器 | 是|
-> |x/clipboard|CSS 解析器| 是|
+> |x/clipboard|跨平台复制 / 粘贴| 是|
 > |Soloud|	音乐 / 音效播放|可能|
-> |Bullet3|CSS 解析器|是|
+> |Bullet3|物理引擎|是|
 >
 ---
