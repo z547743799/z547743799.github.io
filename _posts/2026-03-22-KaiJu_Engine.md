@@ -11,7 +11,7 @@ comments: true
 ---
 ># 一
 >### 比 Unity 快数倍
->![9a0c01a1-9990-4b94-94bb-ccf7d4aa78de.png](https://s3.bmp.ovh/2026/03/24/UJ5yjRlk.png)
+> ![9a0c01a1-9990-4b94-94bb-ccf7d4aa78de.png](https://s3.bmp.ovh/2026/03/24/UJ5yjRlk.png)
 >- 二、左侧截图信息（D3D12 渲染）
 >- Capturing D3D12. Frame: 9011. 1 ms (647 FPS)
 >- 正在捕获 D3D12 帧。帧号：9011，单帧耗时：1 毫秒（帧率：647 FPS）
@@ -47,7 +47,7 @@ comments: true
 
 
 # 二
->!k[20440734d1c4493199ff75efab28aac9.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/hh84eSXM.jpg)
+> ![20440734d1c4493199ff75efab28aac9.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/hh84eSXM.jpg)
 >#### A game engine that lets me make games the way I want to
 >
 >- 一款能让我按照自己想要的方式开发游戏的引擎
@@ -98,7 +98,7 @@ comments: true
 
 # 三
 
->![7d9e23d7dcc34092a530f622e23e3f99.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/YlRzEG4U.jpg)
+> ![7d9e23d7dcc34092a530f622e23e3f99.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/YlRzEG4U.jpg)
 >#### Use the right tool for the job
 >- 为具体任务选择合适的工具
 >#### Singular function/algorithm measurements are fun but pointless
@@ -115,7 +115,7 @@ comments: true
 
 # 四
 
->![cfed145f023c4488b3f8a5c055a9c98c.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/A7gksssm.jpg)
+> ![cfed145f023c4488b3f8a5c055a9c98c.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/A7gksssm.jpg)
 >### 对 Go 语言的核心评价
 >#### UAbsolutely love C
 >- 我非常喜欢 C 语言
