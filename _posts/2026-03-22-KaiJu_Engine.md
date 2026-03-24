@@ -237,10 +237,11 @@ comments: true
 # 七
 ### 自给自足
 #####  长期目标是尽可能减少对第三方库的依赖。目前依赖的库，未来都计划替换。
->|库名 | 用途 | 计划替换？ |
->|-----|-----|-----|
->| github.com/google/uuid  | 生成唯一 ID  | 否  |
->| tdewolff/parse/v2  | CSS 解析器 | 是|
->|x/clipboard|CSS 解析器| 是|
->|Soloud|	音乐 / 音效播放|可能|
->|Bullet3|CSS 解析器|是|
+> |库名 | 用途 | 计划替换？ |
+> |-----|-----|-----|
+> | github.com/google/uuid  | 生成唯一 ID  | 否  |
+> | tdewolff/parse/v2  | CSS 解析器 | 是|
+> |x/clipboard|CSS 解析器| 是|
+> |Soloud|	音乐 / 音效播放|可能|
+> |Bullet3|CSS 解析器|是|
+---

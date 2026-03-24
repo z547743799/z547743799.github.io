@@ -899,7 +899,6 @@ Ha	assets/js/jquery-1.12.0.min.js	/^return!0}function R(a,b,d,e){if(M(a)){var f,
 Ia	assets/js/jquery-1.12.0.min.js	/^return!0}function R(a,b,d,e){if(M(a)){var f,g,h=n.expando,i=a.nodeType,j=i?n.cache:a,k=i?a[h]:a[/;"	f
 J	assets/js/jquery-1.12.0.min.js	/^!function(a,b){"object"==typeof module&&"object"==typeof module.exports?module.exports=a.documen/;"	f
 K	assets/js/jquery-1.12.0.min.js	/^!function(a,b){"object"==typeof module&&"object"==typeof module.exports?module.exports=a.documen/;"	f
-Kaiju Engine 的核心架构设计原则	_posts/2026-03-22-KaiJu_Engine.md	/^#### Kaiju Engine 的核心架构设计原则$/;"	t	chapter:四
 La	assets/js/jquery-1.12.0.min.js	/^return!0}function R(a,b,d,e){if(M(a)){var f,g,h=n.expando,i=a.nodeType,j=i?n.cache:a,k=i?a[h]:a[/;"	f
 Ma	assets/js/jquery-1.12.0.min.js	/^return!0}function R(a,b,d,e){if(M(a)){var f,g,h=n.expando,i=a.nodeType,j=i?n.cache:a,k=i?a[h]:a[/;"	f
 Markdown入门预览插件	_posts/2019-01-4-markdown.md	/^### Markdown入门预览插件$/;"	S
@@ -2107,13 +2106,8 @@ zIndex	assets/js/jquery.magnific-popup.min.js	/^(function(a){typeof define=="fun
 {{ site.title }}	_layouts/home.html	/^                    <\/h3>$/;"	j
 {{ this_word }}	tags/index.html	/^	<h2 id="{{ this_word }}" class="tag-heading">{{ this_word }}<\/h2>$/;"	I
 {{ this_word }}	tags/index.html	/^	<h2 id="{{ this_word }}" class="tag-heading">{{ this_word }}<\/h2>$/;"	i
-一	_posts/2026-03-22-KaiJu_Engine.md	/^# 一$/;"	c
 一般来说音频影响不大，我们就重点说视频压缩：	_posts/2018-05-20-ubuntu-ffmpeg.md	/^### 一般来说音频影响不大，我们就重点说视频压缩：$/;"	S	chapter:ubuntu使用ffmpeg压缩视频
-七	_posts/2026-03-22-KaiJu_Engine.md	/^# 七$/;"	c
-三	_posts/2026-03-22-KaiJu_Engine.md	/^# 三$/;"	c
 下载Elasticsearch	_posts/2018-11-15-docker-Elasticsearch.md	/^### 下载Elasticsearch$/;"	S	chapter:docker+Elasticsearch
-二	_posts/2026-03-22-KaiJu_Engine.md	/^# 二$/;"	c
-五	_posts/2026-03-22-KaiJu_Engine.md	/^# 五$/;"	c
 什么是 Proof of Stake	_posts/2018-05-22-PoS.md	/^## 什么是 Proof of Stake$/;"	s	chapter:使用 go 实现 Proof of Stake 共识机制
 什么是RSA	_posts/2018-05-18-RSA-encryption.md	/^## 什么是RSA$/;"	s	chapter:RSA加密解密
 以太坊存储结构图	_posts/2018-07-4-eth-StorageStructure.md	/^## 以太坊存储结构图$/;"	s
@@ -2122,19 +2116,15 @@ zIndex	assets/js/jquery.magnific-popup.min.js	/^(function(a){typeof define=="fun
 例子:	_posts/2018-05-20-ubuntu-ffmpeg.md	/^### 例子:$/;"	S	chapter:ubuntu使用ffmpeg压缩视频
 修改配置文件	_posts/2018-11-15-docker-Elasticsearch.md	/^###  修改配置文件$/;"	S	chapter:docker+Elasticsearch
 修改配置文件	_posts/2018-11-15-docker-fastdfs.md	/^### 修改配置文件$/;"	S	chapter:docker+fastdfs
-六	_posts/2026-03-22-KaiJu_Engine.md	/^# 六$/;"	c
 出现的黄色部分是警告	_posts/2018-05-10-react-reactjs.md	/^###### 出现的黄色部分是警告$/;"	u	subsubsection:清理缓存
 创建型 c	_posts/2018-08-3-golang-pattern.md	/^### 创建型 c$/;"	S	section:golang设计模式（pattern）""设计模式大致可分为三类
 刷新	_posts/2018-11-15-docker-fastdfs.md	/^### 刷新$/;"	S	chapter:docker+fastdfs
 加入跨域配置	_posts/2018-11-15-docker-Elasticsearch.md	/^###  加入跨域配置$/;"	S	chapter:docker+Elasticsearch
 反射类型与反射值	_posts/2018-05-31-go-reflex.md	/^#### 反射类型与反射值$/;"	t	chapter:golang反射
-四	_posts/2026-03-22-KaiJu_Engine.md	/^# 四$/;"	c
 四，ubuntu16.04 server 开启 ssh	_posts/2018-05-14-ubuntu-server.md	/^#### 四，ubuntu16.04 server 开启 ssh$/;"	t
 安装依赖软件	_posts/2018-05-22-PoS.md	/^### 安装依赖软件$/;"	S	section:使用 go 实现 Proof of Stake 共识机制""实现 Proof of Stake
 实现 Proof of Stake	_posts/2018-05-22-PoS.md	/^## 实现 Proof of Stake$/;"	s	chapter:使用 go 实现 Proof of Stake 共识机制
 实现 Proof of Stake 主要功能点	_posts/2018-05-22-PoS.md	/^## 实现 Proof of Stake 主要功能点$/;"	s	chapter:使用 go 实现 Proof of Stake 共识机制
-小结	_posts/2026-03-22-KaiJu_Engine.md	/^#### 小结$/;"	t	chapter:五
-小结	_posts/2026-03-22-KaiJu_Engine.md	/^#### 小结$/;"	t	chapter:四
 展示图	_posts/2018-11-15-docker-Elasticsearch.md	/^### 展示图$/;"	S	chapter:docker+Elasticsearch
 常用的有6种	_posts/2018-08-3-golang-pattern.md	/^### 常用的有6种$/;"	S	section:golang设计模式（pattern）""设计模式大致可分为三类
 开放短裤22122	_posts/2018-11-15-docker-fastdfs.md	/^### 开放短裤22122$/;"	S	chapter:docker+fastdfs
@@ -2150,7 +2140,6 @@ zIndex	assets/js/jquery.magnific-popup.min.js	/^(function(a){typeof define=="fun
 结构型 j	_posts/2018-08-3-golang-pattern.md	/^### 结构型 j$/;"	S	section:golang设计模式（pattern）""设计模式大致可分为三类
 结果如下：	_posts/2018-11-15-docker-Elasticsearch.md	/^### 结果如下：$/;"	S	chapter:docker+Elasticsearch
 美化要翻墙具体操作看参考	_posts/2018-05-14-ubuntu16.4-linux.md	/^#### 美化要翻墙具体操作看参考$/;"	t
-自给自足	_posts/2026-03-22-KaiJu_Engine.md	/^### 自给自足$/;"	S	chapter:七
 行为型 x	_posts/2018-08-3-golang-pattern.md	/^### 行为型 x$/;"	S	section:golang设计模式（pattern）""设计模式大致可分为三类
 设置 TCP 服务器的端口	_posts/2018-05-22-PoS.md	/^### 设置 TCP 服务器的端口$/;"	S	section:使用 go 实现 Proof of Stake 共识机制""实现 Proof of Stake
 设计模式大致可分为三类	_posts/2018-08-3-golang-pattern.md	/^## 设计模式大致可分为三类$/;"	s	chapter:golang设计模式（pattern）
@@ -2169,4 +2158,3 @@ zIndex	assets/js/jquery.magnific-popup.min.js	/^(function(a){typeof define=="fun
 重启	_posts/2018-11-15-docker-fastdfs.md	/^### 重启$/;"	S	chapter:docker+fastdfs
 重启容器	_posts/2018-11-15-docker-Elasticsearch.md	/^### 重启容器$/;"	S	chapter:docker+Elasticsearch
 链接:[斐波那契数列讲解](https://www.youtube.com/watch?v=VCJsUYeuqaY)	_posts/2018-05-18-Fibonacci-sequence.md	/^#### 链接:[斐波那契数列讲解](https:\/\/www.youtube.com\/watch?v=VCJsUYeuqaY)$/;"	t	chapter:斐波那契数列
-长期目标是尽可能减少对第三方库的依赖。目前依赖的库，未来都计划替换。	_posts/2026-03-22-KaiJu_Engine.md	/^#####  长期目标是尽可能减少对第三方库的依赖。目前依赖的库，未来都计/;"	T	subsection:七""自给自足
