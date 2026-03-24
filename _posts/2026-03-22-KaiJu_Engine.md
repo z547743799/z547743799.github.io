@@ -9,6 +9,42 @@ tag:
 - KaiJu_Engine
 comments: true
 ---
+
+>### 比 Unity 快数倍
+>- 二、左侧截图信息（D3D12 渲染）
+>- Capturing D3D12. Frame: 9011. 1 ms (647 FPS)
+>- 正在捕获 D3D12 帧。帧号：9011，单帧耗时：1 毫秒（帧率：647 FPS）
+>- F12, PrtScrn to capture. 0 Captures saved.
+>- 按 F12 或 PrintScreen 键捕获截图，已保存 0 张截图
+>- 画面：一个带木纹纹理的 3D 立方体，展示基础 3D 渲染能力
+>- 三、右侧截图信息（Vulkan 渲染）
+>- Capturing Vulkan. Frame: 69440. 0.37 ms (2712 FPS)
+>- 正在捕获 Vulkan 帧。帧号：69440，单帧耗时：0.37 毫秒（帧率：2712 FPS）
+>- F12, PrtScrn to capture. 1 Captures saved.
+>- 按 F12 或 PrintScreen 键捕获截图，已保存 1 张截图
+>- Captured frame 69015.
+>- 已捕获第 69015 帧
+>- 画面：数独游戏的主菜单界面，包含 3D 文字与悬浮数字方块，展示 UI 与 3D 场景结合的渲染能力
+>- 四、性能对比与背景解读
+>
+>- 表格
+>
+> |渲染 API|	单帧耗时|	帧率|
+> |---|---|---|
+> |D3D12|	1 ms|	647 FPS|
+> |Vulkan|	0.37 ms|	2712 FPS|
+>
+>- 这是 Kaiju Engine 与 Unity 的性能对比演示：
+>- Vulkan 后端性能达到 2712 FPS，是 D3D12 后端的约 4.2 倍，也远超 Unity 的常规表现
+>- 体现了 Kaiju Engine 极简架构、缓存友好、Go 语言并发优化带来的极致性能优势
+>- 右侧数独 Demo 同时展示了 UI 系统与 3D 渲染的高效结合
+
+
+
+
+
+
+
 # 一
 >#### A game engine that lets me make games the way I want to
 >
