@@ -9,8 +9,9 @@ tag:
 - KaiJu_Engine
 comments: true
 ---
-
+># 一
 >### 比 Unity 快数倍
+>![9a0c01a1-9990-4b94-94bb-ccf7d4aa78de.png](https://s3.bmp.ovh/2026/03/24/UJ5yjRlk.png)
 >- 二、左侧截图信息（D3D12 渲染）
 >- Capturing D3D12. Frame: 9011. 1 ms (647 FPS)
 >- 正在捕获 D3D12 帧。帧号：9011，单帧耗时：1 毫秒（帧率：647 FPS）
@@ -45,7 +46,8 @@ comments: true
 
 
 
-# 一
+# 二
+>!k[20440734d1c4493199ff75efab28aac9.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/hh84eSXM.jpg)
 >#### A game engine that lets me make games the way I want to
 >
 >- 一款能让我按照自己想要的方式开发游戏的引擎
@@ -94,8 +96,9 @@ comments: true
 >
 >避免多语言切换成本，提升代码复用与维护性（结合之前信息可知为 Go 语言）
 
-# 二
+# 三
 
+>![7d9e23d7dcc34092a530f622e23e3f99.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/YlRzEG4U.jpg)
 >#### Use the right tool for the job
 >- 为具体任务选择合适的工具
 >#### Singular function/algorithm measurements are fun but pointless
@@ -110,7 +113,9 @@ comments: true
 >#### Individual features can run fast for what they are doing, but will also eat your performance bandwidth
 >- 单个功能模块本身可以跑得很快，但它们会消耗整体的性能带宽（即频繁交互带来的开销）
 
-# 三
+# 四
+
+>![cfed145f023c4488b3f8a5c055a9c98c.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/A7gksssm.jpg)
 >### 对 Go 语言的核心评价
 >#### UAbsolutely love C
 >- 我非常喜欢 C 语言
@@ -147,8 +152,10 @@ comments: true
 >- 代码布局标准化（Go fmt 强制统一格式）
 >#### UBuilt in AST
 >- 内置抽象语法树（AST）
-# 四
+# 五
+
 #### Kaiju Engine 的核心架构设计原则
+>![0240d11c247b4f2d8276901f382481be.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/gzTTxVGE.jpg)
 >#### UInterlocking primitives (much like Unix)
 >- 相互关联的基础组件（非常类似 Unix 设计哲学）
 >
@@ -181,8 +188,9 @@ comments: true
 - 延续了 Unix “小工具组合” 的思想，用相互协作的基础模块构建复杂系统
 - 兼顾性能优化（缓存友好、汇编级优化）与开发效率（简洁代码、迭代设计）
 - 针对 Go 语言的 GC 特性，专门做了 “GC 友好” 的设计适配，避免游戏运行时出现卡顿
-# 五
+# 六
 >### 全局变量设计思路
+>![d67f219672744d14ab5eafb9e927b29b.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/fVzSmdZe.jpg)
 >#### Globals are not allowed
 >- 不允许使用全局变量
 >#### How can you do things simply without globals?
@@ -197,8 +205,10 @@ comments: true
 - 核心思想：用 Host 中介者模式 替代全局变量，避免全局状态带来的耦合、测试困难等问题
 - 架构特点：所有系统功能都封装在 Host 中，通过依赖传递的方式在模块间共享，实现高内聚、低耦合
 - 设计哲学：递归式组合（“turtles all the way down”），复杂系统由更小的基础组件层层组合而成
-# 六
+# 七
+>![cb31e1894af5402b8b2e5f70446999ac.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/5cjPmdN7.jpg)
 >#### Entities would be called “Actors” or “Game Objects” in other engines
+>
 >- 在其他游戏引擎中，这类实体通常被称为 “演员（Actors）” 或 “游戏对象（Game Objects）”
 >#### No inheritance or interfacing
 >- 不使用继承或接口
@@ -209,7 +219,9 @@ comments: true
 >#### Updates are registered and manually managed, typically not per-entity but often per-system
 >- 更新逻辑需要手动注册与管理，通常不按 “每个实体” 分配，而是按 “每个系统” 集中处理
 >符合 ECS（实体 - 组件 - 系统）架构思想，将数据与行为分离，提升性能与可维护性
-#七
+
+# 八
+>![ac72878fd52d4c54b97404a8398f5a7e.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/vgicowRK.png)
 >#### Retained mode
 >- 保留模式（Retained Mode）
 >
@@ -234,8 +246,9 @@ comments: true
 >- 支持 HTML & CSS 语法
 >
 >用 Web 技术栈描述 UI 布局与样式，降低学习成本
-# 七
+# 九
 ### 自给自足
+>![3b5e8077423b4a98a11538c0ad2e74bc.png~tplv-a9rns2rl98-image.png](https://s3.bmp.ovh/2026/03/24/v5Ne8hxA.jpg)
 #####  长期目标是尽可能减少对第三方库的依赖。目前依赖的库，未来都计划替换。
 >
 >|库名 | 用途 | 计划替换？ |
