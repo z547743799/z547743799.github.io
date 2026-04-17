@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "KaiJu_Engine_insatll"
+title:  "KaiJuEngine_insatll"
 date:   2026-04-17
-excerpt: "KaiJu_Engine_insatll"
-description: "KaiJu_Engine_insatll"
+excerpt: "KaiJuEngine_insatll"
+description: "KaiJuEngine_insatll"
 project: true
 tag:
-- KaiJu_Engine_insatll
+- KaiJuEngine_insatll
 comments: true
 ---
 # 安装很简单
