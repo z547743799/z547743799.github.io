@@ -6,7 +6,7 @@ excerpt: "KaiJu_Engine_insatll"
 description: "KaiJu_Engine_insatll"
 project: true
 tag:
-- KaiJu_Engine
+- KaiJu_Engine_insatll
 comments: true
 ---
 # 安装很简单
