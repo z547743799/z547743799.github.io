@@ -24,7 +24,8 @@ https://github.com/KaijuEngine/kaiju/tags
 ## mingw64
 
 这个注意不要下错了而且必须配置环境变量 必然会报错
-
+一定要安装这种版本的x86_64-15.2.0-release-win32-seh-msvcrt-rt_v13-rev0.7z
+环境变量在我的电脑-》属性-》高级系统设置-》高级-》环境变量
 https://github.com/niXman/mingw-builds-binaries/releases
 ## DirectX
 
